@@ -39,12 +39,19 @@
 #include "libmesh/petsc_vector.h"
 #include "libmesh/libmesh_logging.h"
 #include "libmesh/fe_macro.h"
+#include "libmesh/petsc_matrix.h"
 
+#include <petscksp.h>
+#include <petsctime.h>
 
 #include <cmath>
 #include <time.h>
 
 
+#include "tree.h"
+
+
+//Material parameters
 #define KPERM 0.001
 
 #define E_mod 1000
@@ -66,6 +73,11 @@ void assemble_solid (EquationSystems& es,
 
 void assemble_bcs (EquationSystems& es);
 
+PetscMatrix<Number> assemble_coupled_stiffness (EquationSystems& es,Tree& tree, Mesh& mesh);
+
+PetscVector<Number> assemble_coupled_rhs (EquationSystems& es,Tree& tree, Mesh& mesh);
+
+
 void read_parameters(EquationSystems& es, int& argc, char**& argv) ;
 
 void test(int a);
@@ -74,8 +86,12 @@ void setup_equationsystem(EquationSystems& equation_systems);
 
 void calculate_numeric_jacobian(EquationSystems& es, SparseMatrix< Number >& num_jac_matrix );
 
-
 double diffclock(clock_t clock1,clock_t clock2);
+
+
+
+Mat create_big_matrix(Mat A, Mat T);
+
 
 
 //void setup_projection_es(EquationSystems& projection_es,EquationSystems& equation_systems);

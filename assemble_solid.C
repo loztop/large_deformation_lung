@@ -5,7 +5,6 @@ void assemble_solid (EquationSystems& es,
                       const std::string& system_name)
 {
 
-
 libmesh_assert (system_name == "Newton-update");
   
 // Get a constant reference to the mesh object.

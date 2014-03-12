@@ -277,6 +277,8 @@ void assemble_bcs (EquationSystems& es)
   newton_update.matrix->close();
   std::cout<<"Solid rhs->l1_norm () "<<newton_update.rhs->l1_norm ()<<std::endl;
 	
+	//std::cout<<"Solid rhs->size () "<<newton_update.rhs->size()<<std::endl;
+
 	return;
 }
  
