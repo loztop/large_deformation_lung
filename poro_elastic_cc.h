@@ -40,7 +40,7 @@ public:
   void init_for_qp(Point & rX,VectorValue<Gradient> & grad_u, Number & p_current,      unsigned int qp, Real m, Real p_fluid);
   void c_update(RealTensor C) ;
   void calculate_tangent();
-  void calculate_permeability();
+  void calculate_permeability(Point & rX);
   
   void get_linearized_p_uvw_stiffness(DenseVector<Real> & p_stiffness,      unsigned int & i, unsigned int & j);
   void get_linearized_uvw_p_stiffness(DenseVector<Real> & p_stiffness, unsigned int & i, unsigned int & j);

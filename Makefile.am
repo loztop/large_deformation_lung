@@ -1,7 +1,7 @@
 example_name  = systems_of_equations_ex4
 check_SCRIPTS = run.sh
 install_dir   = $(examples_install_path)/systems_of_equations/ex4
-data          = systems_of_equations_ex4.C poro_main.C  tree.C read_parameters.C  general_material_cc.C poro_elastic_cc.C assemble_solid.C assemble_bcs.C setup_equationsystem.C useful_functions.C  write_results.C assemble_coupled_stiffness.C assemble_coupled_rhs.C update_mesh.C update_solution.C update_tree.C write_tree.C tree.h poro.h general_material_cc.h poro_elastic_cc.h  run.sh
+data          = systems_of_equations_ex4.C poro_main.C read_parameters.C  general_material_cc.C poro_elastic_cc.C assemble_solid.C assemble_bcs.C setup_equationsystem.C useful_functions.C tree.C write_tree.C update_big_matrix.C poro.h general_material_cc.h poro_elastic_cc.h tree.h run.sh
 sources       = $(data) run.sh
 
 CLEANFILES = displacement.e
@@ -9,7 +9,3 @@ CLEANFILES = displacement.e
 ##############################################
 # include common example environment
 include $(top_srcdir)/examples/Make.common
-
-
-
-# data          = systems_of_equations_ex4.C poro_main.C read_parameters.C  general_material_cc.C poro_elastic_cc.C assemble_solid.C assemble_bcs.C setup_equationsystem.C useful_functions.C tree.C write_results.C assemble_coupled_stiffness.C update_mesh.C update_solution.C update_tree.C write_tree.C poro.h general_material_cc.h poro_elastic_cc.h tree.h run.sh

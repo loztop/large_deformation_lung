@@ -16,6 +16,9 @@ void assemble_bcs (EquationSystems& es)
 
   const System & ref_sys = es.get_system("Reference-Configuration"); 
   
+	
+	const Real DELTA_BC    = es.parameters.get<Real>("DELTA_BC");
+
   // Numeric ids corresponding to each variable in the system
   const unsigned int u_var = last_non_linear_soln.variable_number ("s_u");
   const unsigned int v_var = last_non_linear_soln.variable_number ("s_v");
@@ -236,16 +239,51 @@ void assemble_bcs (EquationSystems& es)
 	dof_map.dof_indices (elem, dof_indices_z, z_var);
 
 	
-	
+	///////////////////////////////////
 	//THE BOUNDARY CONDITIONS
-	// 	#include "swelling_test.cpp" 
-  //  #include "pressure_stress_bc.cpp" 
-	 
-	#include "traction_test_bc.cpp"
+	///////////////////////////////////
 	
-  #include "weak_test_bc.cpp" 
+	/*
+	if(!es.parameters.get<std::string>("problem").compare("cylinder")){
+		//Unconfined Compression
+		#include "boundary_conditions/classic_disp_cylinder_bcs.cpp" 
+	}
+	
+	//Swelling test problem (still no weak bcs implemented)
+	if(!es.parameters.get<std::string>("problem").compare("cube")){
+		  #include "boundary_conditions/swelling_test.cpp" 
+		  #include "boundary_conditions/pressure_stress_bc.cpp" 
+	}
+	
+	*/
+	
+	//Swelling test problem for now !
+	if(!es.parameters.get<std::string>("problem").compare("lung")){
+	
+	 //  #include "boundary_conditions/lobe_affine_bcs.cpp"
+		
+		 //#include "boundary_conditions/lobe_fix_bcs.cpp"
+		// #include "boundary_conditions/lobe_noflux_bcs.cpp"
+			//	  #include "boundary_conditions/swelling_test.cpp" 
+		 // #include "boundary_conditions/pressure_stress_bc.cpp" 
+		
+			   #include "boundary_conditions/sliding_cube_bcs.cpp"
+
+			//	  #include "boundary_conditions/swelling_test.cpp" 
+		 // #include "boundary_conditions/pressure_stress_bc.cpp" 
+		
+	}
+	
+	
+	//Weak traction test
+	//  #include "weak_test_bc.cpp" 
+	//  #include "traction_test_bc.cpp" 
 
 	
+	
+	
+	
+	/////////////////////////////////////////
 	
 	//Add the rhs contribution of the stabilization
  	#include "assemble_rhs_stabilization.cpp" 
@@ -275,10 +313,8 @@ void assemble_bcs (EquationSystems& es)
   newton_update.matrix->zero_rows(pressure_rows, 1.0);
   newton_update.rhs->close();
   newton_update.matrix->close();
-  std::cout<<"Solid rhs->l1_norm () "<<newton_update.rhs->l1_norm ()<<std::endl;
+  std::cout<<"Poro rhs->l1_norm () "<<newton_update.rhs->l1_norm ()<<std::endl;
 	
-	//std::cout<<"Solid rhs->size () "<<newton_update.rhs->size()<<std::endl;
-
 	return;
 }
  

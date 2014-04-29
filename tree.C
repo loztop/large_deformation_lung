@@ -1,38 +1,43 @@
 #include "tree.h"
+#include <math.h>
+ #include <sstream>
+#include <string>
+#include <petscksp.h>
+ 
 
 #define PIE 3.1415926535897932384626433832
 #define MU_F 1.82e-05
-void Tree::read_tree() {
+
+
+
+
+void Tree::read_tree(EquationSystems& es) {
 
 	std::cout<< "Reading tree data" <<std::endl;
-	
-	
-	//std::ifstream infile_node("lozout7.node");
-	//std::ifstream infile_edge("lozout7.edge");
-	
-	std::ifstream infile_node("lozout.node");
-	std::ifstream infile_edge("lozout.edge");
 		
-	//std::ifstream infile_node("cube.node");
-	//std::ifstream infile_edge("cube.edge");
+	std::string node_file_name;
+	node_file_name = es.parameters.get<std::string>("tree_input") + ".node";
+	std::string edge_file_name;
+	edge_file_name = es.parameters.get<std::string>("tree_input") + ".edge";
 	
-	
-	//Read in node file
+	std::ifstream infile_node(node_file_name.c_str());
+	std::ifstream infile_edge(edge_file_name.c_str());
 
+	//Read in node file
 	int ed_count=0;
 	int node_count=0;
 
 	int lc=1;
 	std::string line_node;
-	std::cout<<  "Read in node file ... " <<   std::endl;
-	while (std::getline(infile_node, line_node))
+	std::cout<<  "Reading " << node_file_name<<  std::endl;
+	while (std::getline(infile_node, line_node) )
 	{
 		if(lc==1){
 		  
 			std::istringstream iss(line_node);
 						
 			if (!(iss >> number_nodes)) { break; } // error
-
+			
 			number_edges=number_nodes-1;
 			nodes.resize(number_nodes);
 			nodes_type.resize(number_nodes);
@@ -45,7 +50,7 @@ void Tree::read_tree() {
 			edges_type.resize(number_edges);
 			edges_resistance.resize(number_edges);
 			edges_child1.resize(number_edges);
-      edges_child2.resize(number_edges);
+			edges_child2.resize(number_edges);
 			
 		}
 		
@@ -53,7 +58,6 @@ void Tree::read_tree() {
 			std::istringstream iss(line_node);							
 			double num_node, x, y , z , rad, type;
 			if (!(iss >>num_node>> x >> y >> z >> rad >> type)) { break; } // error
-			//	std::cout<< x << " " << y << " " << z << " " << rad << " " << type <<  std::endl;
 				
 				Point point(x, y, z);
 				nodes(node_count) = point ;
@@ -63,36 +67,29 @@ void Tree::read_tree() {
 				
 				//Read in resistances
 				if(lc>2) {
-					edges_radius(ed_count)=rad/1000; //Put into meters (from mm)
+					edges_radius(ed_count)=rad; //Put into meters (from mm)
 					edges_type(ed_count)=type;
 					
-					Real length_pipe=4.0; //Assume l=4*r.
-					//edges_resistance(ed_count)=(8.0*MU_F*length_pipe)/(PIE*pow(edges_radius(ed_count),3));
-
-					edges_resistance(ed_count)=edges_radius(ed_count);
-
 					
+					//Assign resistance to edges - this could do with updating
+					Real length_pipe=4.0; //Assume l=4*r.
+					edges_resistance(ed_count)=(8.0*MU_F*length_pipe)/(PIE*pow(edges_radius(ed_count),3));
+
+					//edges_resistance(ed_count)=edges_radius(ed_count);
 					//edges_resistance(ed_count)=1;
 					
-					ed_count=ed_count+1;
-					
-					
+					ed_count=ed_count+1;					
 				}
 		}
 		
 		lc=lc+1;
 	}
-	
-	
-
-	
-
-	
-  lc=1;
+		
+	lc=1;
 	std::string line_edge;
-	std::cout<<  "Read in edge file ... " <<   std::endl;
+	std::cout<<  "Reading " << edge_file_name<<  std::endl;
 	while (std::getline(infile_edge, line_edge))
-	{
+	{								
 		if(lc==1){
 		  //Already have taken care of this when reading the node file.	
 		}
@@ -101,21 +98,14 @@ void Tree::read_tree() {
 			std::istringstream iss(line_edge);							
 			double edge_num, p , c;
 			if (!(iss >> edge_num >> p >> c)) { break; } // error
-			//	std::cout<< edge_num << " " << p << " " << c << std::endl;
 				edges_upper_node(edge_num)=p;	
 				edges_lower_node(edge_num)=c;	
-				
-					//	std::cout<< "edges_upper_node(edge_num) "<< edges_upper_node(edge_num) << std::endl;
-				
-		}
-		
+			}
 		lc=lc+1;
 	}
-	
+
 	//Figure out which branches are connected.
-	
 	for (int i=0; i < number_edges; i++) {
-	  
 	   //edges that have a no branches (end edge)
 	  if(edges_type(i) ==0){
 			edges_child1(i)=0;
@@ -143,12 +133,8 @@ void Tree::read_tree() {
 				edges_child2(i)=k+1;
 				found_node=1;			
 		  }
-		  
-		}
-		
-		
-	  }
-	  
+		}		
+	  }	  
 	}
 	
 	//Initialise node pressures
@@ -188,23 +174,7 @@ void Tree::read_tree() {
 			}
 	  }		
 	}
-	
-	/*
-	  std::cout<< "nodes_parent_edge "<< nodes_parent_edge << std::endl;
-	  std::cout<< "nodes_parent_node "<< nodes_parent_edge << std::endl;
-
-	  //std::cout<< "nodes  "<< nodes_parent_edge << std::endl;
-		std::cout<< "nodes_type "<< nodes_type << std::endl;
-  	std::cout<< "edges_radius "<< edges_radius << std::endl;
-		std::cout<< "edges_type "<< edges_type << std::endl;
-		std::cout<< "edges_upper_node "<< edges_upper_node << std::endl;
-		std::cout<< "edges_lower_node "<< edges_lower_node << std::endl;
-		std::cout<< "edges_child1 "<< edges_child1 << std::endl;
-		std::cout<< "edges_child2 "<< edges_child2 << std::endl;
- */
-	
 }
-
 
 
 Vec Tree::make_tree_rhs ()
@@ -215,21 +185,19 @@ Vec Tree::make_tree_rhs ()
   //Petsc linear system example
   int NumberOfEntries = number_nodes+number_edges;
 
-  //  Matrices and vectors in the linear system Au=b
-  Mat A;
   Vec u, b;
-
+  
   //  Create a PETSc Krylov space linear solver
   KSP ksp;
-
-	//  Create the matrix A with 3 non-zeros per row
-  MatCreateSeqAIJ(PETSC_COMM_SELF, NumberOfEntries, NumberOfEntries, NumberOfEntries,   PETSC_NULL, &A);
-  MatSetFromOptions(A);
 
 	//  Create the vector u
   VecCreate(PETSC_COMM_WORLD, &u);
   VecSetSizes(u, PETSC_DECIDE, NumberOfEntries);
   VecSetFromOptions(u);
+  VecCreate(PETSC_COMM_WORLD, &b);
+  VecSetSizes(b, PETSC_DECIDE, NumberOfEntries);
+  VecSetFromOptions(b);
+  
   //  Create the vector b to have identical size to u
   VecDuplicate(u, &b);
 
@@ -238,8 +206,9 @@ Vec Tree::make_tree_rhs ()
   PetscScalar *bvec;
   VecGetArray(b, &bvec);
 
-	//Not doing anything !!
+	//Not doing anything !!!!!!!!!!!!!!
   
+ /*
 	//Set outflow BCs (prescribe flow at outlets)
 	for (double j=0; j < number_edges ; j++) {
 		
@@ -249,7 +218,9 @@ Vec Tree::make_tree_rhs ()
 		}
 		
 	}	
-	
+ 
+*/
+
   VecAssemblyBegin(b);VecAssemblyEnd(b);
 
 
@@ -259,7 +230,7 @@ Vec Tree::make_tree_rhs ()
 Mat Tree::make_tree_matrix ()
 {
 	
-	std::cout<<"Assembling Tree matrix "<<std::endl;
+	//std::cout<<"Assembling Tree matrix "<<std::endl;
 
   //Petsc linear system example
   int NumberOfEntries = number_nodes+number_edges;
@@ -268,37 +239,39 @@ Mat Tree::make_tree_matrix ()
   Mat A;
 
   //  Create the matrix A with 3 non-zeros per row
-  MatCreateSeqAIJ(PETSC_COMM_SELF, NumberOfEntries, NumberOfEntries, NumberOfEntries,   PETSC_NULL, &A);
+  MatCreateSeqAIJ(PETSC_COMM_SELF, NumberOfEntries, NumberOfEntries, 15,   PETSC_NULL, &A);
   MatSetFromOptions(A);
 
   //Initialise the entries of A, b to zero
   MatZeroEntries(A);	
-
 	
   //Deal with the nodes (pressures)
   //P_0 this will be a boundary condition (atm P_0=0)
-
+				
   for (double j=0; j < number_nodes ; j++) {	
 	//P_j_parent-P_j-Q_{j-1}*resistance=0
-			
+
 		if(j==0){
 			  MatSetValue(A, 0, 0, 1 ,ADD_VALUES); 			
 		}else{
 				MatSetValue(A, j, nodes_parent_node(j), 1 ,ADD_VALUES); 
 				MatSetValue(A, j, j, -1 ,ADD_VALUES); 
 				MatSetValue(A, j, number_nodes+ nodes_parent_edge(j), -edges_resistance(j-1),ADD_VALUES);
-		}
 		
+				
+		}
   }	
+
+	
   
   //Deal with flow rates 
   for (double j=0; j < number_edges ; j++) {
-	
+		
 		//If edge has branch comming off it
 		if((edges_type(j)==2) ||(edges_type(j)==1) ){
 			//Q_{j}-Q_{j*2}-Q_{j*2 +1}=0	
+											
 			MatSetValue(A, j+number_nodes , j +number_nodes  , 1 ,ADD_VALUES); 
-			
 			
 			if(edges_child1(j)>0){
 				MatSetValue(A, j+number_nodes , number_nodes + edges_child1(j) , -1 ,ADD_VALUES); 
@@ -308,14 +281,25 @@ Mat Tree::make_tree_matrix ()
 			}
 			
 		}
+		
+		
 	
 		//If edge is the final branch
 		if(edges_type(j)==0){
 			//Q_j - (1/rd) P_{j} + ( (1/r_d)*(1/omega_j)*p_poro this in intro.C )
+			
 			MatSetValue(A, j+number_nodes, j+number_nodes ,1,ADD_VALUES);
-			MatSetValue(A, j+number_nodes, edges_lower_node(j) , -1/edges_resistance(j-1)   ,ADD_VALUES); 			
+		
+			MatSetValue(A, j+number_nodes, edges_lower_node(j) , -(1.0)/edges_resistance(j)   ,ADD_VALUES); 		
+
+			
+			//changed from edges_resistance(j-1) to edges_resistance(j) -- might need to debug this !!
+			
 		}
+		 
+		
 	
+	 
   }
   
   
@@ -325,7 +309,7 @@ Mat Tree::make_tree_matrix ()
   MatAssemblyEnd(A, MAT_FINAL_ASSEMBLY);
 
 	//Print matrix
-	//MatView(A,PETSC_VIEWER_STDOUT_WORLD);
+//	MatView(A,PETSC_VIEWER_STDOUT_WORLD);
   
 	
 	return A;
@@ -339,6 +323,105 @@ void Tree::update_resistances (EquationSystems& es)
   const Real progress    = es.parameters.get<Real>("progress");
 
   return;
+}
+
+
+
+void Tree::update_positions (EquationSystems& es)
+{
+
+	
+		TransientLinearImplicitSystem&  last_non_linear_soln = es.get_system<TransientLinearImplicitSystem>("Last-non-linear-soln");
+			
+			TransientLinearImplicitSystem&  reference =   es.get_system<TransientLinearImplicitSystem>("Reference-Configuration");
+
+			
+			//Update the position of the airway tree
+			//std::cout<<"Updating the position of the tree " <<std::endl;
+    	
+	  const MeshBase& mesh = es.get_mesh();
+
+	
+	//First put solution on reference mesh then put back to deformed mesh
+	 MeshBase::const_element_iterator       el_a     = mesh.local_elements_begin();
+    const MeshBase::const_element_iterator end_el_a = mesh.local_elements_end(); 
+    for ( ; el_a != end_el_a; ++el_a)
+    {    
+      // Store a pointer to the element we are currently
+      // working on.  This allows for nicer syntax later.
+      const Elem* elem = *el_a;
+      for (unsigned int n=0; n<elem->n_nodes(); n++){
+        Node *node = elem->get_node(n);
+          for (unsigned int d = 0; d < 3; ++d) {
+            unsigned int source_dof = node->dof_number(1, d, 0);
+            Real value = reference.current_local_solution->el(source_dof);
+            (*node)(d)=value;
+          }
+      }
+    }
+    es.update();
+    es.allgather();
+		
+		
+	
+	
+			
+
+			
+			const Real time    = es.parameters.get<Real>("time");
+
+			for (double j=0; j <number_nodes ; j++) {
+		      for (unsigned int d = 0; d < 3; ++d) {
+				Real def_value = 0;
+				try
+				{
+				  const unsigned int u_var = last_non_linear_soln.variable_number ("s_u");
+				  def_value = last_non_linear_soln.point_value(u_var+d,nodes(j)) - reference.point_value(u_var+d,nodes(j));
+				  throw 20;
+				}catch (int e){ }
+				
+				if(def_value==0)
+				{	
+					
+					/*
+					//Don't do this if we are using a cube
+				  if(es.parameters.get<std::string>("mesh_input").compare("cube")){
+				  //If point is outside then apply the known registration !
+				  Real pi=3.14159;
+				  Real fac=0.5*(1+sin(1*pi*time+(3.0/2.0)*pi));
+				  Point diagAt(fac*0.3,fac*0.3,fac*0.5);						
+				  Point bt(fac*10,fac*11,fac*45);
+			    nodes_deformed(j)(d)=nodes(j)(d)+ nodes(j)(d)*diagAt(d)+bt(d) ;
+					}
+					*/
+	 
+				}else{	
+				  nodes_deformed(j)(d)=def_value+nodes(j)(d) ;
+				}
+			  }
+      }
+      
+           
+    MeshBase::const_element_iterator       el_b     = mesh.local_elements_begin();
+    const MeshBase::const_element_iterator end_el_b = mesh.local_elements_end(); 
+    for ( ; el_b != end_el_b; ++el_b)
+    {    
+      // Store a pointer to the element we are currently
+      // working on.  This allows for nicer syntax later.
+      const Elem* elem = *el_b;
+      for (unsigned int n=0; n<elem->n_nodes(); n++){
+        Node *node = elem->get_node(n);
+          for (unsigned int d = 0; d < 3; ++d) {
+            unsigned int source_dof = node->dof_number(1, d, 0);
+            Real value = last_non_linear_soln.current_local_solution->el(source_dof);
+            (*node)(d)=value;
+          }
+      }
+    }
+    es.update();
+    es.allgather();
+ 
+ return;
 }
 
 
@@ -608,8 +691,6 @@ void Tree::calculate_omega_j (EquationSystems& es)
       Kzz.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, p_var*n_u_dofs + n_p_dofs+2*n_x_dofs , n_x_dofs, n_z_dofs);
       #endif
 
-
-
       Fu.reposition (u_var*n_u_dofs, n_u_dofs);
       Fv.reposition (v_var*n_u_dofs, n_v_dofs);
       Fp.reposition (p_var*n_u_dofs, n_p_dofs);
@@ -626,8 +707,6 @@ void Tree::calculate_omega_j (EquationSystems& es)
       for (unsigned int qp=0; qp<qrule.n_points(); qp++)
         {
 
-
-		  
 		  	//Find the closest distal tree_node to q_point[qp]
 				int closest_j=0;
 				Real dist_j=0;
@@ -646,20 +725,12 @@ void Tree::calculate_omega_j (EquationSystems& es)
 				
 				   
 				for (unsigned int l=0; l<n_p_dofs; l++)
-				{
-				  				   
-                  omega_j(closest_j_idx-pow(2,N_level-1) -1 ) += psi[l][qp]*JxW[qp];
-				}
-					
-
-} // end qp
-
-
-
-} // end of element loop
+				{	  				   
+						omega_j(closest_j_idx-pow(2,N_level-1) -1 ) += psi[l][qp]*JxW[qp];
+			  }
+		} // end qp
+	}// end of element loop
   
 
   return;
 }
-
-

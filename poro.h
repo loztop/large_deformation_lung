@@ -39,28 +39,24 @@
 #include "libmesh/petsc_vector.h"
 #include "libmesh/libmesh_logging.h"
 #include "libmesh/fe_macro.h"
-#include "libmesh/petsc_matrix.h"
 
-#include <petscksp.h>
-#include <petsctime.h>
 
 #include <cmath>
 #include <time.h>
-
-
 #include "tree.h"
 
 
-//Material parameters
-#define KPERM 0.001
+#define KPERM 0.1
 
-#define E_mod 1000
+#define E_mod 1
 
-#define NU_mod 0.3
+#define NU_mod 0.15
 
 #define PHI_ZERO 0.9
 
 #define RHO_S 1
+
+#define WRITE_TEC 1
 
 
 // Bring in everything from the libMesh namespace
@@ -73,11 +69,6 @@ void assemble_solid (EquationSystems& es,
 
 void assemble_bcs (EquationSystems& es);
 
-PetscMatrix<Number> assemble_coupled_stiffness (EquationSystems& es,Tree& tree, Mesh& mesh);
-
-PetscVector<Number> assemble_coupled_rhs (EquationSystems& es,Tree& tree, Mesh& mesh);
-
-
 void read_parameters(EquationSystems& es, int& argc, char**& argv) ;
 
 void test(int a);
@@ -86,37 +77,11 @@ void setup_equationsystem(EquationSystems& equation_systems);
 
 void calculate_numeric_jacobian(EquationSystems& es, SparseMatrix< Number >& num_jac_matrix );
 
+
 double diffclock(clock_t clock1,clock_t clock2);
 
+void  update_big_matrix(Mat& big_A, EquationSystems& es, Tree& tree);
 
-
-Mat create_big_matrix(Mat A, Mat T);
-
-
-
-//void setup_projection_es(EquationSystems& projection_es,EquationSystems& equation_systems);
-
-//void copy_es_to_projection_es(EquationSystems& projection_es,EquationSystems& equation_systems);
-
-//void read_options(unsigned int &  n_timesteps, unsigned int &  N_eles, std::string& result_file_name,int& argc, char**& argv) ;
-
-
-//Point get_expanding_sphere_bcs(EquationSystems& es, const Elem* elem, int n,double scale);
-//Point constrain_tet_nodes(EquationSystems& es, const Elem* elem, int n);
-
-//void verify_jack(EquationSystems& es);
-
-
-  //void get_traction(DenseVector<Real> & traction, Point rX, const Real progress);
-
-  //void get_traction_current(DenseVector<Real> & traction, Point rX, const Real progress);
-
- // void get_traction_test(DenseVector<Real> & traction, Point rX, const Real progress);
-
-
- // void get_bodyforce(DenseVector<Real> & body_force, Point rX, const Real progress);
-
-  //void tensor_mult_vector(DenseVector<Real> & ans, RealTensor tens, Point normal);
 
 template <typename T> TypeTensor<T> inv(const TypeTensor<T> &A ) {
   double Sub11, Sub12, Sub13;

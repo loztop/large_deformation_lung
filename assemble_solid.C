@@ -5,6 +5,9 @@ void assemble_solid (EquationSystems& es,
                       const std::string& system_name)
 {
 
+	const Real DELTA_BC    = es.parameters.get<Real>("DELTA_BC");
+
+	
 libmesh_assert (system_name == "Newton-update");
   
 // Get a constant reference to the mesh object.
@@ -45,6 +48,24 @@ const std::vector<std::vector<RealGradient> >& dpsi = fe_pres->get_dphi();
 const std::vector<std::vector<Real> >& psi = fe_pres->get_phi();
 const std::vector<Point>& coords = fe_vel->get_xyz();
 const DofMap & dof_map = last_non_linear_soln .get_dof_map();
+
+ //Build face
+
+  AutoPtr<FEBase> fe_face_f (FEBase::build(3, fe_vel_type));      
+	
+	//AutoPtr<FEMap> fe_face_f_map (FEBase::build(3, fe_vel_type));          
+		
+  AutoPtr<QBase> qface_f(fe_vel_type.default_quadrature_rule(3-1));
+  fe_face_f->attach_quadrature_rule (qface_f.get());
+
+	
+  AutoPtr<FEBase> fe_face_p (FEBase::build(3, fe_pres_type));          
+  AutoPtr<QBase> qface_p(fe_pres_type.default_quadrature_rule(3-1));
+  fe_face_p->attach_quadrature_rule (qface_p.get());
+
+  AutoPtr<FEBase> fe_face_ref (FEBase::build(3, fe_vel_type));          
+  AutoPtr<QBase> qface_ref(fe_vel_type.default_quadrature_rule(3-1));
+  fe_face_ref->attach_quadrature_rule (qface_ref.get());
 
 // K will be the jacobian
 // F will be the Residual
@@ -216,11 +237,15 @@ for ( ; el != end_el; ++el)
 
  #include "assemble_stabilization.cpp" 
 
-	
+//#include "assemble_stiffness_weak.cpp"
+
   newton_update.matrix->add_matrix (Ke, dof_indices);
   newton_update.rhs->add_vector    (Fe, dof_indices);
 
 } // end of element loop
+
+
+
 
 //   dof_map.constrain_element_matrix_and_vector (Ke, Fe, dof_indices);
 newton_update.rhs->close();

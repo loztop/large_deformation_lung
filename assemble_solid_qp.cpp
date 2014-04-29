@@ -112,15 +112,16 @@ for (unsigned int qp=0; qp<qrule.n_points(); qp++)
     }
   }
   
-  Real factor=Kperm;
+  Real factor=1;
+  Real factor_z=1/Kperm;
 
   //Mass Matrix needed for darcy flow
   for (unsigned int i=0; i<n_u_dofs; i++){
     for (unsigned int j=0; j<n_u_dofs; j++){
       //w.v term (u)
-      Kxx(i,j) += JxW[qp]*(phi[i][qp]*phi[j][qp]);
-      Kyy(i,j) += JxW[qp]*(phi[i][qp]*phi[j][qp]);
-      Kzz(i,j) += JxW[qp]*(phi[i][qp]*phi[j][qp]);
+      Kxx(i,j) += factor_z*JxW[qp]*(phi[i][qp]*phi[j][qp]);
+      Kyy(i,j) += factor_z*JxW[qp]*(phi[i][qp]*phi[j][qp]);
+      Kzz(i,j) += factor_z*JxW[qp]*(phi[i][qp]*phi[j][qp]);
 
 	  /*
        // Laplacian for stokes flow /Brinkman
@@ -140,8 +141,14 @@ for (unsigned int qp=0; qp<qrule.n_points(); qp++)
 
   // the fluid mass residual:
   for (unsigned int i = 0; i < n_p_dofs; i++) {
-    Fp(i) += JxW[qp]*psi[i][qp]*(div_f_vel(0)+div_f_vel(1)+div_f_vel(2)+  div_s_vel(0)+div_s_vel(1)+div_s_vel(2) );
-  }
+		
+		//Should include the flow of the airway network
+		
+    
+		Fp(i) += JxW[qp]*psi[i][qp]*(div_f_vel(0)+div_f_vel(1)+div_f_vel(2)+  div_s_vel(0)+div_s_vel(1)+div_s_vel(2) );
+  
+		
+	}
  
   //This has the boundary integral missing + brinkmann term
   for (unsigned int i = 0; i < n_u_dofs; i++) {
@@ -149,17 +156,16 @@ for (unsigned int qp=0; qp<qrule.n_points(); qp++)
     //The Fluid residual
     //This has the Fp_soli boundary term missing ?
 
-    Fx(i) += JxW[qp]*phi[i][qp]*fluid_vel(0);
-    Fx(i) += -JxW[qp]*Kperm*p_solid*dphi[i][qp](0);
+    Fx(i) += factor_z*JxW[qp]*phi[i][qp]*fluid_vel(0);
+    Fx(i) += -JxW[qp]*factor*p_solid*dphi[i][qp](0);
 
-    Fy(i) += JxW[qp]*phi[i][qp]*fluid_vel(1);
-    Fy(i) += -JxW[qp]*Kperm*p_solid*dphi[i][qp](1);
+    Fy(i) += factor_z*JxW[qp]*phi[i][qp]*fluid_vel(1);
+    Fy(i) += -JxW[qp]*factor*p_solid*dphi[i][qp](1);
 
-    Fz(i) += JxW[qp]*phi[i][qp]*fluid_vel(2);
-    Fz(i) += -JxW[qp]*Kperm*p_solid*dphi[i][qp](2);
+    Fz(i) += factor_z*JxW[qp]*phi[i][qp]*fluid_vel(2);
+    Fz(i) += -JxW[qp]*factor*p_solid*dphi[i][qp](2);
 			
-		//std::cout<< "i " << i << std::endl;
-		//		std::cout<< "phi[i][qp] " <<phi[i][qp] << std::endl;
+	
     }
 
   //Mass conservation

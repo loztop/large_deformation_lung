@@ -110,14 +110,12 @@ am__EXEEXT_3 = example-opt$(EXEEXT)
 #am__EXEEXT_4 = example-prof$(EXEEXT)
 #am__EXEEXT_5 = example-oprof$(EXEEXT)
 am__example_dbg_SOURCES_DIST = systems_of_equations_ex4.C poro_main.C \
-	tree.C read_parameters.C general_material_cc.C \
-	poro_elastic_cc.C assemble_solid.C assemble_bcs.C \
-	setup_equationsystem.C useful_functions.C write_results.C \
-	assemble_coupled_stiffness.C assemble_coupled_rhs.C \
-	update_mesh.C update_solution.C update_tree.C write_tree.C \
-	tree.h poro.h general_material_cc.h poro_elastic_cc.h run.sh
+	read_parameters.C general_material_cc.C poro_elastic_cc.C \
+	assemble_solid.C assemble_bcs.C setup_equationsystem.C \
+	useful_functions.C tree.C write_tree.C update_big_matrix.C \
+	poro.h general_material_cc.h poro_elastic_cc.h tree.h run.sh
 am__objects_1 = example_dbg-systems_of_equations_ex4.$(OBJEXT) \
-	example_dbg-poro_main.$(OBJEXT) example_dbg-tree.$(OBJEXT) \
+	example_dbg-poro_main.$(OBJEXT) \
 	example_dbg-read_parameters.$(OBJEXT) \
 	example_dbg-general_material_cc.$(OBJEXT) \
 	example_dbg-poro_elastic_cc.$(OBJEXT) \
@@ -125,13 +123,8 @@ am__objects_1 = example_dbg-systems_of_equations_ex4.$(OBJEXT) \
 	example_dbg-assemble_bcs.$(OBJEXT) \
 	example_dbg-setup_equationsystem.$(OBJEXT) \
 	example_dbg-useful_functions.$(OBJEXT) \
-	example_dbg-write_results.$(OBJEXT) \
-	example_dbg-assemble_coupled_stiffness.$(OBJEXT) \
-	example_dbg-assemble_coupled_rhs.$(OBJEXT) \
-	example_dbg-update_mesh.$(OBJEXT) \
-	example_dbg-update_solution.$(OBJEXT) \
-	example_dbg-update_tree.$(OBJEXT) \
-	example_dbg-write_tree.$(OBJEXT)
+	example_dbg-tree.$(OBJEXT) example_dbg-write_tree.$(OBJEXT) \
+	example_dbg-update_big_matrix.$(OBJEXT)
 am__objects_2 = $(am__objects_1)
 #am_example_dbg_OBJECTS = $(am__objects_2)
 example_dbg_OBJECTS = $(am_example_dbg_OBJECTS)
@@ -145,14 +138,13 @@ example_dbg_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(example_dbg_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am__example_devel_SOURCES_DIST = systems_of_equations_ex4.C \
-	poro_main.C tree.C read_parameters.C general_material_cc.C \
+	poro_main.C read_parameters.C general_material_cc.C \
 	poro_elastic_cc.C assemble_solid.C assemble_bcs.C \
-	setup_equationsystem.C useful_functions.C write_results.C \
-	assemble_coupled_stiffness.C assemble_coupled_rhs.C \
-	update_mesh.C update_solution.C update_tree.C write_tree.C \
-	tree.h poro.h general_material_cc.h poro_elastic_cc.h run.sh
+	setup_equationsystem.C useful_functions.C tree.C write_tree.C \
+	update_big_matrix.C poro.h general_material_cc.h \
+	poro_elastic_cc.h tree.h run.sh
 am__objects_3 = example_devel-systems_of_equations_ex4.$(OBJEXT) \
-	example_devel-poro_main.$(OBJEXT) example_devel-tree.$(OBJEXT) \
+	example_devel-poro_main.$(OBJEXT) \
 	example_devel-read_parameters.$(OBJEXT) \
 	example_devel-general_material_cc.$(OBJEXT) \
 	example_devel-poro_elastic_cc.$(OBJEXT) \
@@ -160,13 +152,9 @@ am__objects_3 = example_devel-systems_of_equations_ex4.$(OBJEXT) \
 	example_devel-assemble_bcs.$(OBJEXT) \
 	example_devel-setup_equationsystem.$(OBJEXT) \
 	example_devel-useful_functions.$(OBJEXT) \
-	example_devel-write_results.$(OBJEXT) \
-	example_devel-assemble_coupled_stiffness.$(OBJEXT) \
-	example_devel-assemble_coupled_rhs.$(OBJEXT) \
-	example_devel-update_mesh.$(OBJEXT) \
-	example_devel-update_solution.$(OBJEXT) \
-	example_devel-update_tree.$(OBJEXT) \
-	example_devel-write_tree.$(OBJEXT)
+	example_devel-tree.$(OBJEXT) \
+	example_devel-write_tree.$(OBJEXT) \
+	example_devel-update_big_matrix.$(OBJEXT)
 am__objects_4 = $(am__objects_3)
 #am_example_devel_OBJECTS = $(am__objects_4)
 example_devel_OBJECTS = $(am_example_devel_OBJECTS)
@@ -177,14 +165,13 @@ example_devel_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(example_devel_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
 am__example_oprof_SOURCES_DIST = systems_of_equations_ex4.C \
-	poro_main.C tree.C read_parameters.C general_material_cc.C \
+	poro_main.C read_parameters.C general_material_cc.C \
 	poro_elastic_cc.C assemble_solid.C assemble_bcs.C \
-	setup_equationsystem.C useful_functions.C write_results.C \
-	assemble_coupled_stiffness.C assemble_coupled_rhs.C \
-	update_mesh.C update_solution.C update_tree.C write_tree.C \
-	tree.h poro.h general_material_cc.h poro_elastic_cc.h run.sh
+	setup_equationsystem.C useful_functions.C tree.C write_tree.C \
+	update_big_matrix.C poro.h general_material_cc.h \
+	poro_elastic_cc.h tree.h run.sh
 am__objects_5 = example_oprof-systems_of_equations_ex4.$(OBJEXT) \
-	example_oprof-poro_main.$(OBJEXT) example_oprof-tree.$(OBJEXT) \
+	example_oprof-poro_main.$(OBJEXT) \
 	example_oprof-read_parameters.$(OBJEXT) \
 	example_oprof-general_material_cc.$(OBJEXT) \
 	example_oprof-poro_elastic_cc.$(OBJEXT) \
@@ -192,13 +179,9 @@ am__objects_5 = example_oprof-systems_of_equations_ex4.$(OBJEXT) \
 	example_oprof-assemble_bcs.$(OBJEXT) \
 	example_oprof-setup_equationsystem.$(OBJEXT) \
 	example_oprof-useful_functions.$(OBJEXT) \
-	example_oprof-write_results.$(OBJEXT) \
-	example_oprof-assemble_coupled_stiffness.$(OBJEXT) \
-	example_oprof-assemble_coupled_rhs.$(OBJEXT) \
-	example_oprof-update_mesh.$(OBJEXT) \
-	example_oprof-update_solution.$(OBJEXT) \
-	example_oprof-update_tree.$(OBJEXT) \
-	example_oprof-write_tree.$(OBJEXT)
+	example_oprof-tree.$(OBJEXT) \
+	example_oprof-write_tree.$(OBJEXT) \
+	example_oprof-update_big_matrix.$(OBJEXT)
 am__objects_6 = $(am__objects_5)
 #am_example_oprof_OBJECTS = $(am__objects_6)
 example_oprof_OBJECTS = $(am_example_oprof_OBJECTS)
@@ -209,14 +192,12 @@ example_oprof_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(example_oprof_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
 am__example_opt_SOURCES_DIST = systems_of_equations_ex4.C poro_main.C \
-	tree.C read_parameters.C general_material_cc.C \
-	poro_elastic_cc.C assemble_solid.C assemble_bcs.C \
-	setup_equationsystem.C useful_functions.C write_results.C \
-	assemble_coupled_stiffness.C assemble_coupled_rhs.C \
-	update_mesh.C update_solution.C update_tree.C write_tree.C \
-	tree.h poro.h general_material_cc.h poro_elastic_cc.h run.sh
+	read_parameters.C general_material_cc.C poro_elastic_cc.C \
+	assemble_solid.C assemble_bcs.C setup_equationsystem.C \
+	useful_functions.C tree.C write_tree.C update_big_matrix.C \
+	poro.h general_material_cc.h poro_elastic_cc.h tree.h run.sh
 am__objects_7 = example_opt-systems_of_equations_ex4.$(OBJEXT) \
-	example_opt-poro_main.$(OBJEXT) example_opt-tree.$(OBJEXT) \
+	example_opt-poro_main.$(OBJEXT) \
 	example_opt-read_parameters.$(OBJEXT) \
 	example_opt-general_material_cc.$(OBJEXT) \
 	example_opt-poro_elastic_cc.$(OBJEXT) \
@@ -224,13 +205,8 @@ am__objects_7 = example_opt-systems_of_equations_ex4.$(OBJEXT) \
 	example_opt-assemble_bcs.$(OBJEXT) \
 	example_opt-setup_equationsystem.$(OBJEXT) \
 	example_opt-useful_functions.$(OBJEXT) \
-	example_opt-write_results.$(OBJEXT) \
-	example_opt-assemble_coupled_stiffness.$(OBJEXT) \
-	example_opt-assemble_coupled_rhs.$(OBJEXT) \
-	example_opt-update_mesh.$(OBJEXT) \
-	example_opt-update_solution.$(OBJEXT) \
-	example_opt-update_tree.$(OBJEXT) \
-	example_opt-write_tree.$(OBJEXT)
+	example_opt-tree.$(OBJEXT) example_opt-write_tree.$(OBJEXT) \
+	example_opt-update_big_matrix.$(OBJEXT)
 am__objects_8 = $(am__objects_7)
 am_example_opt_OBJECTS = $(am__objects_8)
 example_opt_OBJECTS = $(am_example_opt_OBJECTS)
@@ -240,14 +216,12 @@ example_opt_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(example_opt_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am__example_prof_SOURCES_DIST = systems_of_equations_ex4.C poro_main.C \
-	tree.C read_parameters.C general_material_cc.C \
-	poro_elastic_cc.C assemble_solid.C assemble_bcs.C \
-	setup_equationsystem.C useful_functions.C write_results.C \
-	assemble_coupled_stiffness.C assemble_coupled_rhs.C \
-	update_mesh.C update_solution.C update_tree.C write_tree.C \
-	tree.h poro.h general_material_cc.h poro_elastic_cc.h run.sh
+	read_parameters.C general_material_cc.C poro_elastic_cc.C \
+	assemble_solid.C assemble_bcs.C setup_equationsystem.C \
+	useful_functions.C tree.C write_tree.C update_big_matrix.C \
+	poro.h general_material_cc.h poro_elastic_cc.h tree.h run.sh
 am__objects_9 = example_prof-systems_of_equations_ex4.$(OBJEXT) \
-	example_prof-poro_main.$(OBJEXT) example_prof-tree.$(OBJEXT) \
+	example_prof-poro_main.$(OBJEXT) \
 	example_prof-read_parameters.$(OBJEXT) \
 	example_prof-general_material_cc.$(OBJEXT) \
 	example_prof-poro_elastic_cc.$(OBJEXT) \
@@ -255,13 +229,8 @@ am__objects_9 = example_prof-systems_of_equations_ex4.$(OBJEXT) \
 	example_prof-assemble_bcs.$(OBJEXT) \
 	example_prof-setup_equationsystem.$(OBJEXT) \
 	example_prof-useful_functions.$(OBJEXT) \
-	example_prof-write_results.$(OBJEXT) \
-	example_prof-assemble_coupled_stiffness.$(OBJEXT) \
-	example_prof-assemble_coupled_rhs.$(OBJEXT) \
-	example_prof-update_mesh.$(OBJEXT) \
-	example_prof-update_solution.$(OBJEXT) \
-	example_prof-update_tree.$(OBJEXT) \
-	example_prof-write_tree.$(OBJEXT)
+	example_prof-tree.$(OBJEXT) example_prof-write_tree.$(OBJEXT) \
+	example_prof-update_big_matrix.$(OBJEXT)
 am__objects_10 = $(am__objects_9)
 #am_example_prof_OBJECTS = $(am__objects_10)
 example_prof_OBJECTS = $(am_example_prof_OBJECTS)
@@ -672,7 +641,7 @@ vtkversion = 5.8.0
 example_name = systems_of_equations_ex4
 check_SCRIPTS = run.sh
 install_dir = $(examples_install_path)/systems_of_equations/ex4
-data = systems_of_equations_ex4.C poro_main.C  tree.C read_parameters.C  general_material_cc.C poro_elastic_cc.C assemble_solid.C assemble_bcs.C setup_equationsystem.C useful_functions.C  write_results.C assemble_coupled_stiffness.C assemble_coupled_rhs.C update_mesh.C update_solution.C update_tree.C write_tree.C tree.h poro.h general_material_cc.h poro_elastic_cc.h  run.sh
+data = systems_of_equations_ex4.C poro_main.C read_parameters.C  general_material_cc.C poro_elastic_cc.C assemble_solid.C assemble_bcs.C setup_equationsystem.C useful_functions.C tree.C write_tree.C update_big_matrix.C poro.h general_material_cc.h poro_elastic_cc.h tree.h run.sh
 sources = $(data) run.sh
 
 ######################################################################
@@ -790,8 +759,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 include ./$(DEPDIR)/example_dbg-assemble_bcs.Po
-include ./$(DEPDIR)/example_dbg-assemble_coupled_rhs.Po
-include ./$(DEPDIR)/example_dbg-assemble_coupled_stiffness.Po
 include ./$(DEPDIR)/example_dbg-assemble_solid.Po
 include ./$(DEPDIR)/example_dbg-general_material_cc.Po
 include ./$(DEPDIR)/example_dbg-poro_elastic_cc.Po
@@ -800,15 +767,10 @@ include ./$(DEPDIR)/example_dbg-read_parameters.Po
 include ./$(DEPDIR)/example_dbg-setup_equationsystem.Po
 include ./$(DEPDIR)/example_dbg-systems_of_equations_ex4.Po
 include ./$(DEPDIR)/example_dbg-tree.Po
-include ./$(DEPDIR)/example_dbg-update_mesh.Po
-include ./$(DEPDIR)/example_dbg-update_solution.Po
-include ./$(DEPDIR)/example_dbg-update_tree.Po
+include ./$(DEPDIR)/example_dbg-update_big_matrix.Po
 include ./$(DEPDIR)/example_dbg-useful_functions.Po
-include ./$(DEPDIR)/example_dbg-write_results.Po
 include ./$(DEPDIR)/example_dbg-write_tree.Po
 include ./$(DEPDIR)/example_devel-assemble_bcs.Po
-include ./$(DEPDIR)/example_devel-assemble_coupled_rhs.Po
-include ./$(DEPDIR)/example_devel-assemble_coupled_stiffness.Po
 include ./$(DEPDIR)/example_devel-assemble_solid.Po
 include ./$(DEPDIR)/example_devel-general_material_cc.Po
 include ./$(DEPDIR)/example_devel-poro_elastic_cc.Po
@@ -817,15 +779,10 @@ include ./$(DEPDIR)/example_devel-read_parameters.Po
 include ./$(DEPDIR)/example_devel-setup_equationsystem.Po
 include ./$(DEPDIR)/example_devel-systems_of_equations_ex4.Po
 include ./$(DEPDIR)/example_devel-tree.Po
-include ./$(DEPDIR)/example_devel-update_mesh.Po
-include ./$(DEPDIR)/example_devel-update_solution.Po
-include ./$(DEPDIR)/example_devel-update_tree.Po
+include ./$(DEPDIR)/example_devel-update_big_matrix.Po
 include ./$(DEPDIR)/example_devel-useful_functions.Po
-include ./$(DEPDIR)/example_devel-write_results.Po
 include ./$(DEPDIR)/example_devel-write_tree.Po
 include ./$(DEPDIR)/example_oprof-assemble_bcs.Po
-include ./$(DEPDIR)/example_oprof-assemble_coupled_rhs.Po
-include ./$(DEPDIR)/example_oprof-assemble_coupled_stiffness.Po
 include ./$(DEPDIR)/example_oprof-assemble_solid.Po
 include ./$(DEPDIR)/example_oprof-general_material_cc.Po
 include ./$(DEPDIR)/example_oprof-poro_elastic_cc.Po
@@ -834,15 +791,10 @@ include ./$(DEPDIR)/example_oprof-read_parameters.Po
 include ./$(DEPDIR)/example_oprof-setup_equationsystem.Po
 include ./$(DEPDIR)/example_oprof-systems_of_equations_ex4.Po
 include ./$(DEPDIR)/example_oprof-tree.Po
-include ./$(DEPDIR)/example_oprof-update_mesh.Po
-include ./$(DEPDIR)/example_oprof-update_solution.Po
-include ./$(DEPDIR)/example_oprof-update_tree.Po
+include ./$(DEPDIR)/example_oprof-update_big_matrix.Po
 include ./$(DEPDIR)/example_oprof-useful_functions.Po
-include ./$(DEPDIR)/example_oprof-write_results.Po
 include ./$(DEPDIR)/example_oprof-write_tree.Po
 include ./$(DEPDIR)/example_opt-assemble_bcs.Po
-include ./$(DEPDIR)/example_opt-assemble_coupled_rhs.Po
-include ./$(DEPDIR)/example_opt-assemble_coupled_stiffness.Po
 include ./$(DEPDIR)/example_opt-assemble_solid.Po
 include ./$(DEPDIR)/example_opt-general_material_cc.Po
 include ./$(DEPDIR)/example_opt-poro_elastic_cc.Po
@@ -851,15 +803,10 @@ include ./$(DEPDIR)/example_opt-read_parameters.Po
 include ./$(DEPDIR)/example_opt-setup_equationsystem.Po
 include ./$(DEPDIR)/example_opt-systems_of_equations_ex4.Po
 include ./$(DEPDIR)/example_opt-tree.Po
-include ./$(DEPDIR)/example_opt-update_mesh.Po
-include ./$(DEPDIR)/example_opt-update_solution.Po
-include ./$(DEPDIR)/example_opt-update_tree.Po
+include ./$(DEPDIR)/example_opt-update_big_matrix.Po
 include ./$(DEPDIR)/example_opt-useful_functions.Po
-include ./$(DEPDIR)/example_opt-write_results.Po
 include ./$(DEPDIR)/example_opt-write_tree.Po
 include ./$(DEPDIR)/example_prof-assemble_bcs.Po
-include ./$(DEPDIR)/example_prof-assemble_coupled_rhs.Po
-include ./$(DEPDIR)/example_prof-assemble_coupled_stiffness.Po
 include ./$(DEPDIR)/example_prof-assemble_solid.Po
 include ./$(DEPDIR)/example_prof-general_material_cc.Po
 include ./$(DEPDIR)/example_prof-poro_elastic_cc.Po
@@ -868,11 +815,8 @@ include ./$(DEPDIR)/example_prof-read_parameters.Po
 include ./$(DEPDIR)/example_prof-setup_equationsystem.Po
 include ./$(DEPDIR)/example_prof-systems_of_equations_ex4.Po
 include ./$(DEPDIR)/example_prof-tree.Po
-include ./$(DEPDIR)/example_prof-update_mesh.Po
-include ./$(DEPDIR)/example_prof-update_solution.Po
-include ./$(DEPDIR)/example_prof-update_tree.Po
+include ./$(DEPDIR)/example_prof-update_big_matrix.Po
 include ./$(DEPDIR)/example_prof-useful_functions.Po
-include ./$(DEPDIR)/example_prof-write_results.Po
 include ./$(DEPDIR)/example_prof-write_tree.Po
 
 .C.o:
@@ -926,20 +870,6 @@ example_dbg-poro_main.obj: poro_main.C
 #	$(AM_V_CXX)source='poro_main.C' object='example_dbg-poro_main.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-poro_main.obj `if test -f 'poro_main.C'; then $(CYGPATH_W) 'poro_main.C'; else $(CYGPATH_W) '$(srcdir)/poro_main.C'; fi`
-
-example_dbg-tree.o: tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-tree.o -MD -MP -MF $(DEPDIR)/example_dbg-tree.Tpo -c -o example_dbg-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-tree.Tpo $(DEPDIR)/example_dbg-tree.Po
-#	$(AM_V_CXX)source='tree.C' object='example_dbg-tree.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
-
-example_dbg-tree.obj: tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-tree.obj -MD -MP -MF $(DEPDIR)/example_dbg-tree.Tpo -c -o example_dbg-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-tree.Tpo $(DEPDIR)/example_dbg-tree.Po
-#	$(AM_V_CXX)source='tree.C' object='example_dbg-tree.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
 
 example_dbg-read_parameters.o: read_parameters.C
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-read_parameters.o -MD -MP -MF $(DEPDIR)/example_dbg-read_parameters.Tpo -c -o example_dbg-read_parameters.o `test -f 'read_parameters.C' || echo '$(srcdir)/'`read_parameters.C
@@ -1039,89 +969,19 @@ example_dbg-useful_functions.obj: useful_functions.C
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-useful_functions.obj `if test -f 'useful_functions.C'; then $(CYGPATH_W) 'useful_functions.C'; else $(CYGPATH_W) '$(srcdir)/useful_functions.C'; fi`
 
-example_dbg-write_results.o: write_results.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-write_results.o -MD -MP -MF $(DEPDIR)/example_dbg-write_results.Tpo -c -o example_dbg-write_results.o `test -f 'write_results.C' || echo '$(srcdir)/'`write_results.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-write_results.Tpo $(DEPDIR)/example_dbg-write_results.Po
-#	$(AM_V_CXX)source='write_results.C' object='example_dbg-write_results.o' libtool=no \
+example_dbg-tree.o: tree.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-tree.o -MD -MP -MF $(DEPDIR)/example_dbg-tree.Tpo -c -o example_dbg-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-tree.Tpo $(DEPDIR)/example_dbg-tree.Po
+#	$(AM_V_CXX)source='tree.C' object='example_dbg-tree.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-write_results.o `test -f 'write_results.C' || echo '$(srcdir)/'`write_results.C
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
 
-example_dbg-write_results.obj: write_results.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-write_results.obj -MD -MP -MF $(DEPDIR)/example_dbg-write_results.Tpo -c -o example_dbg-write_results.obj `if test -f 'write_results.C'; then $(CYGPATH_W) 'write_results.C'; else $(CYGPATH_W) '$(srcdir)/write_results.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-write_results.Tpo $(DEPDIR)/example_dbg-write_results.Po
-#	$(AM_V_CXX)source='write_results.C' object='example_dbg-write_results.obj' libtool=no \
+example_dbg-tree.obj: tree.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-tree.obj -MD -MP -MF $(DEPDIR)/example_dbg-tree.Tpo -c -o example_dbg-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-tree.Tpo $(DEPDIR)/example_dbg-tree.Po
+#	$(AM_V_CXX)source='tree.C' object='example_dbg-tree.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-write_results.obj `if test -f 'write_results.C'; then $(CYGPATH_W) 'write_results.C'; else $(CYGPATH_W) '$(srcdir)/write_results.C'; fi`
-
-example_dbg-assemble_coupled_stiffness.o: assemble_coupled_stiffness.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-assemble_coupled_stiffness.o -MD -MP -MF $(DEPDIR)/example_dbg-assemble_coupled_stiffness.Tpo -c -o example_dbg-assemble_coupled_stiffness.o `test -f 'assemble_coupled_stiffness.C' || echo '$(srcdir)/'`assemble_coupled_stiffness.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-assemble_coupled_stiffness.Tpo $(DEPDIR)/example_dbg-assemble_coupled_stiffness.Po
-#	$(AM_V_CXX)source='assemble_coupled_stiffness.C' object='example_dbg-assemble_coupled_stiffness.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-assemble_coupled_stiffness.o `test -f 'assemble_coupled_stiffness.C' || echo '$(srcdir)/'`assemble_coupled_stiffness.C
-
-example_dbg-assemble_coupled_stiffness.obj: assemble_coupled_stiffness.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-assemble_coupled_stiffness.obj -MD -MP -MF $(DEPDIR)/example_dbg-assemble_coupled_stiffness.Tpo -c -o example_dbg-assemble_coupled_stiffness.obj `if test -f 'assemble_coupled_stiffness.C'; then $(CYGPATH_W) 'assemble_coupled_stiffness.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_stiffness.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-assemble_coupled_stiffness.Tpo $(DEPDIR)/example_dbg-assemble_coupled_stiffness.Po
-#	$(AM_V_CXX)source='assemble_coupled_stiffness.C' object='example_dbg-assemble_coupled_stiffness.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-assemble_coupled_stiffness.obj `if test -f 'assemble_coupled_stiffness.C'; then $(CYGPATH_W) 'assemble_coupled_stiffness.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_stiffness.C'; fi`
-
-example_dbg-assemble_coupled_rhs.o: assemble_coupled_rhs.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-assemble_coupled_rhs.o -MD -MP -MF $(DEPDIR)/example_dbg-assemble_coupled_rhs.Tpo -c -o example_dbg-assemble_coupled_rhs.o `test -f 'assemble_coupled_rhs.C' || echo '$(srcdir)/'`assemble_coupled_rhs.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-assemble_coupled_rhs.Tpo $(DEPDIR)/example_dbg-assemble_coupled_rhs.Po
-#	$(AM_V_CXX)source='assemble_coupled_rhs.C' object='example_dbg-assemble_coupled_rhs.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-assemble_coupled_rhs.o `test -f 'assemble_coupled_rhs.C' || echo '$(srcdir)/'`assemble_coupled_rhs.C
-
-example_dbg-assemble_coupled_rhs.obj: assemble_coupled_rhs.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-assemble_coupled_rhs.obj -MD -MP -MF $(DEPDIR)/example_dbg-assemble_coupled_rhs.Tpo -c -o example_dbg-assemble_coupled_rhs.obj `if test -f 'assemble_coupled_rhs.C'; then $(CYGPATH_W) 'assemble_coupled_rhs.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_rhs.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-assemble_coupled_rhs.Tpo $(DEPDIR)/example_dbg-assemble_coupled_rhs.Po
-#	$(AM_V_CXX)source='assemble_coupled_rhs.C' object='example_dbg-assemble_coupled_rhs.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-assemble_coupled_rhs.obj `if test -f 'assemble_coupled_rhs.C'; then $(CYGPATH_W) 'assemble_coupled_rhs.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_rhs.C'; fi`
-
-example_dbg-update_mesh.o: update_mesh.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-update_mesh.o -MD -MP -MF $(DEPDIR)/example_dbg-update_mesh.Tpo -c -o example_dbg-update_mesh.o `test -f 'update_mesh.C' || echo '$(srcdir)/'`update_mesh.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-update_mesh.Tpo $(DEPDIR)/example_dbg-update_mesh.Po
-#	$(AM_V_CXX)source='update_mesh.C' object='example_dbg-update_mesh.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-update_mesh.o `test -f 'update_mesh.C' || echo '$(srcdir)/'`update_mesh.C
-
-example_dbg-update_mesh.obj: update_mesh.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-update_mesh.obj -MD -MP -MF $(DEPDIR)/example_dbg-update_mesh.Tpo -c -o example_dbg-update_mesh.obj `if test -f 'update_mesh.C'; then $(CYGPATH_W) 'update_mesh.C'; else $(CYGPATH_W) '$(srcdir)/update_mesh.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-update_mesh.Tpo $(DEPDIR)/example_dbg-update_mesh.Po
-#	$(AM_V_CXX)source='update_mesh.C' object='example_dbg-update_mesh.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-update_mesh.obj `if test -f 'update_mesh.C'; then $(CYGPATH_W) 'update_mesh.C'; else $(CYGPATH_W) '$(srcdir)/update_mesh.C'; fi`
-
-example_dbg-update_solution.o: update_solution.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-update_solution.o -MD -MP -MF $(DEPDIR)/example_dbg-update_solution.Tpo -c -o example_dbg-update_solution.o `test -f 'update_solution.C' || echo '$(srcdir)/'`update_solution.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-update_solution.Tpo $(DEPDIR)/example_dbg-update_solution.Po
-#	$(AM_V_CXX)source='update_solution.C' object='example_dbg-update_solution.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-update_solution.o `test -f 'update_solution.C' || echo '$(srcdir)/'`update_solution.C
-
-example_dbg-update_solution.obj: update_solution.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-update_solution.obj -MD -MP -MF $(DEPDIR)/example_dbg-update_solution.Tpo -c -o example_dbg-update_solution.obj `if test -f 'update_solution.C'; then $(CYGPATH_W) 'update_solution.C'; else $(CYGPATH_W) '$(srcdir)/update_solution.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-update_solution.Tpo $(DEPDIR)/example_dbg-update_solution.Po
-#	$(AM_V_CXX)source='update_solution.C' object='example_dbg-update_solution.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-update_solution.obj `if test -f 'update_solution.C'; then $(CYGPATH_W) 'update_solution.C'; else $(CYGPATH_W) '$(srcdir)/update_solution.C'; fi`
-
-example_dbg-update_tree.o: update_tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-update_tree.o -MD -MP -MF $(DEPDIR)/example_dbg-update_tree.Tpo -c -o example_dbg-update_tree.o `test -f 'update_tree.C' || echo '$(srcdir)/'`update_tree.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-update_tree.Tpo $(DEPDIR)/example_dbg-update_tree.Po
-#	$(AM_V_CXX)source='update_tree.C' object='example_dbg-update_tree.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-update_tree.o `test -f 'update_tree.C' || echo '$(srcdir)/'`update_tree.C
-
-example_dbg-update_tree.obj: update_tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-update_tree.obj -MD -MP -MF $(DEPDIR)/example_dbg-update_tree.Tpo -c -o example_dbg-update_tree.obj `if test -f 'update_tree.C'; then $(CYGPATH_W) 'update_tree.C'; else $(CYGPATH_W) '$(srcdir)/update_tree.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-update_tree.Tpo $(DEPDIR)/example_dbg-update_tree.Po
-#	$(AM_V_CXX)source='update_tree.C' object='example_dbg-update_tree.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-update_tree.obj `if test -f 'update_tree.C'; then $(CYGPATH_W) 'update_tree.C'; else $(CYGPATH_W) '$(srcdir)/update_tree.C'; fi`
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
 
 example_dbg-write_tree.o: write_tree.C
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-write_tree.o -MD -MP -MF $(DEPDIR)/example_dbg-write_tree.Tpo -c -o example_dbg-write_tree.o `test -f 'write_tree.C' || echo '$(srcdir)/'`write_tree.C
@@ -1136,6 +996,20 @@ example_dbg-write_tree.obj: write_tree.C
 #	$(AM_V_CXX)source='write_tree.C' object='example_dbg-write_tree.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-write_tree.obj `if test -f 'write_tree.C'; then $(CYGPATH_W) 'write_tree.C'; else $(CYGPATH_W) '$(srcdir)/write_tree.C'; fi`
+
+example_dbg-update_big_matrix.o: update_big_matrix.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-update_big_matrix.o -MD -MP -MF $(DEPDIR)/example_dbg-update_big_matrix.Tpo -c -o example_dbg-update_big_matrix.o `test -f 'update_big_matrix.C' || echo '$(srcdir)/'`update_big_matrix.C
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-update_big_matrix.Tpo $(DEPDIR)/example_dbg-update_big_matrix.Po
+#	$(AM_V_CXX)source='update_big_matrix.C' object='example_dbg-update_big_matrix.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-update_big_matrix.o `test -f 'update_big_matrix.C' || echo '$(srcdir)/'`update_big_matrix.C
+
+example_dbg-update_big_matrix.obj: update_big_matrix.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -MT example_dbg-update_big_matrix.obj -MD -MP -MF $(DEPDIR)/example_dbg-update_big_matrix.Tpo -c -o example_dbg-update_big_matrix.obj `if test -f 'update_big_matrix.C'; then $(CYGPATH_W) 'update_big_matrix.C'; else $(CYGPATH_W) '$(srcdir)/update_big_matrix.C'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_dbg-update_big_matrix.Tpo $(DEPDIR)/example_dbg-update_big_matrix.Po
+#	$(AM_V_CXX)source='update_big_matrix.C' object='example_dbg-update_big_matrix.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_dbg_CPPFLAGS) $(CPPFLAGS) $(example_dbg_CXXFLAGS) $(CXXFLAGS) -c -o example_dbg-update_big_matrix.obj `if test -f 'update_big_matrix.C'; then $(CYGPATH_W) 'update_big_matrix.C'; else $(CYGPATH_W) '$(srcdir)/update_big_matrix.C'; fi`
 
 example_devel-systems_of_equations_ex4.o: systems_of_equations_ex4.C
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-systems_of_equations_ex4.o -MD -MP -MF $(DEPDIR)/example_devel-systems_of_equations_ex4.Tpo -c -o example_devel-systems_of_equations_ex4.o `test -f 'systems_of_equations_ex4.C' || echo '$(srcdir)/'`systems_of_equations_ex4.C
@@ -1164,20 +1038,6 @@ example_devel-poro_main.obj: poro_main.C
 #	$(AM_V_CXX)source='poro_main.C' object='example_devel-poro_main.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-poro_main.obj `if test -f 'poro_main.C'; then $(CYGPATH_W) 'poro_main.C'; else $(CYGPATH_W) '$(srcdir)/poro_main.C'; fi`
-
-example_devel-tree.o: tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-tree.o -MD -MP -MF $(DEPDIR)/example_devel-tree.Tpo -c -o example_devel-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-tree.Tpo $(DEPDIR)/example_devel-tree.Po
-#	$(AM_V_CXX)source='tree.C' object='example_devel-tree.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
-
-example_devel-tree.obj: tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-tree.obj -MD -MP -MF $(DEPDIR)/example_devel-tree.Tpo -c -o example_devel-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-tree.Tpo $(DEPDIR)/example_devel-tree.Po
-#	$(AM_V_CXX)source='tree.C' object='example_devel-tree.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
 
 example_devel-read_parameters.o: read_parameters.C
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-read_parameters.o -MD -MP -MF $(DEPDIR)/example_devel-read_parameters.Tpo -c -o example_devel-read_parameters.o `test -f 'read_parameters.C' || echo '$(srcdir)/'`read_parameters.C
@@ -1277,89 +1137,19 @@ example_devel-useful_functions.obj: useful_functions.C
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-useful_functions.obj `if test -f 'useful_functions.C'; then $(CYGPATH_W) 'useful_functions.C'; else $(CYGPATH_W) '$(srcdir)/useful_functions.C'; fi`
 
-example_devel-write_results.o: write_results.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-write_results.o -MD -MP -MF $(DEPDIR)/example_devel-write_results.Tpo -c -o example_devel-write_results.o `test -f 'write_results.C' || echo '$(srcdir)/'`write_results.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-write_results.Tpo $(DEPDIR)/example_devel-write_results.Po
-#	$(AM_V_CXX)source='write_results.C' object='example_devel-write_results.o' libtool=no \
+example_devel-tree.o: tree.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-tree.o -MD -MP -MF $(DEPDIR)/example_devel-tree.Tpo -c -o example_devel-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-tree.Tpo $(DEPDIR)/example_devel-tree.Po
+#	$(AM_V_CXX)source='tree.C' object='example_devel-tree.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-write_results.o `test -f 'write_results.C' || echo '$(srcdir)/'`write_results.C
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
 
-example_devel-write_results.obj: write_results.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-write_results.obj -MD -MP -MF $(DEPDIR)/example_devel-write_results.Tpo -c -o example_devel-write_results.obj `if test -f 'write_results.C'; then $(CYGPATH_W) 'write_results.C'; else $(CYGPATH_W) '$(srcdir)/write_results.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-write_results.Tpo $(DEPDIR)/example_devel-write_results.Po
-#	$(AM_V_CXX)source='write_results.C' object='example_devel-write_results.obj' libtool=no \
+example_devel-tree.obj: tree.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-tree.obj -MD -MP -MF $(DEPDIR)/example_devel-tree.Tpo -c -o example_devel-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-tree.Tpo $(DEPDIR)/example_devel-tree.Po
+#	$(AM_V_CXX)source='tree.C' object='example_devel-tree.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-write_results.obj `if test -f 'write_results.C'; then $(CYGPATH_W) 'write_results.C'; else $(CYGPATH_W) '$(srcdir)/write_results.C'; fi`
-
-example_devel-assemble_coupled_stiffness.o: assemble_coupled_stiffness.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-assemble_coupled_stiffness.o -MD -MP -MF $(DEPDIR)/example_devel-assemble_coupled_stiffness.Tpo -c -o example_devel-assemble_coupled_stiffness.o `test -f 'assemble_coupled_stiffness.C' || echo '$(srcdir)/'`assemble_coupled_stiffness.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-assemble_coupled_stiffness.Tpo $(DEPDIR)/example_devel-assemble_coupled_stiffness.Po
-#	$(AM_V_CXX)source='assemble_coupled_stiffness.C' object='example_devel-assemble_coupled_stiffness.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-assemble_coupled_stiffness.o `test -f 'assemble_coupled_stiffness.C' || echo '$(srcdir)/'`assemble_coupled_stiffness.C
-
-example_devel-assemble_coupled_stiffness.obj: assemble_coupled_stiffness.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-assemble_coupled_stiffness.obj -MD -MP -MF $(DEPDIR)/example_devel-assemble_coupled_stiffness.Tpo -c -o example_devel-assemble_coupled_stiffness.obj `if test -f 'assemble_coupled_stiffness.C'; then $(CYGPATH_W) 'assemble_coupled_stiffness.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_stiffness.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-assemble_coupled_stiffness.Tpo $(DEPDIR)/example_devel-assemble_coupled_stiffness.Po
-#	$(AM_V_CXX)source='assemble_coupled_stiffness.C' object='example_devel-assemble_coupled_stiffness.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-assemble_coupled_stiffness.obj `if test -f 'assemble_coupled_stiffness.C'; then $(CYGPATH_W) 'assemble_coupled_stiffness.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_stiffness.C'; fi`
-
-example_devel-assemble_coupled_rhs.o: assemble_coupled_rhs.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-assemble_coupled_rhs.o -MD -MP -MF $(DEPDIR)/example_devel-assemble_coupled_rhs.Tpo -c -o example_devel-assemble_coupled_rhs.o `test -f 'assemble_coupled_rhs.C' || echo '$(srcdir)/'`assemble_coupled_rhs.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-assemble_coupled_rhs.Tpo $(DEPDIR)/example_devel-assemble_coupled_rhs.Po
-#	$(AM_V_CXX)source='assemble_coupled_rhs.C' object='example_devel-assemble_coupled_rhs.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-assemble_coupled_rhs.o `test -f 'assemble_coupled_rhs.C' || echo '$(srcdir)/'`assemble_coupled_rhs.C
-
-example_devel-assemble_coupled_rhs.obj: assemble_coupled_rhs.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-assemble_coupled_rhs.obj -MD -MP -MF $(DEPDIR)/example_devel-assemble_coupled_rhs.Tpo -c -o example_devel-assemble_coupled_rhs.obj `if test -f 'assemble_coupled_rhs.C'; then $(CYGPATH_W) 'assemble_coupled_rhs.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_rhs.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-assemble_coupled_rhs.Tpo $(DEPDIR)/example_devel-assemble_coupled_rhs.Po
-#	$(AM_V_CXX)source='assemble_coupled_rhs.C' object='example_devel-assemble_coupled_rhs.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-assemble_coupled_rhs.obj `if test -f 'assemble_coupled_rhs.C'; then $(CYGPATH_W) 'assemble_coupled_rhs.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_rhs.C'; fi`
-
-example_devel-update_mesh.o: update_mesh.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-update_mesh.o -MD -MP -MF $(DEPDIR)/example_devel-update_mesh.Tpo -c -o example_devel-update_mesh.o `test -f 'update_mesh.C' || echo '$(srcdir)/'`update_mesh.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-update_mesh.Tpo $(DEPDIR)/example_devel-update_mesh.Po
-#	$(AM_V_CXX)source='update_mesh.C' object='example_devel-update_mesh.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-update_mesh.o `test -f 'update_mesh.C' || echo '$(srcdir)/'`update_mesh.C
-
-example_devel-update_mesh.obj: update_mesh.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-update_mesh.obj -MD -MP -MF $(DEPDIR)/example_devel-update_mesh.Tpo -c -o example_devel-update_mesh.obj `if test -f 'update_mesh.C'; then $(CYGPATH_W) 'update_mesh.C'; else $(CYGPATH_W) '$(srcdir)/update_mesh.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-update_mesh.Tpo $(DEPDIR)/example_devel-update_mesh.Po
-#	$(AM_V_CXX)source='update_mesh.C' object='example_devel-update_mesh.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-update_mesh.obj `if test -f 'update_mesh.C'; then $(CYGPATH_W) 'update_mesh.C'; else $(CYGPATH_W) '$(srcdir)/update_mesh.C'; fi`
-
-example_devel-update_solution.o: update_solution.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-update_solution.o -MD -MP -MF $(DEPDIR)/example_devel-update_solution.Tpo -c -o example_devel-update_solution.o `test -f 'update_solution.C' || echo '$(srcdir)/'`update_solution.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-update_solution.Tpo $(DEPDIR)/example_devel-update_solution.Po
-#	$(AM_V_CXX)source='update_solution.C' object='example_devel-update_solution.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-update_solution.o `test -f 'update_solution.C' || echo '$(srcdir)/'`update_solution.C
-
-example_devel-update_solution.obj: update_solution.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-update_solution.obj -MD -MP -MF $(DEPDIR)/example_devel-update_solution.Tpo -c -o example_devel-update_solution.obj `if test -f 'update_solution.C'; then $(CYGPATH_W) 'update_solution.C'; else $(CYGPATH_W) '$(srcdir)/update_solution.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-update_solution.Tpo $(DEPDIR)/example_devel-update_solution.Po
-#	$(AM_V_CXX)source='update_solution.C' object='example_devel-update_solution.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-update_solution.obj `if test -f 'update_solution.C'; then $(CYGPATH_W) 'update_solution.C'; else $(CYGPATH_W) '$(srcdir)/update_solution.C'; fi`
-
-example_devel-update_tree.o: update_tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-update_tree.o -MD -MP -MF $(DEPDIR)/example_devel-update_tree.Tpo -c -o example_devel-update_tree.o `test -f 'update_tree.C' || echo '$(srcdir)/'`update_tree.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-update_tree.Tpo $(DEPDIR)/example_devel-update_tree.Po
-#	$(AM_V_CXX)source='update_tree.C' object='example_devel-update_tree.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-update_tree.o `test -f 'update_tree.C' || echo '$(srcdir)/'`update_tree.C
-
-example_devel-update_tree.obj: update_tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-update_tree.obj -MD -MP -MF $(DEPDIR)/example_devel-update_tree.Tpo -c -o example_devel-update_tree.obj `if test -f 'update_tree.C'; then $(CYGPATH_W) 'update_tree.C'; else $(CYGPATH_W) '$(srcdir)/update_tree.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-update_tree.Tpo $(DEPDIR)/example_devel-update_tree.Po
-#	$(AM_V_CXX)source='update_tree.C' object='example_devel-update_tree.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-update_tree.obj `if test -f 'update_tree.C'; then $(CYGPATH_W) 'update_tree.C'; else $(CYGPATH_W) '$(srcdir)/update_tree.C'; fi`
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
 
 example_devel-write_tree.o: write_tree.C
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-write_tree.o -MD -MP -MF $(DEPDIR)/example_devel-write_tree.Tpo -c -o example_devel-write_tree.o `test -f 'write_tree.C' || echo '$(srcdir)/'`write_tree.C
@@ -1374,6 +1164,20 @@ example_devel-write_tree.obj: write_tree.C
 #	$(AM_V_CXX)source='write_tree.C' object='example_devel-write_tree.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-write_tree.obj `if test -f 'write_tree.C'; then $(CYGPATH_W) 'write_tree.C'; else $(CYGPATH_W) '$(srcdir)/write_tree.C'; fi`
+
+example_devel-update_big_matrix.o: update_big_matrix.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-update_big_matrix.o -MD -MP -MF $(DEPDIR)/example_devel-update_big_matrix.Tpo -c -o example_devel-update_big_matrix.o `test -f 'update_big_matrix.C' || echo '$(srcdir)/'`update_big_matrix.C
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-update_big_matrix.Tpo $(DEPDIR)/example_devel-update_big_matrix.Po
+#	$(AM_V_CXX)source='update_big_matrix.C' object='example_devel-update_big_matrix.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-update_big_matrix.o `test -f 'update_big_matrix.C' || echo '$(srcdir)/'`update_big_matrix.C
+
+example_devel-update_big_matrix.obj: update_big_matrix.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -MT example_devel-update_big_matrix.obj -MD -MP -MF $(DEPDIR)/example_devel-update_big_matrix.Tpo -c -o example_devel-update_big_matrix.obj `if test -f 'update_big_matrix.C'; then $(CYGPATH_W) 'update_big_matrix.C'; else $(CYGPATH_W) '$(srcdir)/update_big_matrix.C'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_devel-update_big_matrix.Tpo $(DEPDIR)/example_devel-update_big_matrix.Po
+#	$(AM_V_CXX)source='update_big_matrix.C' object='example_devel-update_big_matrix.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_devel_CPPFLAGS) $(CPPFLAGS) $(example_devel_CXXFLAGS) $(CXXFLAGS) -c -o example_devel-update_big_matrix.obj `if test -f 'update_big_matrix.C'; then $(CYGPATH_W) 'update_big_matrix.C'; else $(CYGPATH_W) '$(srcdir)/update_big_matrix.C'; fi`
 
 example_oprof-systems_of_equations_ex4.o: systems_of_equations_ex4.C
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-systems_of_equations_ex4.o -MD -MP -MF $(DEPDIR)/example_oprof-systems_of_equations_ex4.Tpo -c -o example_oprof-systems_of_equations_ex4.o `test -f 'systems_of_equations_ex4.C' || echo '$(srcdir)/'`systems_of_equations_ex4.C
@@ -1402,20 +1206,6 @@ example_oprof-poro_main.obj: poro_main.C
 #	$(AM_V_CXX)source='poro_main.C' object='example_oprof-poro_main.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-poro_main.obj `if test -f 'poro_main.C'; then $(CYGPATH_W) 'poro_main.C'; else $(CYGPATH_W) '$(srcdir)/poro_main.C'; fi`
-
-example_oprof-tree.o: tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-tree.o -MD -MP -MF $(DEPDIR)/example_oprof-tree.Tpo -c -o example_oprof-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-tree.Tpo $(DEPDIR)/example_oprof-tree.Po
-#	$(AM_V_CXX)source='tree.C' object='example_oprof-tree.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
-
-example_oprof-tree.obj: tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-tree.obj -MD -MP -MF $(DEPDIR)/example_oprof-tree.Tpo -c -o example_oprof-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-tree.Tpo $(DEPDIR)/example_oprof-tree.Po
-#	$(AM_V_CXX)source='tree.C' object='example_oprof-tree.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
 
 example_oprof-read_parameters.o: read_parameters.C
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-read_parameters.o -MD -MP -MF $(DEPDIR)/example_oprof-read_parameters.Tpo -c -o example_oprof-read_parameters.o `test -f 'read_parameters.C' || echo '$(srcdir)/'`read_parameters.C
@@ -1515,89 +1305,19 @@ example_oprof-useful_functions.obj: useful_functions.C
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-useful_functions.obj `if test -f 'useful_functions.C'; then $(CYGPATH_W) 'useful_functions.C'; else $(CYGPATH_W) '$(srcdir)/useful_functions.C'; fi`
 
-example_oprof-write_results.o: write_results.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-write_results.o -MD -MP -MF $(DEPDIR)/example_oprof-write_results.Tpo -c -o example_oprof-write_results.o `test -f 'write_results.C' || echo '$(srcdir)/'`write_results.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-write_results.Tpo $(DEPDIR)/example_oprof-write_results.Po
-#	$(AM_V_CXX)source='write_results.C' object='example_oprof-write_results.o' libtool=no \
+example_oprof-tree.o: tree.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-tree.o -MD -MP -MF $(DEPDIR)/example_oprof-tree.Tpo -c -o example_oprof-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-tree.Tpo $(DEPDIR)/example_oprof-tree.Po
+#	$(AM_V_CXX)source='tree.C' object='example_oprof-tree.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-write_results.o `test -f 'write_results.C' || echo '$(srcdir)/'`write_results.C
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
 
-example_oprof-write_results.obj: write_results.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-write_results.obj -MD -MP -MF $(DEPDIR)/example_oprof-write_results.Tpo -c -o example_oprof-write_results.obj `if test -f 'write_results.C'; then $(CYGPATH_W) 'write_results.C'; else $(CYGPATH_W) '$(srcdir)/write_results.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-write_results.Tpo $(DEPDIR)/example_oprof-write_results.Po
-#	$(AM_V_CXX)source='write_results.C' object='example_oprof-write_results.obj' libtool=no \
+example_oprof-tree.obj: tree.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-tree.obj -MD -MP -MF $(DEPDIR)/example_oprof-tree.Tpo -c -o example_oprof-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-tree.Tpo $(DEPDIR)/example_oprof-tree.Po
+#	$(AM_V_CXX)source='tree.C' object='example_oprof-tree.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-write_results.obj `if test -f 'write_results.C'; then $(CYGPATH_W) 'write_results.C'; else $(CYGPATH_W) '$(srcdir)/write_results.C'; fi`
-
-example_oprof-assemble_coupled_stiffness.o: assemble_coupled_stiffness.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-assemble_coupled_stiffness.o -MD -MP -MF $(DEPDIR)/example_oprof-assemble_coupled_stiffness.Tpo -c -o example_oprof-assemble_coupled_stiffness.o `test -f 'assemble_coupled_stiffness.C' || echo '$(srcdir)/'`assemble_coupled_stiffness.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-assemble_coupled_stiffness.Tpo $(DEPDIR)/example_oprof-assemble_coupled_stiffness.Po
-#	$(AM_V_CXX)source='assemble_coupled_stiffness.C' object='example_oprof-assemble_coupled_stiffness.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-assemble_coupled_stiffness.o `test -f 'assemble_coupled_stiffness.C' || echo '$(srcdir)/'`assemble_coupled_stiffness.C
-
-example_oprof-assemble_coupled_stiffness.obj: assemble_coupled_stiffness.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-assemble_coupled_stiffness.obj -MD -MP -MF $(DEPDIR)/example_oprof-assemble_coupled_stiffness.Tpo -c -o example_oprof-assemble_coupled_stiffness.obj `if test -f 'assemble_coupled_stiffness.C'; then $(CYGPATH_W) 'assemble_coupled_stiffness.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_stiffness.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-assemble_coupled_stiffness.Tpo $(DEPDIR)/example_oprof-assemble_coupled_stiffness.Po
-#	$(AM_V_CXX)source='assemble_coupled_stiffness.C' object='example_oprof-assemble_coupled_stiffness.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-assemble_coupled_stiffness.obj `if test -f 'assemble_coupled_stiffness.C'; then $(CYGPATH_W) 'assemble_coupled_stiffness.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_stiffness.C'; fi`
-
-example_oprof-assemble_coupled_rhs.o: assemble_coupled_rhs.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-assemble_coupled_rhs.o -MD -MP -MF $(DEPDIR)/example_oprof-assemble_coupled_rhs.Tpo -c -o example_oprof-assemble_coupled_rhs.o `test -f 'assemble_coupled_rhs.C' || echo '$(srcdir)/'`assemble_coupled_rhs.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-assemble_coupled_rhs.Tpo $(DEPDIR)/example_oprof-assemble_coupled_rhs.Po
-#	$(AM_V_CXX)source='assemble_coupled_rhs.C' object='example_oprof-assemble_coupled_rhs.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-assemble_coupled_rhs.o `test -f 'assemble_coupled_rhs.C' || echo '$(srcdir)/'`assemble_coupled_rhs.C
-
-example_oprof-assemble_coupled_rhs.obj: assemble_coupled_rhs.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-assemble_coupled_rhs.obj -MD -MP -MF $(DEPDIR)/example_oprof-assemble_coupled_rhs.Tpo -c -o example_oprof-assemble_coupled_rhs.obj `if test -f 'assemble_coupled_rhs.C'; then $(CYGPATH_W) 'assemble_coupled_rhs.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_rhs.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-assemble_coupled_rhs.Tpo $(DEPDIR)/example_oprof-assemble_coupled_rhs.Po
-#	$(AM_V_CXX)source='assemble_coupled_rhs.C' object='example_oprof-assemble_coupled_rhs.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-assemble_coupled_rhs.obj `if test -f 'assemble_coupled_rhs.C'; then $(CYGPATH_W) 'assemble_coupled_rhs.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_rhs.C'; fi`
-
-example_oprof-update_mesh.o: update_mesh.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-update_mesh.o -MD -MP -MF $(DEPDIR)/example_oprof-update_mesh.Tpo -c -o example_oprof-update_mesh.o `test -f 'update_mesh.C' || echo '$(srcdir)/'`update_mesh.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-update_mesh.Tpo $(DEPDIR)/example_oprof-update_mesh.Po
-#	$(AM_V_CXX)source='update_mesh.C' object='example_oprof-update_mesh.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-update_mesh.o `test -f 'update_mesh.C' || echo '$(srcdir)/'`update_mesh.C
-
-example_oprof-update_mesh.obj: update_mesh.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-update_mesh.obj -MD -MP -MF $(DEPDIR)/example_oprof-update_mesh.Tpo -c -o example_oprof-update_mesh.obj `if test -f 'update_mesh.C'; then $(CYGPATH_W) 'update_mesh.C'; else $(CYGPATH_W) '$(srcdir)/update_mesh.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-update_mesh.Tpo $(DEPDIR)/example_oprof-update_mesh.Po
-#	$(AM_V_CXX)source='update_mesh.C' object='example_oprof-update_mesh.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-update_mesh.obj `if test -f 'update_mesh.C'; then $(CYGPATH_W) 'update_mesh.C'; else $(CYGPATH_W) '$(srcdir)/update_mesh.C'; fi`
-
-example_oprof-update_solution.o: update_solution.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-update_solution.o -MD -MP -MF $(DEPDIR)/example_oprof-update_solution.Tpo -c -o example_oprof-update_solution.o `test -f 'update_solution.C' || echo '$(srcdir)/'`update_solution.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-update_solution.Tpo $(DEPDIR)/example_oprof-update_solution.Po
-#	$(AM_V_CXX)source='update_solution.C' object='example_oprof-update_solution.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-update_solution.o `test -f 'update_solution.C' || echo '$(srcdir)/'`update_solution.C
-
-example_oprof-update_solution.obj: update_solution.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-update_solution.obj -MD -MP -MF $(DEPDIR)/example_oprof-update_solution.Tpo -c -o example_oprof-update_solution.obj `if test -f 'update_solution.C'; then $(CYGPATH_W) 'update_solution.C'; else $(CYGPATH_W) '$(srcdir)/update_solution.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-update_solution.Tpo $(DEPDIR)/example_oprof-update_solution.Po
-#	$(AM_V_CXX)source='update_solution.C' object='example_oprof-update_solution.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-update_solution.obj `if test -f 'update_solution.C'; then $(CYGPATH_W) 'update_solution.C'; else $(CYGPATH_W) '$(srcdir)/update_solution.C'; fi`
-
-example_oprof-update_tree.o: update_tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-update_tree.o -MD -MP -MF $(DEPDIR)/example_oprof-update_tree.Tpo -c -o example_oprof-update_tree.o `test -f 'update_tree.C' || echo '$(srcdir)/'`update_tree.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-update_tree.Tpo $(DEPDIR)/example_oprof-update_tree.Po
-#	$(AM_V_CXX)source='update_tree.C' object='example_oprof-update_tree.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-update_tree.o `test -f 'update_tree.C' || echo '$(srcdir)/'`update_tree.C
-
-example_oprof-update_tree.obj: update_tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-update_tree.obj -MD -MP -MF $(DEPDIR)/example_oprof-update_tree.Tpo -c -o example_oprof-update_tree.obj `if test -f 'update_tree.C'; then $(CYGPATH_W) 'update_tree.C'; else $(CYGPATH_W) '$(srcdir)/update_tree.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-update_tree.Tpo $(DEPDIR)/example_oprof-update_tree.Po
-#	$(AM_V_CXX)source='update_tree.C' object='example_oprof-update_tree.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-update_tree.obj `if test -f 'update_tree.C'; then $(CYGPATH_W) 'update_tree.C'; else $(CYGPATH_W) '$(srcdir)/update_tree.C'; fi`
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
 
 example_oprof-write_tree.o: write_tree.C
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-write_tree.o -MD -MP -MF $(DEPDIR)/example_oprof-write_tree.Tpo -c -o example_oprof-write_tree.o `test -f 'write_tree.C' || echo '$(srcdir)/'`write_tree.C
@@ -1612,6 +1332,20 @@ example_oprof-write_tree.obj: write_tree.C
 #	$(AM_V_CXX)source='write_tree.C' object='example_oprof-write_tree.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-write_tree.obj `if test -f 'write_tree.C'; then $(CYGPATH_W) 'write_tree.C'; else $(CYGPATH_W) '$(srcdir)/write_tree.C'; fi`
+
+example_oprof-update_big_matrix.o: update_big_matrix.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-update_big_matrix.o -MD -MP -MF $(DEPDIR)/example_oprof-update_big_matrix.Tpo -c -o example_oprof-update_big_matrix.o `test -f 'update_big_matrix.C' || echo '$(srcdir)/'`update_big_matrix.C
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-update_big_matrix.Tpo $(DEPDIR)/example_oprof-update_big_matrix.Po
+#	$(AM_V_CXX)source='update_big_matrix.C' object='example_oprof-update_big_matrix.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-update_big_matrix.o `test -f 'update_big_matrix.C' || echo '$(srcdir)/'`update_big_matrix.C
+
+example_oprof-update_big_matrix.obj: update_big_matrix.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -MT example_oprof-update_big_matrix.obj -MD -MP -MF $(DEPDIR)/example_oprof-update_big_matrix.Tpo -c -o example_oprof-update_big_matrix.obj `if test -f 'update_big_matrix.C'; then $(CYGPATH_W) 'update_big_matrix.C'; else $(CYGPATH_W) '$(srcdir)/update_big_matrix.C'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_oprof-update_big_matrix.Tpo $(DEPDIR)/example_oprof-update_big_matrix.Po
+#	$(AM_V_CXX)source='update_big_matrix.C' object='example_oprof-update_big_matrix.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_oprof_CPPFLAGS) $(CPPFLAGS) $(example_oprof_CXXFLAGS) $(CXXFLAGS) -c -o example_oprof-update_big_matrix.obj `if test -f 'update_big_matrix.C'; then $(CYGPATH_W) 'update_big_matrix.C'; else $(CYGPATH_W) '$(srcdir)/update_big_matrix.C'; fi`
 
 example_opt-systems_of_equations_ex4.o: systems_of_equations_ex4.C
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-systems_of_equations_ex4.o -MD -MP -MF $(DEPDIR)/example_opt-systems_of_equations_ex4.Tpo -c -o example_opt-systems_of_equations_ex4.o `test -f 'systems_of_equations_ex4.C' || echo '$(srcdir)/'`systems_of_equations_ex4.C
@@ -1640,20 +1374,6 @@ example_opt-poro_main.obj: poro_main.C
 #	$(AM_V_CXX)source='poro_main.C' object='example_opt-poro_main.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-poro_main.obj `if test -f 'poro_main.C'; then $(CYGPATH_W) 'poro_main.C'; else $(CYGPATH_W) '$(srcdir)/poro_main.C'; fi`
-
-example_opt-tree.o: tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-tree.o -MD -MP -MF $(DEPDIR)/example_opt-tree.Tpo -c -o example_opt-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-tree.Tpo $(DEPDIR)/example_opt-tree.Po
-#	$(AM_V_CXX)source='tree.C' object='example_opt-tree.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
-
-example_opt-tree.obj: tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-tree.obj -MD -MP -MF $(DEPDIR)/example_opt-tree.Tpo -c -o example_opt-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-tree.Tpo $(DEPDIR)/example_opt-tree.Po
-#	$(AM_V_CXX)source='tree.C' object='example_opt-tree.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
 
 example_opt-read_parameters.o: read_parameters.C
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-read_parameters.o -MD -MP -MF $(DEPDIR)/example_opt-read_parameters.Tpo -c -o example_opt-read_parameters.o `test -f 'read_parameters.C' || echo '$(srcdir)/'`read_parameters.C
@@ -1753,89 +1473,19 @@ example_opt-useful_functions.obj: useful_functions.C
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-useful_functions.obj `if test -f 'useful_functions.C'; then $(CYGPATH_W) 'useful_functions.C'; else $(CYGPATH_W) '$(srcdir)/useful_functions.C'; fi`
 
-example_opt-write_results.o: write_results.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-write_results.o -MD -MP -MF $(DEPDIR)/example_opt-write_results.Tpo -c -o example_opt-write_results.o `test -f 'write_results.C' || echo '$(srcdir)/'`write_results.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-write_results.Tpo $(DEPDIR)/example_opt-write_results.Po
-#	$(AM_V_CXX)source='write_results.C' object='example_opt-write_results.o' libtool=no \
+example_opt-tree.o: tree.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-tree.o -MD -MP -MF $(DEPDIR)/example_opt-tree.Tpo -c -o example_opt-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-tree.Tpo $(DEPDIR)/example_opt-tree.Po
+#	$(AM_V_CXX)source='tree.C' object='example_opt-tree.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-write_results.o `test -f 'write_results.C' || echo '$(srcdir)/'`write_results.C
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
 
-example_opt-write_results.obj: write_results.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-write_results.obj -MD -MP -MF $(DEPDIR)/example_opt-write_results.Tpo -c -o example_opt-write_results.obj `if test -f 'write_results.C'; then $(CYGPATH_W) 'write_results.C'; else $(CYGPATH_W) '$(srcdir)/write_results.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-write_results.Tpo $(DEPDIR)/example_opt-write_results.Po
-#	$(AM_V_CXX)source='write_results.C' object='example_opt-write_results.obj' libtool=no \
+example_opt-tree.obj: tree.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-tree.obj -MD -MP -MF $(DEPDIR)/example_opt-tree.Tpo -c -o example_opt-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-tree.Tpo $(DEPDIR)/example_opt-tree.Po
+#	$(AM_V_CXX)source='tree.C' object='example_opt-tree.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-write_results.obj `if test -f 'write_results.C'; then $(CYGPATH_W) 'write_results.C'; else $(CYGPATH_W) '$(srcdir)/write_results.C'; fi`
-
-example_opt-assemble_coupled_stiffness.o: assemble_coupled_stiffness.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-assemble_coupled_stiffness.o -MD -MP -MF $(DEPDIR)/example_opt-assemble_coupled_stiffness.Tpo -c -o example_opt-assemble_coupled_stiffness.o `test -f 'assemble_coupled_stiffness.C' || echo '$(srcdir)/'`assemble_coupled_stiffness.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-assemble_coupled_stiffness.Tpo $(DEPDIR)/example_opt-assemble_coupled_stiffness.Po
-#	$(AM_V_CXX)source='assemble_coupled_stiffness.C' object='example_opt-assemble_coupled_stiffness.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-assemble_coupled_stiffness.o `test -f 'assemble_coupled_stiffness.C' || echo '$(srcdir)/'`assemble_coupled_stiffness.C
-
-example_opt-assemble_coupled_stiffness.obj: assemble_coupled_stiffness.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-assemble_coupled_stiffness.obj -MD -MP -MF $(DEPDIR)/example_opt-assemble_coupled_stiffness.Tpo -c -o example_opt-assemble_coupled_stiffness.obj `if test -f 'assemble_coupled_stiffness.C'; then $(CYGPATH_W) 'assemble_coupled_stiffness.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_stiffness.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-assemble_coupled_stiffness.Tpo $(DEPDIR)/example_opt-assemble_coupled_stiffness.Po
-#	$(AM_V_CXX)source='assemble_coupled_stiffness.C' object='example_opt-assemble_coupled_stiffness.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-assemble_coupled_stiffness.obj `if test -f 'assemble_coupled_stiffness.C'; then $(CYGPATH_W) 'assemble_coupled_stiffness.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_stiffness.C'; fi`
-
-example_opt-assemble_coupled_rhs.o: assemble_coupled_rhs.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-assemble_coupled_rhs.o -MD -MP -MF $(DEPDIR)/example_opt-assemble_coupled_rhs.Tpo -c -o example_opt-assemble_coupled_rhs.o `test -f 'assemble_coupled_rhs.C' || echo '$(srcdir)/'`assemble_coupled_rhs.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-assemble_coupled_rhs.Tpo $(DEPDIR)/example_opt-assemble_coupled_rhs.Po
-#	$(AM_V_CXX)source='assemble_coupled_rhs.C' object='example_opt-assemble_coupled_rhs.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-assemble_coupled_rhs.o `test -f 'assemble_coupled_rhs.C' || echo '$(srcdir)/'`assemble_coupled_rhs.C
-
-example_opt-assemble_coupled_rhs.obj: assemble_coupled_rhs.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-assemble_coupled_rhs.obj -MD -MP -MF $(DEPDIR)/example_opt-assemble_coupled_rhs.Tpo -c -o example_opt-assemble_coupled_rhs.obj `if test -f 'assemble_coupled_rhs.C'; then $(CYGPATH_W) 'assemble_coupled_rhs.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_rhs.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-assemble_coupled_rhs.Tpo $(DEPDIR)/example_opt-assemble_coupled_rhs.Po
-#	$(AM_V_CXX)source='assemble_coupled_rhs.C' object='example_opt-assemble_coupled_rhs.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-assemble_coupled_rhs.obj `if test -f 'assemble_coupled_rhs.C'; then $(CYGPATH_W) 'assemble_coupled_rhs.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_rhs.C'; fi`
-
-example_opt-update_mesh.o: update_mesh.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-update_mesh.o -MD -MP -MF $(DEPDIR)/example_opt-update_mesh.Tpo -c -o example_opt-update_mesh.o `test -f 'update_mesh.C' || echo '$(srcdir)/'`update_mesh.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-update_mesh.Tpo $(DEPDIR)/example_opt-update_mesh.Po
-#	$(AM_V_CXX)source='update_mesh.C' object='example_opt-update_mesh.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-update_mesh.o `test -f 'update_mesh.C' || echo '$(srcdir)/'`update_mesh.C
-
-example_opt-update_mesh.obj: update_mesh.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-update_mesh.obj -MD -MP -MF $(DEPDIR)/example_opt-update_mesh.Tpo -c -o example_opt-update_mesh.obj `if test -f 'update_mesh.C'; then $(CYGPATH_W) 'update_mesh.C'; else $(CYGPATH_W) '$(srcdir)/update_mesh.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-update_mesh.Tpo $(DEPDIR)/example_opt-update_mesh.Po
-#	$(AM_V_CXX)source='update_mesh.C' object='example_opt-update_mesh.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-update_mesh.obj `if test -f 'update_mesh.C'; then $(CYGPATH_W) 'update_mesh.C'; else $(CYGPATH_W) '$(srcdir)/update_mesh.C'; fi`
-
-example_opt-update_solution.o: update_solution.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-update_solution.o -MD -MP -MF $(DEPDIR)/example_opt-update_solution.Tpo -c -o example_opt-update_solution.o `test -f 'update_solution.C' || echo '$(srcdir)/'`update_solution.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-update_solution.Tpo $(DEPDIR)/example_opt-update_solution.Po
-#	$(AM_V_CXX)source='update_solution.C' object='example_opt-update_solution.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-update_solution.o `test -f 'update_solution.C' || echo '$(srcdir)/'`update_solution.C
-
-example_opt-update_solution.obj: update_solution.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-update_solution.obj -MD -MP -MF $(DEPDIR)/example_opt-update_solution.Tpo -c -o example_opt-update_solution.obj `if test -f 'update_solution.C'; then $(CYGPATH_W) 'update_solution.C'; else $(CYGPATH_W) '$(srcdir)/update_solution.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-update_solution.Tpo $(DEPDIR)/example_opt-update_solution.Po
-#	$(AM_V_CXX)source='update_solution.C' object='example_opt-update_solution.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-update_solution.obj `if test -f 'update_solution.C'; then $(CYGPATH_W) 'update_solution.C'; else $(CYGPATH_W) '$(srcdir)/update_solution.C'; fi`
-
-example_opt-update_tree.o: update_tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-update_tree.o -MD -MP -MF $(DEPDIR)/example_opt-update_tree.Tpo -c -o example_opt-update_tree.o `test -f 'update_tree.C' || echo '$(srcdir)/'`update_tree.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-update_tree.Tpo $(DEPDIR)/example_opt-update_tree.Po
-#	$(AM_V_CXX)source='update_tree.C' object='example_opt-update_tree.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-update_tree.o `test -f 'update_tree.C' || echo '$(srcdir)/'`update_tree.C
-
-example_opt-update_tree.obj: update_tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-update_tree.obj -MD -MP -MF $(DEPDIR)/example_opt-update_tree.Tpo -c -o example_opt-update_tree.obj `if test -f 'update_tree.C'; then $(CYGPATH_W) 'update_tree.C'; else $(CYGPATH_W) '$(srcdir)/update_tree.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-update_tree.Tpo $(DEPDIR)/example_opt-update_tree.Po
-#	$(AM_V_CXX)source='update_tree.C' object='example_opt-update_tree.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-update_tree.obj `if test -f 'update_tree.C'; then $(CYGPATH_W) 'update_tree.C'; else $(CYGPATH_W) '$(srcdir)/update_tree.C'; fi`
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
 
 example_opt-write_tree.o: write_tree.C
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-write_tree.o -MD -MP -MF $(DEPDIR)/example_opt-write_tree.Tpo -c -o example_opt-write_tree.o `test -f 'write_tree.C' || echo '$(srcdir)/'`write_tree.C
@@ -1850,6 +1500,20 @@ example_opt-write_tree.obj: write_tree.C
 #	$(AM_V_CXX)source='write_tree.C' object='example_opt-write_tree.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-write_tree.obj `if test -f 'write_tree.C'; then $(CYGPATH_W) 'write_tree.C'; else $(CYGPATH_W) '$(srcdir)/write_tree.C'; fi`
+
+example_opt-update_big_matrix.o: update_big_matrix.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-update_big_matrix.o -MD -MP -MF $(DEPDIR)/example_opt-update_big_matrix.Tpo -c -o example_opt-update_big_matrix.o `test -f 'update_big_matrix.C' || echo '$(srcdir)/'`update_big_matrix.C
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-update_big_matrix.Tpo $(DEPDIR)/example_opt-update_big_matrix.Po
+#	$(AM_V_CXX)source='update_big_matrix.C' object='example_opt-update_big_matrix.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-update_big_matrix.o `test -f 'update_big_matrix.C' || echo '$(srcdir)/'`update_big_matrix.C
+
+example_opt-update_big_matrix.obj: update_big_matrix.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -MT example_opt-update_big_matrix.obj -MD -MP -MF $(DEPDIR)/example_opt-update_big_matrix.Tpo -c -o example_opt-update_big_matrix.obj `if test -f 'update_big_matrix.C'; then $(CYGPATH_W) 'update_big_matrix.C'; else $(CYGPATH_W) '$(srcdir)/update_big_matrix.C'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_opt-update_big_matrix.Tpo $(DEPDIR)/example_opt-update_big_matrix.Po
+#	$(AM_V_CXX)source='update_big_matrix.C' object='example_opt-update_big_matrix.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_opt_CPPFLAGS) $(CPPFLAGS) $(example_opt_CXXFLAGS) $(CXXFLAGS) -c -o example_opt-update_big_matrix.obj `if test -f 'update_big_matrix.C'; then $(CYGPATH_W) 'update_big_matrix.C'; else $(CYGPATH_W) '$(srcdir)/update_big_matrix.C'; fi`
 
 example_prof-systems_of_equations_ex4.o: systems_of_equations_ex4.C
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-systems_of_equations_ex4.o -MD -MP -MF $(DEPDIR)/example_prof-systems_of_equations_ex4.Tpo -c -o example_prof-systems_of_equations_ex4.o `test -f 'systems_of_equations_ex4.C' || echo '$(srcdir)/'`systems_of_equations_ex4.C
@@ -1878,20 +1542,6 @@ example_prof-poro_main.obj: poro_main.C
 #	$(AM_V_CXX)source='poro_main.C' object='example_prof-poro_main.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-poro_main.obj `if test -f 'poro_main.C'; then $(CYGPATH_W) 'poro_main.C'; else $(CYGPATH_W) '$(srcdir)/poro_main.C'; fi`
-
-example_prof-tree.o: tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-tree.o -MD -MP -MF $(DEPDIR)/example_prof-tree.Tpo -c -o example_prof-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-tree.Tpo $(DEPDIR)/example_prof-tree.Po
-#	$(AM_V_CXX)source='tree.C' object='example_prof-tree.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
-
-example_prof-tree.obj: tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-tree.obj -MD -MP -MF $(DEPDIR)/example_prof-tree.Tpo -c -o example_prof-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-tree.Tpo $(DEPDIR)/example_prof-tree.Po
-#	$(AM_V_CXX)source='tree.C' object='example_prof-tree.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
 
 example_prof-read_parameters.o: read_parameters.C
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-read_parameters.o -MD -MP -MF $(DEPDIR)/example_prof-read_parameters.Tpo -c -o example_prof-read_parameters.o `test -f 'read_parameters.C' || echo '$(srcdir)/'`read_parameters.C
@@ -1991,89 +1641,19 @@ example_prof-useful_functions.obj: useful_functions.C
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-useful_functions.obj `if test -f 'useful_functions.C'; then $(CYGPATH_W) 'useful_functions.C'; else $(CYGPATH_W) '$(srcdir)/useful_functions.C'; fi`
 
-example_prof-write_results.o: write_results.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-write_results.o -MD -MP -MF $(DEPDIR)/example_prof-write_results.Tpo -c -o example_prof-write_results.o `test -f 'write_results.C' || echo '$(srcdir)/'`write_results.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-write_results.Tpo $(DEPDIR)/example_prof-write_results.Po
-#	$(AM_V_CXX)source='write_results.C' object='example_prof-write_results.o' libtool=no \
+example_prof-tree.o: tree.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-tree.o -MD -MP -MF $(DEPDIR)/example_prof-tree.Tpo -c -o example_prof-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-tree.Tpo $(DEPDIR)/example_prof-tree.Po
+#	$(AM_V_CXX)source='tree.C' object='example_prof-tree.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-write_results.o `test -f 'write_results.C' || echo '$(srcdir)/'`write_results.C
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-tree.o `test -f 'tree.C' || echo '$(srcdir)/'`tree.C
 
-example_prof-write_results.obj: write_results.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-write_results.obj -MD -MP -MF $(DEPDIR)/example_prof-write_results.Tpo -c -o example_prof-write_results.obj `if test -f 'write_results.C'; then $(CYGPATH_W) 'write_results.C'; else $(CYGPATH_W) '$(srcdir)/write_results.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-write_results.Tpo $(DEPDIR)/example_prof-write_results.Po
-#	$(AM_V_CXX)source='write_results.C' object='example_prof-write_results.obj' libtool=no \
+example_prof-tree.obj: tree.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-tree.obj -MD -MP -MF $(DEPDIR)/example_prof-tree.Tpo -c -o example_prof-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-tree.Tpo $(DEPDIR)/example_prof-tree.Po
+#	$(AM_V_CXX)source='tree.C' object='example_prof-tree.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-write_results.obj `if test -f 'write_results.C'; then $(CYGPATH_W) 'write_results.C'; else $(CYGPATH_W) '$(srcdir)/write_results.C'; fi`
-
-example_prof-assemble_coupled_stiffness.o: assemble_coupled_stiffness.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-assemble_coupled_stiffness.o -MD -MP -MF $(DEPDIR)/example_prof-assemble_coupled_stiffness.Tpo -c -o example_prof-assemble_coupled_stiffness.o `test -f 'assemble_coupled_stiffness.C' || echo '$(srcdir)/'`assemble_coupled_stiffness.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-assemble_coupled_stiffness.Tpo $(DEPDIR)/example_prof-assemble_coupled_stiffness.Po
-#	$(AM_V_CXX)source='assemble_coupled_stiffness.C' object='example_prof-assemble_coupled_stiffness.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-assemble_coupled_stiffness.o `test -f 'assemble_coupled_stiffness.C' || echo '$(srcdir)/'`assemble_coupled_stiffness.C
-
-example_prof-assemble_coupled_stiffness.obj: assemble_coupled_stiffness.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-assemble_coupled_stiffness.obj -MD -MP -MF $(DEPDIR)/example_prof-assemble_coupled_stiffness.Tpo -c -o example_prof-assemble_coupled_stiffness.obj `if test -f 'assemble_coupled_stiffness.C'; then $(CYGPATH_W) 'assemble_coupled_stiffness.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_stiffness.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-assemble_coupled_stiffness.Tpo $(DEPDIR)/example_prof-assemble_coupled_stiffness.Po
-#	$(AM_V_CXX)source='assemble_coupled_stiffness.C' object='example_prof-assemble_coupled_stiffness.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-assemble_coupled_stiffness.obj `if test -f 'assemble_coupled_stiffness.C'; then $(CYGPATH_W) 'assemble_coupled_stiffness.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_stiffness.C'; fi`
-
-example_prof-assemble_coupled_rhs.o: assemble_coupled_rhs.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-assemble_coupled_rhs.o -MD -MP -MF $(DEPDIR)/example_prof-assemble_coupled_rhs.Tpo -c -o example_prof-assemble_coupled_rhs.o `test -f 'assemble_coupled_rhs.C' || echo '$(srcdir)/'`assemble_coupled_rhs.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-assemble_coupled_rhs.Tpo $(DEPDIR)/example_prof-assemble_coupled_rhs.Po
-#	$(AM_V_CXX)source='assemble_coupled_rhs.C' object='example_prof-assemble_coupled_rhs.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-assemble_coupled_rhs.o `test -f 'assemble_coupled_rhs.C' || echo '$(srcdir)/'`assemble_coupled_rhs.C
-
-example_prof-assemble_coupled_rhs.obj: assemble_coupled_rhs.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-assemble_coupled_rhs.obj -MD -MP -MF $(DEPDIR)/example_prof-assemble_coupled_rhs.Tpo -c -o example_prof-assemble_coupled_rhs.obj `if test -f 'assemble_coupled_rhs.C'; then $(CYGPATH_W) 'assemble_coupled_rhs.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_rhs.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-assemble_coupled_rhs.Tpo $(DEPDIR)/example_prof-assemble_coupled_rhs.Po
-#	$(AM_V_CXX)source='assemble_coupled_rhs.C' object='example_prof-assemble_coupled_rhs.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-assemble_coupled_rhs.obj `if test -f 'assemble_coupled_rhs.C'; then $(CYGPATH_W) 'assemble_coupled_rhs.C'; else $(CYGPATH_W) '$(srcdir)/assemble_coupled_rhs.C'; fi`
-
-example_prof-update_mesh.o: update_mesh.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-update_mesh.o -MD -MP -MF $(DEPDIR)/example_prof-update_mesh.Tpo -c -o example_prof-update_mesh.o `test -f 'update_mesh.C' || echo '$(srcdir)/'`update_mesh.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-update_mesh.Tpo $(DEPDIR)/example_prof-update_mesh.Po
-#	$(AM_V_CXX)source='update_mesh.C' object='example_prof-update_mesh.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-update_mesh.o `test -f 'update_mesh.C' || echo '$(srcdir)/'`update_mesh.C
-
-example_prof-update_mesh.obj: update_mesh.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-update_mesh.obj -MD -MP -MF $(DEPDIR)/example_prof-update_mesh.Tpo -c -o example_prof-update_mesh.obj `if test -f 'update_mesh.C'; then $(CYGPATH_W) 'update_mesh.C'; else $(CYGPATH_W) '$(srcdir)/update_mesh.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-update_mesh.Tpo $(DEPDIR)/example_prof-update_mesh.Po
-#	$(AM_V_CXX)source='update_mesh.C' object='example_prof-update_mesh.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-update_mesh.obj `if test -f 'update_mesh.C'; then $(CYGPATH_W) 'update_mesh.C'; else $(CYGPATH_W) '$(srcdir)/update_mesh.C'; fi`
-
-example_prof-update_solution.o: update_solution.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-update_solution.o -MD -MP -MF $(DEPDIR)/example_prof-update_solution.Tpo -c -o example_prof-update_solution.o `test -f 'update_solution.C' || echo '$(srcdir)/'`update_solution.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-update_solution.Tpo $(DEPDIR)/example_prof-update_solution.Po
-#	$(AM_V_CXX)source='update_solution.C' object='example_prof-update_solution.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-update_solution.o `test -f 'update_solution.C' || echo '$(srcdir)/'`update_solution.C
-
-example_prof-update_solution.obj: update_solution.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-update_solution.obj -MD -MP -MF $(DEPDIR)/example_prof-update_solution.Tpo -c -o example_prof-update_solution.obj `if test -f 'update_solution.C'; then $(CYGPATH_W) 'update_solution.C'; else $(CYGPATH_W) '$(srcdir)/update_solution.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-update_solution.Tpo $(DEPDIR)/example_prof-update_solution.Po
-#	$(AM_V_CXX)source='update_solution.C' object='example_prof-update_solution.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-update_solution.obj `if test -f 'update_solution.C'; then $(CYGPATH_W) 'update_solution.C'; else $(CYGPATH_W) '$(srcdir)/update_solution.C'; fi`
-
-example_prof-update_tree.o: update_tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-update_tree.o -MD -MP -MF $(DEPDIR)/example_prof-update_tree.Tpo -c -o example_prof-update_tree.o `test -f 'update_tree.C' || echo '$(srcdir)/'`update_tree.C
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-update_tree.Tpo $(DEPDIR)/example_prof-update_tree.Po
-#	$(AM_V_CXX)source='update_tree.C' object='example_prof-update_tree.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-update_tree.o `test -f 'update_tree.C' || echo '$(srcdir)/'`update_tree.C
-
-example_prof-update_tree.obj: update_tree.C
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-update_tree.obj -MD -MP -MF $(DEPDIR)/example_prof-update_tree.Tpo -c -o example_prof-update_tree.obj `if test -f 'update_tree.C'; then $(CYGPATH_W) 'update_tree.C'; else $(CYGPATH_W) '$(srcdir)/update_tree.C'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-update_tree.Tpo $(DEPDIR)/example_prof-update_tree.Po
-#	$(AM_V_CXX)source='update_tree.C' object='example_prof-update_tree.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-update_tree.obj `if test -f 'update_tree.C'; then $(CYGPATH_W) 'update_tree.C'; else $(CYGPATH_W) '$(srcdir)/update_tree.C'; fi`
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-tree.obj `if test -f 'tree.C'; then $(CYGPATH_W) 'tree.C'; else $(CYGPATH_W) '$(srcdir)/tree.C'; fi`
 
 example_prof-write_tree.o: write_tree.C
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-write_tree.o -MD -MP -MF $(DEPDIR)/example_prof-write_tree.Tpo -c -o example_prof-write_tree.o `test -f 'write_tree.C' || echo '$(srcdir)/'`write_tree.C
@@ -2088,6 +1668,20 @@ example_prof-write_tree.obj: write_tree.C
 #	$(AM_V_CXX)source='write_tree.C' object='example_prof-write_tree.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-write_tree.obj `if test -f 'write_tree.C'; then $(CYGPATH_W) 'write_tree.C'; else $(CYGPATH_W) '$(srcdir)/write_tree.C'; fi`
+
+example_prof-update_big_matrix.o: update_big_matrix.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-update_big_matrix.o -MD -MP -MF $(DEPDIR)/example_prof-update_big_matrix.Tpo -c -o example_prof-update_big_matrix.o `test -f 'update_big_matrix.C' || echo '$(srcdir)/'`update_big_matrix.C
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-update_big_matrix.Tpo $(DEPDIR)/example_prof-update_big_matrix.Po
+#	$(AM_V_CXX)source='update_big_matrix.C' object='example_prof-update_big_matrix.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-update_big_matrix.o `test -f 'update_big_matrix.C' || echo '$(srcdir)/'`update_big_matrix.C
+
+example_prof-update_big_matrix.obj: update_big_matrix.C
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -MT example_prof-update_big_matrix.obj -MD -MP -MF $(DEPDIR)/example_prof-update_big_matrix.Tpo -c -o example_prof-update_big_matrix.obj `if test -f 'update_big_matrix.C'; then $(CYGPATH_W) 'update_big_matrix.C'; else $(CYGPATH_W) '$(srcdir)/update_big_matrix.C'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/example_prof-update_big_matrix.Tpo $(DEPDIR)/example_prof-update_big_matrix.Po
+#	$(AM_V_CXX)source='update_big_matrix.C' object='example_prof-update_big_matrix.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(example_prof_CPPFLAGS) $(CPPFLAGS) $(example_prof_CXXFLAGS) $(CXXFLAGS) -c -o example_prof-update_big_matrix.obj `if test -f 'update_big_matrix.C'; then $(CYGPATH_W) 'update_big_matrix.C'; else $(CYGPATH_W) '$(srcdir)/update_big_matrix.C'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -2449,8 +2043,6 @@ $(example_name).php: example-opt example-dbg example-devel \
 
 ##############################################
 # include common example environment
-
-# data          = systems_of_equations_ex4.C poro_main.C read_parameters.C  general_material_cc.C poro_elastic_cc.C assemble_solid.C assemble_bcs.C setup_equationsystem.C useful_functions.C tree.C write_results.C assemble_coupled_stiffness.C update_mesh.C update_solution.C update_tree.C write_tree.C poro.h general_material_cc.h poro_elastic_cc.h tree.h run.sh
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -40,8 +40,6 @@
 			stab_dofs_vals_rhs.push_back(-(p_curr[0]-p_old[0])*factor);
 			stab_dofs_vals_rhs.push_back((p_curr_n[0]-p_old_n[0])*factor);
 			
-		//	stab_dofs_vals_rhs.push_back(-(p_curr[0])*factor);
-		//	stab_dofs_vals_rhs.push_back((p_curr_n[0])*factor);
       //perf_log.pop("push back");
 
 			}

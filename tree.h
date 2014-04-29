@@ -53,7 +53,7 @@
 class Tree{
 public:
 
-	void  read_tree( );
+	void  read_tree( EquationSystems& es);
 	
 	
 	void  write_tree(EquationSystems& es);
@@ -64,6 +64,10 @@ public:
 
  	void  update_resistances(EquationSystems& es);
 
+	
+ 	void  update_positions(EquationSystems& es);
+
+	
 	Number number_nodes;
 	Number number_edges;
 	Number number_distal;
