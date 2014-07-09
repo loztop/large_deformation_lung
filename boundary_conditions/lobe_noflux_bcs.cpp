@@ -31,23 +31,16 @@
 
 				
 
-				Real xf=qface_point_f[qp](0);
-				Real yf=qface_point_f[qp](1);
-				Real zf=qface_point_f[qp](2);
+	//Calculate old fluid velocity
+				Point fluid_vel;
+				for (unsigned int l=0; l<phi_face_f.size(); l++)			
+				{
+					fluid_vel(0) += phi_face_f[l][qp]*last_non_linear_soln.current_local_solution->el(dof_indices_x[l]);
+					fluid_vel(1) += phi_face_f[l][qp]*last_non_linear_soln.current_local_solution->el(dof_indices_y[l]);
+					fluid_vel(2) += phi_face_f[l][qp]*last_non_linear_soln.current_local_solution->el(dof_indices_z[l]);
+				}
 
-						
-				
-				
-		
-
-			Point curr_vel;
-  for (unsigned int l=0; l<n_u_dofs; l++)
-  {
-    curr_vel(0) += phi_face_f[l][qp]*last_non_linear_soln.current_local_solution->el(dof_indices_u[l]);
-    curr_vel(1) += phi_face_f[l][qp]*last_non_linear_soln.current_local_solution->el(dof_indices_v[l]);
-    curr_vel(2) += phi_face_f[l][qp]*last_non_linear_soln.current_local_solution->el(dof_indices_w[l]);
-  }
-						
+									
 						
 						
 					//		int source_dof_x = s->dof_number(last_non_linear_soln.number(), 4, 0);
@@ -61,9 +54,7 @@
 					
 								Point fluid_vel;
 	
-			fluid_vel(0)=curr_vel(1); 
-			fluid_vel(1)=curr_vel(2);
-			fluid_vel(2)=curr_vel(3);
+	
 		
 				Point normal;
 				normal(0)=face_normals_f[qp](0);
@@ -94,15 +85,18 @@
 					
 				}
 				
+				/*
 		for (unsigned int i=0; i<phi_face_p.size(); i++){			
 		 		
 
-					Fp(i) +=  -dt*JxW_face_f[qp]*fluid_vel(0)*normal(0)*phi_face_p[i][qp] ;
-				 	Fp(i) +=  -dt*JxW_face_f[qp]*fluid_vel(1)*normal(1)*phi_face_p[i][qp] ;
-					Fp(i) +=  -dt*JxW_face_f[qp]*fluid_vel(2)*normal(2)*phi_face_p[i][qp] ;
+					Fp(i) +=  -JxW_face_f[qp]*fluid_vel(0)*normal(0)*phi_face_p[i][qp] ;
+				 	Fp(i) +=  -JxW_face_f[qp]*fluid_vel(1)*normal(1)*phi_face_p[i][qp] ;
+					Fp(i) +=  -JxW_face_f[qp]*fluid_vel(2)*normal(2)*phi_face_p[i][qp] ;
 
 					
 				}
+				
+				*/
 				
 		} //end qp
       } //if (elem->neighbor(s) == NULL)

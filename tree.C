@@ -10,26 +10,30 @@
 
 
 
-
 void Tree::read_tree(EquationSystems& es) {
 
 	std::cout<< "Reading tree data" <<std::endl;
 		
 	std::string node_file_name;
-	node_file_name = es.parameters.get<std::string>("tree_input") + ".node";
-	std::string edge_file_name;
-	edge_file_name = es.parameters.get<std::string>("tree_input") + ".edge";
+  node_file_name = es.parameters.get<std::string>("tree_input") + ".node";
+  std::string edge_file_name;
+  edge_file_name = es.parameters.get<std::string>("tree_input") + ".edge";
 	
 	std::ifstream infile_node(node_file_name.c_str());
 	std::ifstream infile_edge(edge_file_name.c_str());
 
 	//Read in node file
+
+	//int max_line=20000;
+
+	
 	int ed_count=0;
 	int node_count=0;
+	int distal_count=0;
 
 	int lc=1;
 	std::string line_node;
-	std::cout<<  "Reading " << node_file_name<<  std::endl;
+	std::cout<<  "Read in node file ... " <<   std::endl;
 	while (std::getline(infile_node, line_node) )
 	{
 		if(lc==1){
@@ -37,6 +41,8 @@ void Tree::read_tree(EquationSystems& es) {
 			std::istringstream iss(line_node);
 						
 			if (!(iss >> number_nodes)) { break; } // error
+
+			//number_nodes=max_line-1;
 			
 			number_edges=number_nodes-1;
 			nodes.resize(number_nodes);
@@ -44,25 +50,69 @@ void Tree::read_tree(EquationSystems& es) {
 			nodes_parent_node.resize(number_nodes);
 			nodes_parent_edge.resize(number_nodes);
 
+			edges_diseased.resize(number_edges);
 			edges_radius.resize(number_edges);
+			edges_length.resize(number_edges);		
 			edges_upper_node.resize(number_edges);
 			edges_lower_node.resize(number_edges);
 			edges_type.resize(number_edges);
 			edges_resistance.resize(number_edges);
 			edges_child1.resize(number_edges);
-			edges_child2.resize(number_edges);
+      edges_child2.resize(number_edges);
 			
 		}
+		
 		
 		if(lc>1){
 			std::istringstream iss(line_node);							
 			double num_node, x, y , z , rad, type;
 			if (!(iss >>num_node>> x >> y >> z >> rad >> type)) { break; } // error
+			//	std::cout<< x << " " << y << " " << z << " " << rad << " " << type <<  std::endl;
 				
 				Point point(x, y, z);
 				nodes(node_count) = point ;
+
+				//Change sign because tree has been previosuly flipped
+				//Only do this for particular meshes as outlined below...
+				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/whole_lung_246.msh")){
+			//	nodes(node_count) = -point ;
+				}
+				
+				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/whole_lung_751.msh")){
+			//	nodes(node_count) = -point ;
+				}
+				
+				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/N048r_fine1447.msh")){
+				nodes(node_count) = -point ;
+				}
+				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/N048r_fine2881.msh")){
+				nodes(node_count) = -point ;
+				}			
+				
+				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/N048_node6598.msh")){
+				nodes(node_count) = -point ;
+				}
+				
+				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/N051_node870.msh")){
+				nodes(node_count) = -point ;
+				}
+				
+				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/APLE_36266rmerge_insp_765.msh")){
+				nodes(node_count) = -point ;
+				}
+				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/APLE_36266rmerge_insp_2010.msh")){
+				nodes(node_count) = -point ;
+				}
+				
+				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/APLE_36266rmerge_insp_2967.msh")){
+				nodes(node_count) = -point ;
+				}
+				
 				nodes_type(node_count) = type ;
 
+				//coount distal edges
+				if( type<1){ distal_count=distal_count+1;}
+				
 				node_count=node_count+1;
 				
 				//Read in resistances
@@ -70,26 +120,27 @@ void Tree::read_tree(EquationSystems& es) {
 					edges_radius(ed_count)=rad; //Put into meters (from mm)
 					edges_type(ed_count)=type;
 					
+					Real length_pipe=0.1; //Assume l=4*r.
 					
-					//Assign resistance to edges - this could do with updating
-					Real length_pipe=4.0; //Assume l=4*r.
-					edges_resistance(ed_count)=(8.0*MU_F*length_pipe)/(PIE*pow(edges_radius(ed_count),3));
-
-					//edges_resistance(ed_count)=edges_radius(ed_count);
-					//edges_resistance(ed_count)=1;
+					ed_count=ed_count+1;
 					
-					ed_count=ed_count+1;					
+					
 				}
 		}
 		
 		lc=lc+1;
 	}
 		
-	lc=1;
+		
+	std::cout<<  "distal_count " << distal_count<<  std::endl;
+
+  lc=1;
 	std::string line_edge;
-	std::cout<<  "Reading " << edge_file_name<<  std::endl;
+	std::cout<<  "Read in edge file ... " <<   std::endl;
+
 	while (std::getline(infile_edge, line_edge))
 	{								
+
 		if(lc==1){
 		  //Already have taken care of this when reading the node file.	
 		}
@@ -98,25 +149,64 @@ void Tree::read_tree(EquationSystems& es) {
 			std::istringstream iss(line_edge);							
 			double edge_num, p , c;
 			if (!(iss >> edge_num >> p >> c)) { break; } // error
+			//	std::cout<< edge_num << " " << p << " " << c << std::endl;
 				edges_upper_node(edge_num)=p;	
 				edges_lower_node(edge_num)=c;	
 			}
+		
 		lc=lc+1;
 	}
 
+	Real disease_count=0;
 	//Figure out which branches are connected.
 	for (int i=0; i < number_edges; i++) {
 	   //edges that have a no branches (end edge)
 	  if(edges_type(i) ==0){
 			edges_child1(i)=0;
 			edges_child2(i)=0;		
+			
+			
+			
+			//Deal with disease here 
+
+		 /*
+ 			if(	  abs(nodes(i+1)(1))> 160    ){
+
+			  edges_diseased(i)=1;
+		    disease_count=disease_count+1;
+			  
+				//Instead reduce the radius
+				edges_radius(i)=edges_radius(i)/2;
+
+			}
+		 */
+			
+			 
+			
+			
 	  }
 	  
-	  //edges that have a single branch
+	  //edges that have a single branch !!!!!!!!!!!!! fix below
 	  if(edges_type(i) ==1){
-			//This assumes that branches after each other appear in order in the file.
-			edges_child1(i)=edges_lower_node(i);
-			edges_child2(i)=0;		
+		
+	     edges_child2(i)=0;		
+
+					
+		Real lower_node=edges_lower_node(i);
+		//find all edges that have this as a upper node
+		int found_node=0;
+		 int found_node_second=0;
+
+		for (int k=0; k < number_edges; k++) {
+
+		  if(edges_upper_node(k)==lower_node && found_node==0){
+				edges_child1(i)=k;
+
+				found_node=1;		
+				k=k+1;
+		  }
+		  
+		}
 	  }
 	  
 	  //edges that have a branch (2 edges leaving)
@@ -125,17 +215,31 @@ void Tree::read_tree(EquationSystems& es) {
 
 		//find all edges that have this as a upper node
 		int found_node=0;
+		 int found_node_second=0;
+
 		for (int k=0; k < number_edges; k++) {
 
 		  if(edges_upper_node(k)==lower_node && found_node==0){
 				edges_child1(i)=k;
-				//This assumes that the two branches follow each other in the file.
-				edges_child2(i)=k+1;
-				found_node=1;			
+
+				found_node=1;		
+				k=k+1;
 		  }
-		}		
-	  }	  
+		  
+		   if(edges_upper_node(k)==lower_node && found_node_second==0&& found_node==1){
+				edges_child2(i)=k;
+
+				found_node_second=1;			
+		  }
+		  
+		}
+		
+		
+	  }
+	  
 	}
+	
+	std::cout<<"disease_count "<<disease_count<<std::endl;
 	
 	//Initialise node pressures
 	nodes_pressure.resize(number_nodes);
@@ -174,6 +278,52 @@ void Tree::read_tree(EquationSystems& es) {
 			}
 	  }		
 	}
+	
+	//calculate the length and then resistance of an edge
+	edges_flowrate.resize(number_edges);
+	for (int i=0; i < number_edges; i++) {
+		
+	  //Wrong !!
+		Point u_node=nodes(edges_upper_node(i));
+		Point l_node=nodes(edges_lower_node(i)); //Bad assumpion - wrong !!!!!!!!!!!!
+		Real dist =pow( pow(u_node(0)-l_node(0),2)+pow(u_node(1)-l_node(1),2)+pow(u_node(2)-l_node(2),2) , 0.5);
+		
+		//std::cout<< "dist  "<< dist << std::endl;
+		//std::cout<< "u_node  "<< u_node << std::endl;
+		//std::cout<< "l_node  "<< l_node << std::endl;
+
+		edges_length(i) = dist;	
+		
+		//Make tree a bit more healthy
+		
+		if( dist> 5){
+			
+		 // std::cout<< "dist  "<< dist << std::endl;
+		//	std::cout<< "u_node  "<< u_node << std::endl;
+		//	std::cout<< "l_node  "<< l_node << std::endl;			
+		}
+		
+		
+		edges_resistance(i)=1*(8.0*MU_F*(edges_length(i)))/(PIE*pow(1*edges_radius(i),4));
+		
+		
+		//edges_resistance(ed_count)=1;
+	}
+	
+	
+/*
+	  std::cout<< "nodes_parent_edge "<< nodes_parent_edge << std::endl;
+	  std::cout<< "nodes_parent_node "<< nodes_parent_edge << std::endl;
+		std::cout<< "nodes_type "<< nodes_type << std::endl;
+  	std::cout<< "edges_radius "<< edges_radius << std::endl;
+		std::cout<< "edges_length "<< edges_child2 << std::endl;
+		std::cout<< "edges_type "<< edges_type << std::endl;
+		std::cout<< "edges_upper_node "<< edges_upper_node << std::endl;
+		std::cout<< "edges_lower_node "<< edges_lower_node << std::endl;
+		std::cout<< "edges_child1 "<< edges_child1 << std::endl;
+		std::cout<< "edges_child2 "<< edges_child2 << std::endl;
+  */
+	
 }
 
 
@@ -208,7 +358,7 @@ Vec Tree::make_tree_rhs ()
 
 	//Not doing anything !!!!!!!!!!!!!!
   
- /*
+/*
 	//Set outflow BCs (prescribe flow at outlets)
 	for (double j=0; j < number_edges ; j++) {
 		
@@ -218,8 +368,8 @@ Vec Tree::make_tree_rhs ()
 		}
 		
 	}	
- 
-*/
+	*/
+
 
   VecAssemblyBegin(b);VecAssemblyEnd(b);
 
@@ -230,7 +380,7 @@ Vec Tree::make_tree_rhs ()
 Mat Tree::make_tree_matrix ()
 {
 	
-	//std::cout<<"Assembling Tree matrix "<<std::endl;
+	std::cout<<"Assembling Tree matrix "<<std::endl;
 
   //Petsc linear system example
   int NumberOfEntries = number_nodes+number_edges;
@@ -258,7 +408,7 @@ Mat Tree::make_tree_matrix ()
 				MatSetValue(A, j, j, -1 ,ADD_VALUES); 
 				MatSetValue(A, j, number_nodes+ nodes_parent_edge(j), -edges_resistance(j-1),ADD_VALUES);
 		
-				
+				if(edges_resistance(j-1)<0){ std::cout<< "OMG"<<std::endl;}
 		}
   }	
 
@@ -280,10 +430,11 @@ Mat Tree::make_tree_matrix ()
 			MatSetValue(A, j+number_nodes , number_nodes + edges_child2(j) , -1 ,ADD_VALUES); 	
 			}
 			
+			
 		}
 		
 		
-	
+	 /*
 		//If edge is the final branch
 		if(edges_type(j)==0){
 			//Q_j - (1/rd) P_{j} + ( (1/r_d)*(1/omega_j)*p_poro this in intro.C )
@@ -296,10 +447,10 @@ Mat Tree::make_tree_matrix ()
 			//changed from edges_resistance(j-1) to edges_resistance(j) -- might need to debug this !!
 			
 		}
+		*/
 		 
-		
-	
 	 
+	
   }
   
   
@@ -383,18 +534,22 @@ void Tree::update_positions (EquationSystems& es)
 				if(def_value==0)
 				{	
 					
-					/*
-					//Don't do this if we are using a cube
-				  if(es.parameters.get<std::string>("mesh_input").compare("cube")){
+				 
+					//  do this if we are using a lung
+				  if(!es.parameters.get<std::string>("problem").compare("lung")){
 				  //If point is outside then apply the known registration !
 				  Real pi=3.14159;
-				  Real fac=0.5*(1+sin(1*pi*time+(3.0/2.0)*pi));
+				  Real fac=0.25*(1+sin(1*pi*time+(3.0/2.0)*pi));
 				  Point diagAt(fac*0.3,fac*0.3,fac*0.5);						
 				  Point bt(fac*10,fac*11,fac*45);
 			    nodes_deformed(j)(d)=nodes(j)(d)+ nodes(j)(d)*diagAt(d)+bt(d) ;
+					
+					//Ignore the above
+					nodes_deformed(j)(d)=nodes(j)(d) ;
+
 					}
-					*/
-	 
+					
+					 
 				}else{	
 				  nodes_deformed(j)(d)=def_value+nodes(j)(d) ;
 				}
@@ -424,7 +579,8 @@ void Tree::update_positions (EquationSystems& es)
  return;
 }
 
-
+ 
+/*
 void Tree::calculate_omega_j (EquationSystems& es)
 {
 
@@ -734,3 +890,4 @@ void Tree::calculate_omega_j (EquationSystems& es)
 
   return;
 }
+*/

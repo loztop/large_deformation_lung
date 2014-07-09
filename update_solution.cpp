@@ -10,22 +10,21 @@
 	//Copy solution back to tree
 	//Update the distal pressures
 	for (int i=0; i < tree.number_nodes; i++) {
-		//tree.nodes_pressure(i)=tree.nodes_pressure(i) -big_xp(size_mat+i);	
+		tree.nodes_pressure(i)=tree.nodes_pressure(i) -big_xp(size_mat+i);	
 		
-		tree.nodes_pressure(i)= big_xp(size_mat+i);	
+		//tree.nodes_pressure(i)= big_xp(size_mat+i);	
 	}
 	
 	//Update the flowrates
 	for (int i=0; i < tree.number_edges; i++) {
-//		tree.edges_flowrate(i)=tree.edges_flowrate(i)-big_xp(size_mat+tree.number_nodes+i);
+		tree.edges_flowrate(i)=tree.edges_flowrate(i)-big_xp(size_mat+tree.number_nodes+i);
 	
-		tree.edges_flowrate(i)=big_xp(size_mat+tree.number_nodes+i);
+//		tree.edges_flowrate(i)=big_xp(size_mat+tree.number_nodes+i);
 
 	}
 	
-	
-	
-	equation_systems.reinit();
+
+		equation_systems.reinit();
 
 		//update the final solution
 		// xn+1 = xn + delta xn  (note that -* is from K(delatxn) = - R, ie K(-delatxn)=R )
@@ -38,8 +37,15 @@
     last_non_linear_soln.current_local_solution->close();
     last_non_linear_soln.update();
 
+		
+		//const DofMap & dof_map = postvars .get_dof_map();
+		std::vector<unsigned int> dof_indices_j;
+		const unsigned int J_var = postvars.variable_number ("J");
+
+		
 		MeshBase::const_element_iterator       el     = mesh.local_elements_begin();
     const MeshBase::const_element_iterator end_el = mesh.local_elements_end(); 
+		Real total_volume=0;
     for ( ; el != end_el; ++el)
     {    
       // Store a pointer to the element we are currently
@@ -53,10 +59,31 @@
             (*node)(d)=value;
           }
       }
+      
+      //Write out new element volume
+			
+			Real elem_vol=elem->volume();
+			total_volume=total_volume+elem_vol;
+			dof_map.dof_indices (elem, dof_indices_j, J_var);
+			Real elem_vol_ref = reference.current_local_solution->el(dof_indices_j[0]);
+			postvars.current_local_solution->set(dof_indices_j[0], elem_vol/elem_vol_ref);
+			postvars.solution->set(dof_indices_j[0], elem_vol/elem_vol_ref);
+
+      
+      
     }
+    
+    std::cout<<"total_volume_change "<< total_volume -total_volume_ref<< std::endl;
+    Real global_J=total_volume / total_volume_ref;
+	  std::cout<<"total_outflow  "<< total_outflow+tree.edges_flowrate(0)*dt << std::endl;
+ 
+	
+		
+		
     equation_systems.update();
     equation_systems.allgather();
     
+		
     tree.update_positions(equation_systems);    
     
    

@@ -38,6 +38,8 @@ void assemble_bcs (EquationSystems& es)
   fe_pres->attach_quadrature_rule (&qrule);
   const std::vector<std::vector<Real> >& psi = fe_pres->get_phi();
   const std::vector<std::vector<RealGradient> >& dphi = fe_vel->get_dphi();
+  
+const std::vector<std::vector<Real> >& phi = fe_vel->get_phi();
 
 	
 	AutoPtr<FEMap> fe_face_map (FEMap::build(fe_vel_type));
@@ -141,10 +143,10 @@ void assemble_bcs (EquationSystems& es)
     Kpw.reposition (p_var*n_u_dofs, w_var*n_u_dofs, n_p_dofs, n_w_dofs);
     Kpp.reposition (p_var*n_u_dofs, p_var*n_u_dofs, n_p_dofs, n_p_dofs);
 
-	  Fu.reposition (u_var*n_u_dofs, n_u_dofs);
+	Fu.reposition (u_var*n_u_dofs, n_u_dofs);
     Fv.reposition (v_var*n_u_dofs, n_v_dofs);
     Fw.reposition (w_var*n_u_dofs, n_w_dofs);
-	  Fp.reposition (p_var*n_u_dofs, n_p_dofs);
+	Fp.reposition (p_var*n_u_dofs, n_p_dofs);
 
 	const unsigned int x_var = last_non_linear_soln.variable_number ("mono_f_vel_u");
 	const unsigned int y_var = last_non_linear_soln.variable_number ("mono_f_vel_v");
@@ -257,32 +259,43 @@ void assemble_bcs (EquationSystems& es)
 	
 	*/
 	
-	//Swelling test problem for now !
 	if(!es.parameters.get<std::string>("problem").compare("lung")){
 	
-	 //  #include "boundary_conditions/lobe_affine_bcs.cpp"
+	   #include "boundary_conditions/lobe_affine_bcs.cpp"
+	
+		//	  #include "boundary_conditions/weak_test_bc.cpp"	
 		
-		 //#include "boundary_conditions/lobe_fix_bcs.cpp"
-		// #include "boundary_conditions/lobe_noflux_bcs.cpp"
-			//	  #include "boundary_conditions/swelling_test.cpp" 
-		 // #include "boundary_conditions/pressure_stress_bc.cpp" 
-		
-			   #include "boundary_conditions/sliding_cube_bcs.cpp"
-
-			//	  #include "boundary_conditions/swelling_test.cpp" 
-		 // #include "boundary_conditions/pressure_stress_bc.cpp" 
+	   #include "boundary_conditions/lobe_fixflux_bcs.cpp"
 		
 	}
 	
 	
-	//Weak traction test
-	//  #include "weak_test_bc.cpp" 
-	//  #include "traction_test_bc.cpp" 
+		if(!es.parameters.get<std::string>("problem").compare("cube")){
+	
+			  #include "boundary_conditions/lobe_affine_bcs.cpp"
 
+				//	 #include "boundary_conditions/sliding_cube_bcs.cpp"
+
+//		  #include "boundary_conditions/sliding_cube_bcs_free.cpp"
+			
+		 		 #include "boundary_conditions/lobe_fixflux_bcs.cpp"
+
+		// #include "boundary_conditions/sliding_cube_bcs.cpp"
+	//	 #include "boundary_conditions/weak_test_bc.cpp"	
+		
+		  //#include "boundary_conditions/noflux_cube_fixbcs.cpp"	
+
+	}
 	
 	
+	if(!es.parameters.get<std::string>("problem").compare("cylinder")){
 	
-	
+		 #include "boundary_conditions/pull_cylinder_fixall_bcs.cpp"
+  // #include "boundary_conditions/weak_test_bc.cpp"	
+ #include "boundary_conditions/lobe_fixflux_bcs.cpp"
+
+	}
+		
 	/////////////////////////////////////////
 	
 	//Add the rhs contribution of the stabilization
@@ -313,7 +326,9 @@ void assemble_bcs (EquationSystems& es)
   newton_update.matrix->zero_rows(pressure_rows, 1.0);
   newton_update.rhs->close();
   newton_update.matrix->close();
-  std::cout<<"Poro rhs->l1_norm () "<<newton_update.rhs->l1_norm ()<<std::endl;
+  newton_update.update(); 
+
+  std::cout<<"newton_update.rhs->l1_norm () "<<newton_update.rhs->l1_norm ()<<std::endl;
 	
 	return;
 }

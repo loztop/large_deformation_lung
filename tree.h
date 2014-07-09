@@ -92,6 +92,11 @@ public:
 	DenseVector<Real> distal_resistance;
 	DenseVector<Real> edges_radius;
 	DenseVector<Real> omega_j;
+	
+	
+		DenseVector<Real> edges_diseased;
+	DenseVector<Real> edges_length;
+
 
 	Real p_out;
 

@@ -21,7 +21,7 @@ last_non_linear_soln_system.add_variable ("s_p", ORDER_LOW,ELEMENT_TYPE_PRESS);
 ref_system.add_variable ("u_ref", ORDER_HIGH,ELEMENT_TYPE);
 ref_system.add_variable ("v_ref", ORDER_HIGH,ELEMENT_TYPE);
 ref_system.add_variable ("w_ref", ORDER_HIGH,ELEMENT_TYPE);
-ref_system.add_variable ("p_ref",ORDER_LOW,ELEMENT_TYPE_PRESS);
+ref_system.add_variable ("vol_ref",ORDER_LOW,ELEMENT_TYPE_PRESS);
 
 TransientLinearImplicitSystem & newton_update_system = equation_systems.add_system<TransientLinearImplicitSystem> ("Newton-update");
 newton_update_system.add_variable ("u_nu", ORDER_HIGH,ELEMENT_TYPE);
@@ -43,8 +43,6 @@ ref_system.add_variable ("y_ref",ORDER_HIGH,ELEMENT_TYPE);
 ref_system.add_variable ("z_ref",ORDER_HIGH,ELEMENT_TYPE);
 
 
-if(!equation_systems.parameters.get<std::string>("problem").compare("lung")){
-
   TransientLinearImplicitSystem & postvars =   equation_systems.add_system<TransientLinearImplicitSystem> ("postvars");
   postvars.add_variable ("I1", ORDER_HIGH,ELEMENT_TYPE);
   postvars.add_variable ("I2", ORDER_HIGH,ELEMENT_TYPE);
@@ -56,8 +54,7 @@ if(!equation_systems.parameters.get<std::string>("problem").compare("lung")){
   postvars.add_variable ("p3", ORDER_HIGH,ELEMENT_TYPE);
   #endif 
 
-  
-}
+ 
  
 
 }

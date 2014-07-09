@@ -1,0 +1,22 @@
+# vtk DataFile Version 3.0
+vtk output
+ASCII
+DATASET POLYDATA
+POINTS 3 float
+0 0 -1
+0 0 -4.38675e-19
+-0.000407132 0.000144042 0.507959
+LINES 2 6
+2 0 1
+2 1 2
+CELL_DATA 2
+scalars Radius float
+LOOKUP_TABLE default
+0.0001 0.0001 
+scalars Flowrate float
+LOOKUP_TABLE default
+0.05563 0.05563 
+POINT_DATA 3
+scalars Pressure float
+LOOKUP_TABLE default
+0 -5.563e-06 -1.1126e-05 

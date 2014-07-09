@@ -15,15 +15,27 @@
             Real zf = (*node)(2);
             
 						Real pi=3.14159;
-            Real fac=0.5*(1+sin(1*pi*time+(3.0/2.0)*pi));
-						Point diagAt(fac*0.3,fac*0.3,fac*0.5);						
-						//Point bt(-fac*10,-fac*11,-fac*45);
-						Point bt(fac*10,fac*11,fac*45);
+						Real fac=0.1*(1+sin(1*pi*time+(3.0/2.0)*pi));
 
+						// fac=0;
+
+						Point diagAt(fac*0.3,fac*0.3,fac*0.5);						
+						Point bt(fac*10,fac*11,fac*45);
 						//Point bt(0,0,0);
 
+
+					//		Point diagAt(fac*0.3,fac*0.3,fac*0.5);						
+						
+		  Point p;
+			for (unsigned int d = 0; d < 3; ++d) {
+      	unsigned int source_dof = node->dof_number(1, d, 0);
+      	Real value = ref_sys.current_local_solution->el(source_dof);
+      	p(d)=value;
+			}
+						
 				//Dilate boundary
-          {
+       //  if(p(2)>100)
+					{
 
 
 

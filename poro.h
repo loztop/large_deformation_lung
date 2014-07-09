@@ -48,9 +48,9 @@
 
 #define KPERM 0.1
 
-#define E_mod 1
+#define E_mod 1000
 
-#define NU_mod 0.15
+#define NU_mod 0.2
 
 #define PHI_ZERO 0.9
 

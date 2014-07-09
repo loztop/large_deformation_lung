@@ -20,9 +20,9 @@
 				//Dilate boundary
           {
 
+						int source_dof=0;
 
-
-            int source_dof = node->dof_number(last_non_linear_soln.number(), u_var, 0);
+              source_dof = node->dof_number(last_non_linear_soln.number(), u_var, 0);
             if((source_dof<12345678) && (source_dof>-1) && (p(0)<0.0001 || p(0)>0.999)){
 									Real value = last_non_linear_soln.current_local_solution->el(source_dof) - ref_sys.current_local_solution->el(source_dof);
 
@@ -31,6 +31,7 @@
 								rows.push_back(source_dof);
 			
             }
+
 
             
             source_dof = node->dof_number(last_non_linear_soln.number(), v_var, 0);
@@ -45,10 +46,15 @@
            
 
             source_dof = node->dof_number(last_non_linear_soln.number(), w_var, 0);
-            if((source_dof<12345678) && (source_dof>-1) && (p(2)>1.999) ){
+            if((source_dof<12345678) && (source_dof>-1) && (p(2)>0.999) ){
 							Real value = last_non_linear_soln.current_local_solution->el(source_dof) - ref_sys.current_local_solution->el(source_dof);
 							
-								rows_values.push_back(value-1*progress);
+							//rows_values.push_back(value-0.5*sin(3.14*progress));
+								
+							//std::cout<< value+0.1*progress <<std::endl;
+							rows_values.push_back(value-1*progress);
+
+																
 								rows.push_back(source_dof);
 				
             }

@@ -237,7 +237,6 @@ for ( ; el != end_el; ++el)
 
  #include "assemble_stabilization.cpp" 
 
-//#include "assemble_stiffness_weak.cpp"
 
   newton_update.matrix->add_matrix (Ke, dof_indices);
   newton_update.rhs->add_vector    (Fe, dof_indices);

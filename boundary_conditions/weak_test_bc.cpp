@@ -9,7 +9,8 @@ for (unsigned int s=0; s<elem->n_sides(); s++)
    {   
 			AutoPtr<Elem> side (elem->build_side(s));
 			
-			
+			        Real hmax=(*elem).hmax();
+
 
 			//pressure face 
 		  const std::vector<std::vector<Real> >&  phi_face_p =  fe_face_p->get_phi();
@@ -48,7 +49,7 @@ for (unsigned int s=0; s<elem->n_sides(); s++)
 			const std::vector<std::vector<Real> >&  dpsidxi =  fe_face_map->get_dpsidxi();
 			const std::vector<std::vector<Real> >&  dpsideta =  fe_face_map->get_dpsideta();
 			const std::vector<Point >& qface_point_map = fe_face_map->get_xyz();
-  		const std::vector<Real>& JxW_face_map = fe_face_map->get_JxW();
+			const std::vector<Real>& JxW_face_map = fe_face_map->get_JxW();
 			const std::vector<Point>& face_map_normals = fe_face_map->get_normals();
 			
 			for (unsigned int qp=0; qp<qface_f->n_points(); qp++)
@@ -74,31 +75,10 @@ for (unsigned int s=0; s<elem->n_sides(); s++)
 					
 					
 					
-				if(  rX(2)>0.9999  ){
+				//if(  rX(2)>0.9999  )
+				{
 					
-					Point dxyzdxi_qp;
-					Point dxyzdeta_qp;
-					
-					Point phidxyzdxi_qp;
-					Point phidxyzdeta_qp;
-					
-					for (unsigned int i=0; i<dpsidxi.size(); i++) // sum over the nodes
-					{
-						const Point& side_point = side->point(i);
 						
-						dxyzdxi_qp+=side_point*dpsidxi[i][qp];
-						dxyzdeta_qp+=side_point*dpsideta[i][qp];
-						
-						phidxyzdxi_qp+=side_point*dphidxi[i][qp];
-						phidxyzdeta_qp+=side_point*dphideta[i][qp];
-
-					}
-					
-
-					Point nhat_qp  = dxyzdxi_qp.cross(dxyzdeta_qp);		
-					Point phinhat_qp  = phidxyzdxi_qp.cross(phidxyzdeta_qp);
-
-				
 						
 					Point normal;
 					normal(0)=face_normals_f[qp](0);
@@ -108,27 +88,11 @@ for (unsigned int s=0; s<elem->n_sides(); s++)
 					
 					//std::cout<< normal <<std::endl;
 
-					Real pen_bc=100;
+					Real pen_bc=DELTA_BC/hmax;
 					
 				//std::cout<< face_normals_f[qp] <<std::endl;
 				
 					for (unsigned int i=0; i<phi_face_f.size(); i++){			
-
-						/*
-						//Works
-						Fx(i) +=  pen_bc*JxW_face_f[qp]*fluid_vel(0)*normal(0)*phi_face_f[i][qp]*normal(0);
-				//		Fx(i) +=  pen_bc*JxW_face_f[qp]*fluid_vel(0)*normal(0)*phi_face_f[i][qp]*normal(1);
-				//		Fx(i) +=  pen_bc*JxW_face_f[qp]*fluid_vel(0)*normal(0)*phi_face_f[i][qp]*normal(2);
-						
-				//		Fy(i) +=  pen_bc*JxW_face_f[qp]*fluid_vel(1)*normal(1)*phi_face_f[i][qp]*normal(0);
-						Fy(i) +=  pen_bc*JxW_face_f[qp]*fluid_vel(1)*normal(1)*phi_face_f[i][qp]*normal(1);
-				//		Fy(i) +=  pen_bc*JxW_face_f[qp]*fluid_vel(1)*normal(1)*phi_face_f[i][qp]*normal(2);
-						
-				//		Fz(i) +=  pen_bc*JxW_face_f[qp]*fluid_vel(2)*normal(2)*phi_face_f[i][qp]*normal(0);
-				//		Fz(i) +=  pen_bc*JxW_face_f[qp]*fluid_vel(2)*normal(2)*phi_face_f[i][qp]*normal(1);
-						Fz(i) +=  pen_bc*JxW_face_f[qp]*fluid_vel(2)*normal(2)*phi_face_f[i][qp]*normal(2);
-						*/
-		
 						
 						Fx(i) +=  pen_bc*JxW_face_f[qp]*fluid_vel(0)*normal(0)*phi_face_f[i][qp]*normal(0);
 						Fx(i) +=  pen_bc*JxW_face_f[qp]*fluid_vel(1)*normal(0)*phi_face_f[i][qp]*normal(1);

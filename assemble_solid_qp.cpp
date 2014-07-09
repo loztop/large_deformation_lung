@@ -80,7 +80,7 @@ for (unsigned int qp=0; qp<qrule.n_points(); qp++)
  
     Real grav=9.8*rho_s;
  
-      
+ 		 
     // Matrix contributions for the uu and vv couplings.
     for (unsigned int j=0; j<n_u_dofs; j++)
     {
@@ -145,7 +145,7 @@ for (unsigned int qp=0; qp<qrule.n_points(); qp++)
 		//Should include the flow of the airway network
 		
     
-		Fp(i) += JxW[qp]*psi[i][qp]*(div_f_vel(0)+div_f_vel(1)+div_f_vel(2)+  div_s_vel(0)+div_s_vel(1)+div_s_vel(2) );
+	Fp(i) += JxW[qp]*psi[i][qp]*(div_f_vel(0)+div_f_vel(1)+div_f_vel(2)+  div_s_vel(0)+div_s_vel(1)+div_s_vel(2) );
   
 		
 	}
@@ -165,7 +165,7 @@ for (unsigned int qp=0; qp<qrule.n_points(); qp++)
     Fz(i) += factor_z*JxW[qp]*phi[i][qp]*fluid_vel(2);
     Fz(i) += -JxW[qp]*factor*p_solid*dphi[i][qp](2);
 			
-	
+
     }
 
   //Mass conservation

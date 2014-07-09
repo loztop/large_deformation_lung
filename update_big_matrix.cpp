@@ -47,20 +47,8 @@
 	PetscMatrix<Number> ATP(T) ;
   Real size_t=ATP.m();
   
-  
-  //Add the coupling between the poromedium and the tree
- // std::cout<< "Create big matrix " <<std::endl;
-  #include "create_include.cpp"
-
- // std::cout<< "Adding coupling terms "<<std::endl;
-	clock_t begin_assemble_coupling=clock();
-  //#include "add_couplingv4.cpp"
-	clock_t end_assemble_coupling=clock();
- 
-
 	
-	
-	//Sort out rhs	- put into big vector
+		//Sort out rhs	- put into big vector
 	Vec x;
 	VecCreate(PETSC_COMM_WORLD,&x);
   PetscObjectSetName((PetscObject) x, "Solution");
@@ -92,6 +80,19 @@
 			VecSetValue(big_r, i , rp(i) ,INSERT_VALUES); 
 	}
 	
+  
+  //Add the coupling between the poromedium and the tree
+ // std::cout<< "Create big matrix " <<std::endl;
+  #include "create_include.cpp"
+
+  std::cout<< "Adding coupling terms "<<std::endl;
+	clock_t begin_assemble_coupling=clock();	
+	#include "add_couplingv4.cpp"
+	clock_t end_assemble_coupling=clock();
+
+	PetscMatrix<Number> big_AP(big_A) ;
+	big_AP.close();
+
 	PetscVector<Number> big_rp(big_r) ;
 	
 	Vec big_x;
@@ -100,5 +101,7 @@
   VecSetSizes(big_x,PETSC_DECIDE,size_fem+size_tree);
   VecSetFromOptions(big_x);
 	PetscVector<Number> big_xp(big_x) ;
-	///End of assembling rhs
+	///End of assembling
+	
+
 

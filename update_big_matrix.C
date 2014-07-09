@@ -49,7 +49,7 @@ void update_big_matrix(Mat& big_A, EquationSystems& es, Tree& tree) {
   #include "create_include.cpp"
 
   //std::cout<< "Adding coupling terms "<<std::endl;
-  #include "add_couplingv4.cpp"
+  //#include "add_couplingv4.cpp"
   
   
 }

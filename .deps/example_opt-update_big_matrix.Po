@@ -342,8 +342,7 @@ example_opt-update_big_matrix.o: update_big_matrix.C poro.h \
  ../../../include/libmesh/parallel_implementation.h \
  ../../../include/libmesh/parallel.h \
  /data/lorenz/petsc-3.0.0-p8/include/petscmat.h \
- /data/lorenz/petsc-3.0.0-p8/include/petsctime.h create_include.cpp \
- add_couplingv4.cpp
+ /data/lorenz/petsc-3.0.0-p8/include/petsctime.h create_include.cpp
 
 poro.h:
 
@@ -1128,5 +1127,3 @@ tree.h:
 /data/lorenz/petsc-3.0.0-p8/include/petsctime.h:
 
 create_include.cpp:
-
-add_couplingv4.cpp:

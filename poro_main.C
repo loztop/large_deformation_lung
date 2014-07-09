@@ -70,35 +70,57 @@ unsigned int N_eles=equation_systems.parameters.get<Real>("N_eles");
 Real time     = 0;
 Real end_time     = equation_systems.parameters.get<Real>("end_time");
 const unsigned int n_nonlinear_steps = 10;
-const Real nonlinear_tolerance       = 1.e-3;
+const Real nonlinear_tolerance       = 1.e-4;
+//const Real nonlinear_tolerance       = 1.e3;
+
+
 const Real initial_linear_solver_tol = 1.e-18;
 
 if(!equation_systems.parameters.get<std::string>("problem").compare("cube")){
 
-	 MeshTools::Generation::build_cube (mesh,
-									N_eles, N_eles, N_eles,
-									0., 1.,
-									0., 1.,
-									0., 1.,
-									HEX8);
-  mesh.all_first_order();
+	 MeshTools::Generation::build_cube (
+	   mesh,
+                                       4,4,4,
+                                       0.0, 1.0,
+                                       0.0, 1.0,
+																				0.0, 1.0,
+                                       HEX8);
+                                      
 
 }	
 
-if(!equation_systems.parameters.get<std::string>("problem").compare("lung")){
-  
-	//std::string mesh_file_name (equation_systems.parameters.get<std::string>("mesh_input"));
-	//GmshIO(mesh).read(mesh_file_name);
-	
-	 MeshTools::Generation::build_cube (mesh,
-                                       3, 3,4,
-                                       0.0, 1.0,
-                                       0.0, 1.0,
-																				0.0, 2.0,
-                                       TET4);
-	
- }
 
+if((!equation_systems.parameters.get<std::string>("problem").compare("lung")) || (!equation_systems.parameters.get<std::string>("problem").compare("cylinder"))){
+  
+	std::string mesh_file_name (equation_systems.parameters.get<std::string>("mesh_input"));
+	GmshIO(mesh).read(mesh_file_name);
+
+}
+
+
+if(!equation_systems.parameters.get<std::string>("problem").compare("cylinder")){
+
+ //stretch mesh
+              	//Update the mesh position
+	Mesh::node_iterator it_node = mesh.nodes_begin();
+	const Mesh::node_iterator it_last_node = mesh.nodes_end();
+	for ( ; it_node != it_last_node ; ++it_node)
+    {
+      Node* node = *it_node;
+     
+			//if((*node)(0)>0){
+				
+           //(*node)(0)= (*node)(0)*(*node)(0)*(*node)(0);
+				   //        (*node)(1)= (*node)(1)*(*node)(1)*(*node)(1);
+
+				
+		//	}
+   }
+	                        
+
+}	
+
+ 
 mesh.prepare_for_use();
 mesh.print_info();
 
@@ -118,6 +140,7 @@ TecplotIO tec= TecplotIO(equation_systems.get_mesh());
 TransientLinearImplicitSystem&  newton_update =   equation_systems.get_system<TransientLinearImplicitSystem>("Newton-update");
 TransientLinearImplicitSystem&  reference =   equation_systems.get_system<TransientLinearImplicitSystem>("Reference-Configuration");
 TransientLinearImplicitSystem&  last_non_linear_soln = equation_systems.get_system<TransientLinearImplicitSystem>("Last-non-linear-soln");
+TransientLinearImplicitSystem&  postvars = equation_systems.get_system<TransientLinearImplicitSystem>("postvars");
 
 // Loop over all nodes and copy the location from the current system to
 // the auxiliary system.
@@ -136,6 +159,9 @@ for (MeshBase::const_node_iterator nd = equation_systems.get_mesh().local_nodes_
     reference.solution->set(dest_dof, value);
   }
 }
+
+
+
 
 reference.solution->close();
 reference.current_local_solution->close();
@@ -160,6 +186,27 @@ last_non_linear_soln.old_local_solution->add(1.,(*reference.current_local_soluti
 last_non_linear_soln.old_local_solution->close();
 last_non_linear_soln.update(); 
 
+
+
+	MeshBase::const_element_iterator       el_jac     = mesh.active_local_elements_begin();
+	const MeshBase::const_element_iterator end_el_jac = mesh.active_local_elements_end(); 
+	const DofMap & dof_map = reference .get_dof_map();
+	std::vector<unsigned int> dof_indices_p;
+	const unsigned int p_var = reference.variable_number ("vol_ref");
+		Real total_volume_ref=0;
+
+		for ( ; el_jac != end_el_jac; ++el_jac)
+		{    	
+			const Elem* elem = *el_jac;
+			Real elem_vol=elem->volume();
+			total_volume_ref=total_volume_ref+elem_vol;
+			dof_map.dof_indices (elem, dof_indices_p, 3);
+			reference.current_local_solution->set(dof_indices_p[0], elem_vol);
+			reference.solution->set(dof_indices_p[0], elem_vol);
+		}
+		std::cout<<"total_volume_ref "<< total_volume_ref << std::endl;
+
+		
 //Create tree
 Tree tree;
 tree.read_tree(equation_systems);
@@ -183,7 +230,7 @@ std::cout<<"FEM dofs "<< size_fem <<std::endl;
 std::cout<<"Tree dofs "<< size_tree <<std::endl;
 
 
-size_tree=0;
+//size_tree=0;
 
 //Create the big matrix to hold both systems
 Mat big_A;            
@@ -194,6 +241,8 @@ MatSetUp(big_A);
 MatAssemblyBegin(big_A,MAT_FINAL_ASSEMBLY);
 MatAssemblyEnd(big_A,MAT_FINAL_ASSEMBLY);
 
+//Integrate the total outflow
+Real total_outflow=0;
 
 for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
 {
@@ -206,10 +255,25 @@ for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
 
   *last_non_linear_soln.old_local_solution = *last_non_linear_soln.current_local_solution;
 
+
+	 /*
+	//Zero tree output - put this into a tree function ??
+		for (int i=0; i < tree.number_nodes; i++) {
+			tree.nodes_pressure(i)=0;	
+		}
+	
+	//Update the flowrates
+	for (int i=0; i < tree.number_edges; i++) {
+		tree.edges_flowrate(i)=0;
+	}
+ 
+	*/
   // Now we begin the nonlinear loop
   for (unsigned int l=0; l<n_nonlinear_steps; ++l)
   {
 		
+	//equation_systems.parameters.set<Real> ("DELTA_BC") = equation_systems.parameters.set<Real> ("DELTA_BC")+1;
+
     equation_systems.parameters.set<Real> ("non_lin_step") = l;
     std::cout<<"\nNon-linear iteration " << l << std::endl;
 
@@ -225,8 +289,6 @@ for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
 
     clock_t begin_big_assemble=clock();
 		#include "update_big_matrix.cpp"
-		PetscMatrix<Number> big_AP(big_A) ;
-		big_AP.close();
 		clock_t end_big_assemble=clock();
 		std::cout<<"Assembly,"<< " total: " << double(diffclock(end_big_assemble,begin_big_assemble)) <<  " fem: " << double(diffclock(end_assemble_fem,begin_assemble_fem)) << " coupling: " << double(diffclock(end_assemble_coupling,begin_assemble_coupling)) <<  " ms"<<std::endl; 
 
@@ -239,7 +301,7 @@ for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
 		//std::cout<< "Solving system "<<std::endl;
 		PetscLinearSolver<Number>* petsc_linear_solver =dynamic_cast<PetscLinearSolver<Number>*>(newton_update.get_linear_solver());
 		//petsc_linear_solver->solve(big_AP, big_xp , big_rp, tolerance, m_its);
-		petsc_linear_solver->solve( AP, big_xp , big_rp, 1.e-15,4);
+		petsc_linear_solver->solve( big_AP, big_xp , big_rp, 1.e-15,4);
 		clock_t end_solid_solve=clock();
 	
 		
@@ -250,8 +312,64 @@ for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
 		TransientLinearImplicitSystem & newton_update =equation_systems.get_system<TransientLinearImplicitSystem> ("Newton-update");
 		
 		//Real solid_residual=newton_update.rhs->l2_norm ();
-    Real solid_residual=big_xp.l2_norm ();
+    Real solid_residual=big_rp.l2_norm ();
 		
+		// std::cout<<  big_xp <<std::endl;
+		//Inspect the residual
+		
+		Real n_elements=mesh.n_elem( 	);	
+		Real n_nodes=mesh.n_nodes( 	);	
+
+
+	  std::cout<<" n_elements "<<n_elements<< std::endl;
+	  std::cout<<" n_nodes "<<n_nodes<< std::endl;
+		
+		Real s_start=0;
+		Real s_end=3*n_nodes -1;
+		Real p_start=3*n_nodes;
+		Real p_end=3*n_nodes + n_elements -1;
+		Real z_start=3*n_nodes + n_elements;
+		Real z_end=6*n_nodes + n_elements-1;
+
+		Real momentum_res=0;
+		for (unsigned int i=s_start; i<s_end+1; ++i)
+		{
+			momentum_res=momentum_res+big_rp(i)*big_rp(i);
+		}
+		std::cout<< "momentum_res " << pow(momentum_res,0.5) << std::endl;
+		
+		Real mass_res=0;
+		for (unsigned int i=p_start; i<p_end+1; ++i)
+		{
+			mass_res=mass_res+big_rp(i)*big_rp(i);
+		}
+		std::cout<< "mass_res " << pow(mass_res,0.5) << std::endl;
+		
+		Real fluid_res=0;
+		for (unsigned int i=z_start; i<z_end+1; ++i)
+		{
+			fluid_res=fluid_res+big_rp(i)*big_rp(i);
+		}
+		std::cout<< "fluid_res " << pow(fluid_res,0.5) << std::endl;
+		
+		
+		Real t_start=size_fem;
+		Real t_end=size_fem+size_tree-1;
+
+		Real tree_res=0;
+		for (unsigned int i=t_start; i<t_end+1; ++i)
+		{
+			tree_res=tree_res+big_rp(i)*big_rp(i);
+		}
+		std::cout<< "tree_res " << pow(tree_res,0.5) << std::endl;
+		
+
+		 
+		 
+		 
+		 
+		 
+		 
     /*****///Convergence and Norm Computing Stuff///***********/
     change_in_newton_update->add (-1., *newton_update.solution);
 		change_in_newton_update->close();
@@ -283,6 +401,9 @@ for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
  // Write out every nth timestep to file.
  const unsigned int write_interval = 1;
 
+ total_outflow=total_outflow+tree.edges_flowrate(0)*dt;
+ std::cout<<"total_outflow "<< total_outflow << std::endl;
+    
  #include "write_variable_results_and_mesh.cpp"
  
 } // end timestep loop.
