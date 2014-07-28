@@ -23,7 +23,8 @@
   ////////////////
   */
  
- 
+ 	clock_t find_start=clock();	
+
 	 
   PetscInt   *end_j;
 	end_j=(PetscInt *)malloc((tree.number_nodes)*sizeof(PetscInt));
@@ -48,6 +49,8 @@
 		omega_end_j[j]=0;
 	}
 	
+	
+
 	
 	MeshBase::const_element_iterator       el_omega     = mesh.active_local_elements_begin();
 	const MeshBase::const_element_iterator end_el_omega = mesh.active_local_elements_end(); 
@@ -93,9 +96,8 @@
 				}			
 		}
 		
-		
-	  		
-			//Put mesh back to current
+	
+		 //Put mesh back to current
 		 for (unsigned int n=0; n<elem->n_nodes(); n++){
         Node *node = elem->get_node(n);
           for (unsigned int d = 0; d < 3; ++d) {
@@ -105,17 +107,17 @@
           }
       }
       
-				omega_end_j[closest_end_edge_j+1]=omega_end_j[closest_end_edge_j+1]+elem->volume();
-			
-			
-			
-	
-			
-	}
+      omega_end_j[closest_end_edge_j+1]=omega_end_j[closest_end_edge_j+1]+elem->volume();
+						
+}
 	
  
  ///End of finding omega j
+  	clock_t find_end=clock();	
+
   
+
+		
   std::vector<unsigned int> dof_indices_p;
 	const unsigned int p_var = system.variable_number ("p_nu");
 	const DofMap & dof_map = system.get_dof_map();
@@ -209,15 +211,8 @@
 	
 		//Need this to repress PETSC error about inserting(adding) to zero slot
 		MatSetOption(big_A,MAT_NEW_NONZERO_ALLOCATION_ERR,PETSC_FALSE) ;
-			
-		
-//		Real jac = postvars.current_local_solution->el(dof_indices_p[0]);		
 	
 		Real constant=elem->volume()/(omega_end_j[closest_end_edge_j+1]);	
-
-		//if(jac>0){ This is probably worng, breeaks cube problem
-		 //constant=elem->volume()/(omega_end_j[closest_end_edge_j+1]*jac);	
-		//}
 		
 		//Poro Mass conservation coupling term (source)  , distal end flow is coupled to elemen volume
 	 	MatSetValue(big_A, dof_indices_p[0], AP.m()+tree.number_nodes+closest_end_edge_j, - constant,ADD_VALUES); 
@@ -229,56 +224,32 @@
 		
 		
 		//tree bit - Set Pporo=Pdistl - this seems to work
-		//Not quite right
-		
-		/*
-		MatSetValue(big_A, AP.m()+tree.number_nodes+ closest_end_edge_j , dof_indices_p[0]  ,-1 ,ADD_VALUES); 
-	 
-		MatSetValue(big_A, AP.m()+tree.number_nodes+ closest_end_edge_j , AP.m()+closest_end_edge_j +1 , 1 ,ADD_VALUES); 
-		*/
-		
 		MatSetValue(big_A, AP.m()+tree.number_nodes+ closest_end_edge_j , dof_indices_p[0]  ,-elem->volume()/(omega_end_j[closest_end_edge_j+1]) ,ADD_VALUES); 
 				
 	
 		//Only do this once !  so eqn is actually integrated properly
 		if(already_set[closest_end_edge_j+1]==0){
-		  MatSetValue(big_A, AP.m()+tree.number_nodes+ closest_end_edge_j , AP.m()+closest_end_edge_j +1 , 1 ,ADD_VALUES); 
-		  
+		  MatSetValue(big_A, AP.m()+tree.number_nodes+ closest_end_edge_j , AP.m()+closest_end_edge_j +1 , 1 ,ADD_VALUES); 		  
 		  
 		  already_set[closest_end_edge_j+1]=1;
-		  
-		//  std::cout<< " set "<< closest_end_edge_j+1 << std::endl;
-			
-			
+
 			//Do same for residual
-			
 			VecSetValue(big_r, AP.m()+tree.number_nodes+ closest_end_edge_j , tree.nodes_pressure(closest_end_edge_j +1),ADD_VALUES); 
 
-			res_sum=tree.nodes_pressure(closest_end_edge_j +1)+res_sum;
-			
-				
-
-					 
+			res_sum=tree.nodes_pressure(closest_end_edge_j +1)+res_sum; 
 		}
 		
 		
 			
 		//Assemble residual for tree !!
-		//get current pressure
-		
+		//get current pressure	
 	 	Real p_poro=last_non_linear_soln.current_local_solution->el(dof_indices_p[0]);
 	 	res_sum=-(p_poro*elem->volume())/(omega_end_j[closest_end_edge_j+1])+res_sum;
 	 
 		VecSetValue(big_r, AP.m()+tree.number_nodes+ closest_end_edge_j , -(p_poro*elem->volume())/(omega_end_j[closest_end_edge_j+1]),ADD_VALUES); 
 
-				
-		// std::cout<<  "tree.nodes_pressure(closest_end_edge_j +1) "<< tree.nodes_pressure(closest_end_edge_j +1) <<std::endl;
-			 
-		//	  std::cout<<  "p_poro "<< p_poro <<std::endl;
-
 	}
 		
-		 std::cout<<  "tree coupling res_sum "<< res_sum <<std::endl;
 
 	//Makke note of any that did get not assigned.
 		int z=0;
@@ -295,6 +266,11 @@
 	  //Set outflow to zero
 	  MatSetValue(big_A, AP.m()+tree.number_nodes+ end_j[end_j_zero[j]] -1, AP.m()+tree.number_nodes+ end_j[end_j_zero[j]] -1, 1 ,ADD_VALUES);		
 	}
+	
+	
+	std::cout<<  "tree coupling pressure residual "<< res_sum <<std::endl;
+	
+	
 	
 	
 	/*
@@ -321,3 +297,4 @@
 	//////////////////////////////////
 	*/
   
+	

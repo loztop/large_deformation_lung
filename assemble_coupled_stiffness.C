@@ -33,11 +33,7 @@ PetscMatrix<Number> assemble_coupled_stiffness (EquationSystems& es,Tree& tree, 
   PetscMatrix<Number> AP(A) ;
   AP.add(1,matrix_in);
   
-	
-	
-	
-	
-	
+
   //Create the matrix for the tree
   Mat AT;
   AT=tree.make_tree_matrix( );

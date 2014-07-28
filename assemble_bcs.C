@@ -143,10 +143,10 @@ const std::vector<std::vector<Real> >& phi = fe_vel->get_phi();
     Kpw.reposition (p_var*n_u_dofs, w_var*n_u_dofs, n_p_dofs, n_w_dofs);
     Kpp.reposition (p_var*n_u_dofs, p_var*n_u_dofs, n_p_dofs, n_p_dofs);
 
-	Fu.reposition (u_var*n_u_dofs, n_u_dofs);
+		Fu.reposition (u_var*n_u_dofs, n_u_dofs);
     Fv.reposition (v_var*n_u_dofs, n_v_dofs);
     Fw.reposition (w_var*n_u_dofs, n_w_dofs);
-	Fp.reposition (p_var*n_u_dofs, n_p_dofs);
+		Fp.reposition (p_var*n_u_dofs, n_p_dofs);
 
 	const unsigned int x_var = last_non_linear_soln.variable_number ("mono_f_vel_u");
 	const unsigned int y_var = last_non_linear_soln.variable_number ("mono_f_vel_v");
@@ -272,9 +272,9 @@ const std::vector<std::vector<Real> >& phi = fe_vel->get_phi();
 	
 		if(!es.parameters.get<std::string>("problem").compare("cube")){
 	
-			  #include "boundary_conditions/lobe_affine_bcs.cpp"
+			//  #include "boundary_conditions/lobe_affine_bcs.cpp"
 
-				//	 #include "boundary_conditions/sliding_cube_bcs.cpp"
+					 #include "boundary_conditions/sliding_cube_bcs.cpp"
 
 //		  #include "boundary_conditions/sliding_cube_bcs_free.cpp"
 			

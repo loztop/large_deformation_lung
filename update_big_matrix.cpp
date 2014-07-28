@@ -1,9 +1,13 @@
  // std::cout<< "Updating big coupled stiffness matrix "  <<std::endl;
+	PetscViewer    viewer;
 
- 		clock_t begin_assemble_fem=clock();
-		assemble_solid(equation_systems,"Newton-update");
-		clock_t end_assemble_fem=clock();
+ 	clock_t begin_assemble_fem=clock();
+	assemble_solid(equation_systems,"Newton-update");
+	clock_t end_assemble_fem=clock();
 	
+	
+	  clock_t begin_assemble_coupling_fast=clock();	
+
   //Setup up some variables
   //const MeshBase& mesh = es.get_mesh();
   //const Real dt    = es.parameters.get<Real>("dt"); 
@@ -29,7 +33,6 @@
 	
   PetscMatrix<Number>& AP = *libmesh_cast_ptr<PetscMatrix<Number>*>( system.matrix);
 	AP.close();
-	
 	 
   //Create the matrix for the tree
   Mat T;
@@ -47,8 +50,7 @@
 	PetscMatrix<Number> ATP(T) ;
   Real size_t=ATP.m();
   
-	
-		//Sort out rhs	- put into big vector
+	//Sort out rhs	- put into big vector
 	Vec x;
 	VecCreate(PETSC_COMM_WORLD,&x);
   PetscObjectSetName((PetscObject) x, "Solution");
@@ -57,7 +59,6 @@
 	PetscVector<Number> xp(x) ;
   //NumericVector< Number > &solution_in= *(newton_update.solution);
 	xp.add(1,solution_in);
-
 	
 	//NumericVector< Number > &rhs_in = *(newton_update.rhs);
 	Vec r;
@@ -67,7 +68,6 @@
   VecSetFromOptions(r);
 	PetscVector<Number> rp(r) ;
 	rp.add(1,rhs_in);
-
 
 	Vec big_r;
 	VecCreate(PETSC_COMM_WORLD,&big_r);
@@ -80,19 +80,31 @@
 			VecSetValue(big_r, i , rp(i) ,INSERT_VALUES); 
 	}
 	
-  
-  //Add the coupling between the poromedium and the tree
- // std::cout<< "Create big matrix " <<std::endl;
-  #include "create_include.cpp"
 
+	    #include "create_include_part1.cpp"
+	#include "add_coupling_fast.cpp"
+	#include "create_include_add_coupling.cpp"	
+	 #include "create_include_part2.cpp"
+			clock_t end_assemble_coupling_fast=clock();
+
+/*
   std::cout<< "Adding coupling terms "<<std::endl;
 	clock_t begin_assemble_coupling=clock();	
-	#include "add_couplingv4.cpp"
+	//#include "add_couplingv5.cpp"
 	clock_t end_assemble_coupling=clock();
+
+	  
+	std::cout<<"Print big_A "<<std::endl;
+	 MatSetFromOptions(big_A);
+  MatSetUp(big_A);	
+  MatAssemblyBegin(big_A,MAT_FINAL_ASSEMBLY);
+  MatAssemblyEnd(big_A,MAT_FINAL_ASSEMBLY);
+		MatView(big_A,viewer);
+	 */
 
 	PetscMatrix<Number> big_AP(big_A) ;
 	big_AP.close();
-
+		
 	PetscVector<Number> big_rp(big_r) ;
 	
 	Vec big_x;
@@ -103,5 +115,26 @@
 	PetscVector<Number> big_xp(big_x) ;
 	///End of assembling
 	
-
-
+	
+	
+	/*
+	//Free arrays ???
+	std::cout<< " Freeing arrays"<<std::endl;
+	  free(end_j_f);
+	  free(omega_end_j_f);
+ free(b_array);
+  free(big_cols_t);
+  free(big_rows_t);
+  free(idx_insert);
+  free(sort_idx);
+   free(rows_coupling_f);
+  free(cols_coupling_f);
+  free(vals_coupling_f);
+			     free(vals_coupling_test_cpy);
+   free(cols_coupling_test_cpy);
+  		  free(rows_new);
+   free(cols_new);
+    free(vals_new);
+							 
+	//			 			 #include "test_insert.cpp"
+*/

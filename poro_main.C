@@ -1,11 +1,8 @@
 //iHat*s_u + jHat*s_v + kHat*s_w
-
-
 // C++ include files that we need
 #include <iostream>
 #include <algorithm>
 #include <math.h>
-
 // libMesh includes
 #include "libmesh/libmesh.h"
 #include "libmesh/mesh.h"
@@ -33,19 +30,13 @@
 #include <libmesh/tecplot_io.h>
 #include "libmesh/petsc_linear_solver.h"
 #include "libmesh/petsc_matrix.h"
-
-
 #include "poro.h"
 #include "tree.h"
-
 
 #define SOLVER_NAME "mumps"
 //#define SOLVER_NAME "superlu"
 #define PC_TYPE PCLU
 #define PETSC_MUMPS 1
-
-
-//iHat*s_u + jHat*s_v + kHat*s_w
 
 // Bring in everything from the libMesh namespace
 using namespace libMesh;
@@ -55,9 +46,6 @@ int main (int argc, char** argv)
 {
 
 LibMeshInit init (argc, argv);
-
-
-
 Mesh mesh(3);
 EquationSystems equation_systems (mesh);
 read_parameters(equation_systems,argc,argv);
@@ -65,22 +53,18 @@ std::string result_file_name (equation_systems.parameters.get<std::string>("resu
 
 unsigned int n_timesteps = equation_systems.parameters.get<Real>("n_timesteps");
 unsigned int N_eles=equation_systems.parameters.get<Real>("N_eles");
-
  
 Real time     = 0;
 Real end_time     = equation_systems.parameters.get<Real>("end_time");
 const unsigned int n_nonlinear_steps = 10;
-const Real nonlinear_tolerance       = 1.e-4;
-//const Real nonlinear_tolerance       = 1.e3;
-
-
+const Real nonlinear_tolerance       = 1.e-5;
 const Real initial_linear_solver_tol = 1.e-18;
 
 if(!equation_systems.parameters.get<std::string>("problem").compare("cube")){
 
 	 MeshTools::Generation::build_cube (
 	   mesh,
-                                       4,4,4,
+                                       1,1,2,
                                        0.0, 1.0,
                                        0.0, 1.0,
 																				0.0, 1.0,
@@ -96,31 +80,39 @@ if((!equation_systems.parameters.get<std::string>("problem").compare("lung")) ||
 	GmshIO(mesh).read(mesh_file_name);
 
 }
+ 
+//Create tree
+Tree tree;
+tree.read_tree(equation_systems);
 
+//Move mesh and tree from inspiration to registered expiration
+if(!equation_systems.parameters.get<std::string>("problem").compare("lung")){
+    const Point Aexp    = equation_systems.parameters.get<Point>("A");
+	const Point bexp    = equation_systems.parameters.get<Point>("b");
 
-if(!equation_systems.parameters.get<std::string>("problem").compare("cylinder")){
-
- //stretch mesh
-              	//Update the mesh position
+	//Update the position of the airway tree
+	std::cout<<"Moving tree to expiratory " <<std::endl;
+    for (double j=0; j <tree.number_nodes ; j++) {
+	    for (unsigned int d = 0; d < 3; ++d) {
+			  tree.nodes(j)(d)=tree.nodes(j)(d)-( tree.nodes(j)(d)*Aexp(d)+bexp(d) );
+			  tree.nodes_deformed(j)(d)=tree.nodes(j)(d);
+		}
+     }
+       
+    //Update the mesh position
+	std::cout<<"Moving mesh to expiratory " <<std::endl;
 	Mesh::node_iterator it_node = mesh.nodes_begin();
 	const Mesh::node_iterator it_last_node = mesh.nodes_end();
 	for ( ; it_node != it_last_node ; ++it_node)
     {
       Node* node = *it_node;
-     
-			//if((*node)(0)>0){
-				
-           //(*node)(0)= (*node)(0)*(*node)(0)*(*node)(0);
-				   //        (*node)(1)= (*node)(1)*(*node)(1)*(*node)(1);
+      for (unsigned int d = 0; d < 3; ++d) {
+           (*node)(d)= (*node)(d) -  ((*node)(d)*Aexp(d)+bexp(d)) ;
+      }
+   }   
+}
 
-				
-		//	}
-   }
-	                        
 
-}	
-
- 
 mesh.prepare_for_use();
 mesh.print_info();
 
@@ -161,8 +153,6 @@ for (MeshBase::const_node_iterator nd = equation_systems.get_mesh().local_nodes_
 }
 
 
-
-
 reference.solution->close();
 reference.current_local_solution->close();
 reference.update();   
@@ -187,13 +177,12 @@ last_non_linear_soln.old_local_solution->close();
 last_non_linear_soln.update(); 
 
 
-
 	MeshBase::const_element_iterator       el_jac     = mesh.active_local_elements_begin();
 	const MeshBase::const_element_iterator end_el_jac = mesh.active_local_elements_end(); 
 	const DofMap & dof_map = reference .get_dof_map();
 	std::vector<unsigned int> dof_indices_p;
 	const unsigned int p_var = reference.variable_number ("vol_ref");
-		Real total_volume_ref=0;
+	Real total_volume_ref=0;
 
 		for ( ; el_jac != end_el_jac; ++el_jac)
 		{    	
@@ -205,11 +194,6 @@ last_non_linear_soln.update();
 			reference.solution->set(dof_indices_p[0], elem_vol);
 		}
 		std::cout<<"total_volume_ref "<< total_volume_ref << std::endl;
-
-		
-//Create tree
-Tree tree;
-tree.read_tree(equation_systems);
 
 //Write out 0th timestep
 equation_systems.parameters.set<unsigned int>("step") = 0; 
@@ -228,9 +212,6 @@ int size_fem=last_non_linear_soln.n_dofs();
 int size_tree=tree.number_nodes+tree.number_edges;
 std::cout<<"FEM dofs "<< size_fem <<std::endl;
 std::cout<<"Tree dofs "<< size_tree <<std::endl;
-
-
-//size_tree=0;
 
 //Create the big matrix to hold both systems
 Mat big_A;            
@@ -256,24 +237,13 @@ for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
   *last_non_linear_soln.old_local_solution = *last_non_linear_soln.current_local_solution;
 
 
-	 /*
-	//Zero tree output - put this into a tree function ??
-		for (int i=0; i < tree.number_nodes; i++) {
-			tree.nodes_pressure(i)=0;	
-		}
 	
-	//Update the flowrates
-	for (int i=0; i < tree.number_edges; i++) {
-		tree.edges_flowrate(i)=0;
-	}
- 
-	*/
   // Now we begin the nonlinear loop
   for (unsigned int l=0; l<n_nonlinear_steps; ++l)
-  {
-		
-	//equation_systems.parameters.set<Real> ("DELTA_BC") = equation_systems.parameters.set<Real> ("DELTA_BC")+1;
-
+  {		
+	clock_t begin_big_nonlin=clock();
+	
+	
     equation_systems.parameters.set<Real> ("non_lin_step") = l;
     std::cout<<"\nNon-linear iteration " << l << std::endl;
 
@@ -288,111 +258,45 @@ for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
     newton_update.update();
 
     clock_t begin_big_assemble=clock();
-		#include "update_big_matrix.cpp"
-		clock_t end_big_assemble=clock();
-		std::cout<<"Assembly,"<< " total: " << double(diffclock(end_big_assemble,begin_big_assemble)) <<  " fem: " << double(diffclock(end_assemble_fem,begin_assemble_fem)) << " coupling: " << double(diffclock(end_assemble_coupling,begin_assemble_coupling)) <<  " ms"<<std::endl; 
+	#include "update_big_matrix.cpp"
+	clock_t end_big_assemble=clock();
+		
+	std::cout<<"Assembly,"<< " total: " << double(diffclock(end_big_assemble,begin_big_assemble)) <<  " fem: " << double(diffclock(end_assemble_fem,begin_assemble_fem)) << " tree: " << double(diffclock(end_assemble_tree,begin_assemble_tree)) <<  " ms"<< " coupling: " << double(diffclock(end_assemble_coupling_fast,begin_assemble_coupling_fast)) <<  " ms"<<std::endl; 
 
+
+	//Finally solve the poroelastic system
+	clock_t begin_solid_solve=clock();	
+	//std::cout<< "Solving system "<<std::endl;
+	PetscLinearSolver<Number>* petsc_linear_solver =dynamic_cast<PetscLinearSolver<Number>*>(newton_update.get_linear_solver());
+	//petsc_linear_solver->solve(big_AP, big_xp , big_rp, tolerance, m_its);
+	petsc_linear_solver->solve( big_AP, big_xp , big_rp, 1.e-15,4);
+	clock_t end_solid_solve=clock();
 	
-		//Finally solve the poroelastic system
-		clock_t begin_solid_solve=clock();
-  
-		//equation_systems.get_system("Newton-update").solve();
+	//Copy FEM solution back to system solution vector, update mesh and tree positions
+	 clock_t begin_big_update=clock();
+	#include "update_solution.cpp"
+	clock_t end_big_update=clock();
+
+	//std::cout<< "-------- Residual and convergence info ----------"<<std::endl;
+	#include "residual_info.cpp"
 	
-		//std::cout<< "Solving system "<<std::endl;
-		PetscLinearSolver<Number>* petsc_linear_solver =dynamic_cast<PetscLinearSolver<Number>*>(newton_update.get_linear_solver());
-		//petsc_linear_solver->solve(big_AP, big_xp , big_rp, tolerance, m_its);
-		petsc_linear_solver->solve( big_AP, big_xp , big_rp, 1.e-15,4);
-		clock_t end_solid_solve=clock();
+	//Do some post-processing (calculate stress etc)
+	//postvars.update();
+	//postvars.rhs->zero();
+	//assemble_postvars_rhs(equation_systems,"postvars");
+	//postvars.update();
+	//postvars.solve();
 	
-		
-		//Copy FEM solution back to system solution vector, update mesh and tree positions
-		#include "update_solution.cpp"
+	//end of nonlinear step computation
+	clock_t end_big_nonlin=clock();
+	
+	
+	
+	std::cout<<"Total: " << double(diffclock(end_big_nonlin,begin_big_nonlin)) <<  " assembly: " << double(diffclock(end_big_assemble,begin_big_assemble)) << " update: " << double(diffclock(end_big_update,begin_big_update)) <<  " solve: " << double(diffclock(end_solid_solve,begin_solid_solve)) <<  " ms"<<std::endl; 
 
-		//Get the norm of the residual to check for convergence.
-		TransientLinearImplicitSystem & newton_update =equation_systems.get_system<TransientLinearImplicitSystem> ("Newton-update");
-		
-		//Real solid_residual=newton_update.rhs->l2_norm ();
-    Real solid_residual=big_rp.l2_norm ();
-		
-		// std::cout<<  big_xp <<std::endl;
-		//Inspect the residual
-		
-		Real n_elements=mesh.n_elem( 	);	
-		Real n_nodes=mesh.n_nodes( 	);	
-
-
-	  std::cout<<" n_elements "<<n_elements<< std::endl;
-	  std::cout<<" n_nodes "<<n_nodes<< std::endl;
-		
-		Real s_start=0;
-		Real s_end=3*n_nodes -1;
-		Real p_start=3*n_nodes;
-		Real p_end=3*n_nodes + n_elements -1;
-		Real z_start=3*n_nodes + n_elements;
-		Real z_end=6*n_nodes + n_elements-1;
-
-		Real momentum_res=0;
-		for (unsigned int i=s_start; i<s_end+1; ++i)
-		{
-			momentum_res=momentum_res+big_rp(i)*big_rp(i);
-		}
-		std::cout<< "momentum_res " << pow(momentum_res,0.5) << std::endl;
-		
-		Real mass_res=0;
-		for (unsigned int i=p_start; i<p_end+1; ++i)
-		{
-			mass_res=mass_res+big_rp(i)*big_rp(i);
-		}
-		std::cout<< "mass_res " << pow(mass_res,0.5) << std::endl;
-		
-		Real fluid_res=0;
-		for (unsigned int i=z_start; i<z_end+1; ++i)
-		{
-			fluid_res=fluid_res+big_rp(i)*big_rp(i);
-		}
-		std::cout<< "fluid_res " << pow(fluid_res,0.5) << std::endl;
-		
-		
-		Real t_start=size_fem;
-		Real t_end=size_fem+size_tree-1;
-
-		Real tree_res=0;
-		for (unsigned int i=t_start; i<t_end+1; ++i)
-		{
-			tree_res=tree_res+big_rp(i)*big_rp(i);
-		}
-		std::cout<< "tree_res " << pow(tree_res,0.5) << std::endl;
-		
-
-		 
-		 
-		 
-		 
-		 
-		 
-    /*****///Convergence and Norm Computing Stuff///***********/
-    change_in_newton_update->add (-1., *newton_update.solution);
-		change_in_newton_update->close();
-		Real norm_delta = change_in_newton_update->l2_norm();
-    change_in_newton_update->add (-1., *newton_update.solution);
-    change_in_newton_update->close();
-    norm_delta = change_in_newton_update->l2_norm();
-    const unsigned int n_linear_iterations = newton_update.n_linear_iterations();
-    const Real final_linear_residual = newton_update.final_linear_residual();   
-    std::cout << "Poro: Linear conv at step: "
-                    << n_linear_iterations
-                    << ", resid: "
-                    << final_linear_residual 
-                    << ", time: " << double(diffclock(end_solid_solve,begin_solid_solve)) << " ms"
-                    <<std::endl;             
-    std::cout   << "Poro Nonlinear convergence: ||u - u_old|| = "
-                    << norm_delta << ", poro res:  " << solid_residual
-                    << std::endl;
-   if ((norm_delta < nonlinear_tolerance)&&(solid_residual < nonlinear_tolerance) ){
-   std::cout << "Nonlinear solver converged after "<< l+1 <<" steps."<<std::endl;
-   break;
-
-			
+   if ((norm_delta/l2_soln < nonlinear_tolerance)&&(solid_residual/l2_soln < nonlinear_tolerance) ){
+	std::cout << "Nonlinear solver converged after "<< l+1 <<" steps."<<std::endl;
+	break;
   } 
  } // end nonlinear loop
 
@@ -408,3 +312,6 @@ for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
  
 } // end timestep loop.
 }
+
+//#include "assemble_postvars.cpp"
+//#include "assemble_postvars_rhs.cpp"

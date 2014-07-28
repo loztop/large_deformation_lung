@@ -14,7 +14,7 @@ LINES 3 9
 CELL_DATA 3
 scalars Radius float
 LOOKUP_TABLE default
-1 1 1 
+1 1 1.49 
 scalars Flowrate float
 LOOKUP_TABLE default
 0 0 0 

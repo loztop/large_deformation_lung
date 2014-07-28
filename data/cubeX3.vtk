@@ -6,7 +6,7 @@ POINTS 4 float
 3 0.5 1
 2 0.5 1
 0.5001 0.5 1.5
-0.510014 0.510014 0.516916
+0.5 0.5 1.01
 LINES 3 9
 2 0 1
 2 1 2
@@ -14,11 +14,11 @@ LINES 3 9
 CELL_DATA 3
 scalars Radius float
 LOOKUP_TABLE default
-1 1 1 
+1 1 1.49 
 scalars Flowrate float
 LOOKUP_TABLE default
-0.185323 0 0.185323 
+1.7 0 1.7 
 POINT_DATA 4
 scalars Pressure float
 LOOKUP_TABLE default
-0 -0.185323 -0.185323 -0.370647 
+0 -7.87881e-05 -7.87881e-05 -0.000104063 

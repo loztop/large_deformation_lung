@@ -1,4 +1,3 @@
-
   A=AP.mat();
   MPI_Comm        comm;
   comm = MPI_COMM_SELF;
@@ -27,7 +26,6 @@
 		
   PetscInt      ext=a_nrow;
   PetscInt      big_nrows=t_nrow+a_nrow;
-
 
   for ( int i = 0; i < t_nrow+1 + a_nrow; i++ )
   {
@@ -66,7 +64,8 @@
       b_array[ i ] = t_array[ i-num_vals_a ];
   }
    
-  
+  int rowmax= a_nrow;
+	
   MatCreateSeqAIJWithArrays(comm,big_nrows,big_nrows,big_rows_t,big_cols_t,b_array,&big_A);
 
   MatSetFromOptions(big_A);
@@ -75,7 +74,8 @@
   MatAssemblyBegin(big_A,MAT_FINAL_ASSEMBLY);
   MatAssemblyEnd(big_A,MAT_FINAL_ASSEMBLY);
 	
-
-  //Free arrays ???
-  //free(b_array);
-  //free(big_cols_t);
+	
+	
+	
+//#include "test_insert.cpp"
+	

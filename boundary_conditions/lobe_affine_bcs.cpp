@@ -15,7 +15,7 @@
             Real zf = (*node)(2);
             
 						Real pi=3.14159;
-						Real fac=0.1*(1+sin(1*pi*time+(3.0/2.0)*pi));
+						Real fac=0.2*(1+sin(1*pi*time+(3.0/2.0)*pi));
 
 						// fac=0;
 

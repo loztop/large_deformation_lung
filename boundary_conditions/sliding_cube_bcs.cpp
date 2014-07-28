@@ -20,7 +20,7 @@
 				//Dilate boundary
           {
 
-						int source_dof=0;
+		    int source_dof=0;
 
               source_dof = node->dof_number(last_non_linear_soln.number(), u_var, 0);
             if((source_dof<12345678) && (source_dof>-1) && (p(0)<0.0001 || p(0)>0.999)){
@@ -52,7 +52,7 @@
 							//rows_values.push_back(value-0.5*sin(3.14*progress));
 								
 							//std::cout<< value+0.1*progress <<std::endl;
-							rows_values.push_back(value-1*progress);
+							rows_values.push_back(value-1.7*progress);
 
 																
 								rows.push_back(source_dof);

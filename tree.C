@@ -6,7 +6,7 @@
  
 
 #define PIE 3.1415926535897932384626433832
-#define MU_F 1.82e-05
+#define MU_F 1.92e-05
 
 
 
@@ -105,6 +105,12 @@ void Tree::read_tree(EquationSystems& es) {
 				}
 				
 				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/APLE_36266rmerge_insp_2967.msh")){
+				nodes(node_count) = -point ;
+				}
+				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/A65rmerge_insp2233.msh")){
+				nodes(node_count) = -point ;
+				}
+				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/A65rmerge_inspfine3174.msh")){
 				nodes(node_count) = -point ;
 				}
 				
@@ -380,7 +386,7 @@ Vec Tree::make_tree_rhs ()
 Mat Tree::make_tree_matrix ()
 {
 	
-	std::cout<<"Assembling Tree matrix "<<std::endl;
+	//std::cout<<"Assembling Tree matrix "<<std::endl;
 
   //Petsc linear system example
   int NumberOfEntries = number_nodes+number_edges;
@@ -481,7 +487,34 @@ void Tree::update_resistances (EquationSystems& es)
 void Tree::update_positions (EquationSystems& es)
 {
 
-	
+	TransientLinearImplicitSystem&  last_non_linear_soln = es.get_system<TransientLinearImplicitSystem>("Last-non-linear-soln");
+	const MeshBase& mesh = es.get_mesh();
+	const unsigned int u_var = last_non_linear_soln.variable_number ("s_u");
+
+	const Real time    = es.parameters.get<Real>("time");
+
+	for (double j=0; j <number_nodes ; j++) {
+		for (unsigned int d = 0; d < 3; ++d) {
+			Real def_value = 0;
+			try
+			{
+				def_value = last_non_linear_soln.point_value(u_var+d,nodes_deformed(j));
+				
+
+				
+				throw 20;
+			}catch (int e){ }
+				
+			if(def_value>0)
+			{
+			nodes_deformed(j)(d)=def_value;
+			}	 
+		}
+    }
+      
+ return;
+ 
+	/*
 		TransientLinearImplicitSystem&  last_non_linear_soln = es.get_system<TransientLinearImplicitSystem>("Last-non-linear-soln");
 			
 			TransientLinearImplicitSystem&  reference =   es.get_system<TransientLinearImplicitSystem>("Reference-Configuration");
@@ -510,6 +543,8 @@ void Tree::update_positions (EquationSystems& es)
           }
       }
     }
+    
+
     es.update();
     es.allgather();
 		
@@ -556,7 +591,10 @@ void Tree::update_positions (EquationSystems& es)
 			  }
       }
       
-           
+     
+     
+     //Put the mesh back (doesn't quite seem to work!!)
+     
     MeshBase::const_element_iterator       el_b     = mesh.local_elements_begin();
     const MeshBase::const_element_iterator end_el_b = mesh.local_elements_end(); 
     for ( ; el_b != end_el_b; ++el_b)
@@ -577,317 +615,6 @@ void Tree::update_positions (EquationSystems& es)
     es.allgather();
  
  return;
-}
-
- 
-/*
-void Tree::calculate_omega_j (EquationSystems& es)
-{
-
+ */
 	
-  const Real dt    = es.parameters.get<Real>("dt");
-  const Real progress    = es.parameters.get<Real>("progress");
-  const Real time    = es.parameters.get<Real>("time");
- 
-  // Get a constant reference to the mesh object.
-  const MeshBase& mesh = es.get_mesh();
-  
-  // The dimension that we are running
-  const unsigned int dim = mesh.mesh_dimension();
-  
-  // Get a reference to the Convection-Diffusion system object.
-  TransientLinearImplicitSystem & system =
-    es.get_system<TransientLinearImplicitSystem> ("Last_non_linear_soln");
-
- //TransientLinearImplicitSystem & system =    es.get_system<TransientLinearImplicitSystem> ("Stokes");
-  // Numeric ids corresponding to each variable in the system
-  const unsigned int u_var = system.variable_number ("s_u");
-  const unsigned int v_var = system.variable_number ("s_v");
-  #if THREED
-  const unsigned int w_var = system.variable_number ("s_w");
-  #endif
-  const unsigned int p_var = system.variable_number ("s_p");
-  const unsigned int x_var = system.variable_number ("x");
-  const unsigned int y_var = system.variable_number ("y");
-   #if THREED
-  const unsigned int z_var = system.variable_number ("z");
-  #endif
-  // Get the Finite Element type for "u".  Note this will be
-  // the same as the type for "v".
-  FEType fe_disp_type = system.variable_type(u_var);
-  FEType fe_vel_type = system.variable_type(x_var);
-
-  // Get the Finite Element type for "p".
-  FEType fe_pres_type = system.variable_type(p_var);
-
-  // Build a Finite Element object of the specified type for
-  // the velocity variables.
-  AutoPtr<FEBase> fe_disp  (FEBase::build(dim, fe_disp_type));
-  AutoPtr<FEBase> fe_vel  (FEBase::build(dim, fe_vel_type));
-    
-  // Build a Finite Element object of the specified type for
-  // the pressure variables.
-  AutoPtr<FEBase> fe_pres (FEBase::build(dim, fe_pres_type));
-  
-  // A Gauss quadrature rule for numerical integration.
-  // Let the \p FEType object decide what order rule is appropriate.
-  QGauss qrule (dim, fe_vel_type.default_quadrature_order());
-
-  // Tell the finite element objects to use our quadrature rule.
-  fe_disp->attach_quadrature_rule (&qrule);
-  fe_vel->attach_quadrature_rule (&qrule);
-  fe_pres->attach_quadrature_rule (&qrule);
-  
-  // Here we define some references to cell-specific data that
-  // will be used to assemble the linear system.
-  //
-  // The element Jacobian * quadrature weight at each integration point.   
-  const std::vector<Real>& JxW = fe_vel->get_JxW();
-  
-  const std::vector<Point>& q_point = fe_vel->get_xyz();
-
-  // The element shape function gradients for the velocity
-  // variables evaluated at the quadrature points.
-  const std::vector<std::vector<RealGradient> >& dphi = fe_disp->get_dphi();
-  const std::vector<std::vector<Real> >& phi = fe_disp->get_phi();
-  const std::vector<std::vector<RealGradient> >& f_dphi = fe_vel->get_dphi();
-  const std::vector<std::vector<Real> >& f_phi = fe_vel->get_phi();
-
-  // The element shape functions for the pressure variable
-  // evaluated at the quadrature points.
-  const std::vector<std::vector<Real> >& psi = fe_pres->get_phi();
-  const std::vector<std::vector<RealGradient> >& dpsi = fe_pres->get_dphi();
-  const DofMap & dof_map = system.get_dof_map();
-
-  // Define data structures to contain the element matrix
-  // and right-hand-side vector contribution.  Following
-  // basic finite element terminology we will denote these
-  // "Ke" and "Fe".
-  DenseMatrix<Number> Ke;
-  DenseVector<Number> Fe;
-
-  DenseMatrix<Number> Kstab;
-
-#if !THREED
-  DenseSubMatrix<Number>
-    Kuu(Ke), Kuv(Ke), Kup(Ke), Kux(Ke), Kuy(Ke),
-    Kvu(Ke), Kvv(Ke), Kvp(Ke), Kvx(Ke), Kvy(Ke),
-    Kpu(Ke), Kpv(Ke), Kpp(Ke), Kpx(Ke), Kpy(Ke),
-    Kxu(Ke), Kxv(Ke), Kxp(Ke), Kxx(Ke), Kxy(Ke),
-    Kyu(Ke), Kyv(Ke), Kyp(Ke), Kyx(Ke), Kyy(Ke);
-#endif
-
-#if THREED
-  DenseSubMatrix<Number>
-    Kuu(Ke), Kuv(Ke), Kuw(Ke), Kup(Ke), Kux(Ke), Kuy(Ke), Kuz(Ke),
-    Kvu(Ke), Kvv(Ke), Kvw(Ke), Kvp(Ke), Kvx(Ke), Kvy(Ke), Kvz(Ke),
-    Kwu(Ke), Kwv(Ke), Kww(Ke), Kwp(Ke), Kwx(Ke), Kwy(Ke), Kwz(Ke),
-    Kpu(Ke), Kpv(Ke), Kpw(Ke), Kpp(Ke), Kpx(Ke), Kpy(Ke), Kpz(Ke),
-    Kxu(Ke), Kxv(Ke), Kxw(Ke), Kxp(Ke), Kxx(Ke), Kxy(Ke), Kxz(Ke),
-    Kyu(Ke), Kyv(Ke), Kyw(Ke), Kyp(Ke), Kyx(Ke), Kyy(Ke), Kyz(Ke),
-    Kzu(Ke), Kzv(Ke), Kzw(Ke), Kzp(Ke), Kzx(Ke), Kzy(Ke), Kzz(Ke);
-#endif
-
-  DenseSubVector<Number>
-    Fu(Fe),
-    Fv(Fe),
-    Fp(Fe),
-    Fx(Fe),
-    Fy(Fe);
-
-  #if THREED
-  DenseSubVector<Number>
-    Fw(Fe),
-    Fz(Fe);
-  #endif
-
-  // This vector will hold the degree of freedom indices for
-  // the element.  These define where in the global system
-  // the element degrees of freedom get mapped.
-  std::vector<unsigned int> dof_indices;
-  std::vector<unsigned int> dof_indices_u;
-  std::vector<unsigned int> dof_indices_v;
-  std::vector<unsigned int> dof_indices_p;
-  std::vector<unsigned int> dof_indices_x;
-  std::vector<unsigned int> dof_indices_y;
-  #if THREED
-  std::vector<unsigned int> dof_indices_w;
-  std::vector<unsigned int> dof_indices_z;
-  #endif
-  
-  MeshBase::const_element_iterator       el     = mesh.active_local_elements_begin();
-  const MeshBase::const_element_iterator end_el = mesh.active_local_elements_end(); 
-  
-
-  //vectors needed to store bcs. (wha happened to condense ?)
-  std::vector<  int > rows;
-  std::vector<  int > pressure_rows;
-  std::vector< Real > rows_values;
-  std::vector< Real > pressure_rows_values;
-
-  std::vector<unsigned int> stab_dofs_rows;
-  std::vector<unsigned int> stab_dofs_cols;
-  std::vector<Real> stab_dofs_vals;
-
-  //DenseVector<Real> omega_j;
-  omega_j.resize(pow(2,N_level-1));
-	  
-  for ( ; el != end_el; ++el)
-    {    
-
-      const Elem* elem = *el;
-
-      dof_map.dof_indices (elem, dof_indices);
-      dof_map.dof_indices (elem, dof_indices_u, u_var);
-      dof_map.dof_indices (elem, dof_indices_v, v_var);
-      dof_map.dof_indices (elem, dof_indices_p, p_var);
-      dof_map.dof_indices (elem, dof_indices_x, x_var);
-      dof_map.dof_indices (elem, dof_indices_y, y_var);
-      #if THREED
-      dof_map.dof_indices (elem, dof_indices_w, w_var);
-      dof_map.dof_indices (elem, dof_indices_z, z_var);
-      #endif
-
-      const unsigned int n_dofs   = dof_indices.size();
-      const unsigned int n_u_dofs = dof_indices_u.size(); 
-      const unsigned int n_v_dofs = dof_indices_v.size();
-      const unsigned int n_p_dofs = dof_indices_p.size();
-      const unsigned int n_x_dofs = dof_indices_x.size(); 
-      const unsigned int n_y_dofs = dof_indices_y.size();
-      #if THREED
-      const unsigned int n_w_dofs = dof_indices_w.size();
-      const unsigned int n_z_dofs = dof_indices_z.size();
-      #endif
-      
-      // Compute the element-specific data for the current
-      // element.  This involves computing the location of the
-      // quadrature points (q_point) and the shape functions
-      // (phi, dphi) for the current element.
-      fe_disp->reinit  (elem);
-      fe_vel->reinit  (elem);
-      fe_pres->reinit (elem);
-
-      // Zero the element matrix and right-hand side before
-      // summing them.  We use the resize member here because
-      // the number of degrees of freedom might have changed from
-      // the last element.  Note that this will be the case if the
-      // element type is different (i.e. the last element was a
-      // triangle, now we are on a quadrilateral).
-      Ke.resize (n_dofs, n_dofs);
-      Fe.resize (n_dofs);
-
-      Kuu.reposition (u_var*n_u_dofs, u_var*n_u_dofs, n_u_dofs, n_u_dofs);
-      Kuv.reposition (u_var*n_u_dofs, v_var*n_u_dofs, n_u_dofs, n_v_dofs);
-      Kup.reposition (u_var*n_u_dofs, p_var*n_u_dofs, n_u_dofs, n_p_dofs);
-      Kux.reposition (u_var*n_u_dofs, p_var*n_u_dofs + n_p_dofs , n_u_dofs, n_x_dofs);
-      Kuy.reposition (u_var*n_u_dofs, p_var*n_u_dofs + n_p_dofs+n_x_dofs , n_u_dofs, n_y_dofs);
-      #if THREED
-      Kuw.reposition (u_var*n_u_dofs, w_var*n_u_dofs, n_u_dofs, n_w_dofs);
-      Kuz.reposition (u_var*n_u_dofs, p_var*n_u_dofs + n_p_dofs+2*n_x_dofs , n_u_dofs, n_z_dofs);
-      #endif
-
-      Kvu.reposition (v_var*n_v_dofs, u_var*n_v_dofs, n_v_dofs, n_u_dofs);
-      Kvv.reposition (v_var*n_v_dofs, v_var*n_v_dofs, n_v_dofs, n_v_dofs);
-      Kvp.reposition (v_var*n_v_dofs, p_var*n_v_dofs, n_v_dofs, n_p_dofs);
-      Kvx.reposition (v_var*n_v_dofs, p_var*n_u_dofs + n_p_dofs , n_v_dofs, n_x_dofs);
-      Kvy.reposition (v_var*n_v_dofs, p_var*n_u_dofs + n_p_dofs+n_x_dofs , n_v_dofs, n_y_dofs);
-      #if THREED
-      Kvw.reposition (v_var*n_u_dofs, w_var*n_u_dofs, n_v_dofs, n_w_dofs);
-      Kuz.reposition (v_var*n_u_dofs, p_var*n_u_dofs + n_p_dofs+2*n_x_dofs , n_u_dofs, n_z_dofs);
-      #endif
-
-      #if THREED
-      Kwu.reposition (w_var*n_w_dofs, u_var*n_v_dofs, n_v_dofs, n_u_dofs);
-      Kwv.reposition (w_var*n_w_dofs, v_var*n_v_dofs, n_v_dofs, n_v_dofs);
-      Kwp.reposition (w_var*n_w_dofs, p_var*n_v_dofs, n_v_dofs, n_p_dofs);
-      Kwx.reposition (w_var*n_w_dofs, p_var*n_u_dofs + n_p_dofs , n_v_dofs, n_x_dofs);
-      Kwy.reposition (w_var*n_w_dofs, p_var*n_u_dofs + n_p_dofs+n_x_dofs , n_v_dofs, n_y_dofs);
-      Kww.reposition (w_var*n_w_dofs, w_var*n_u_dofs, n_v_dofs, n_w_dofs);
-      Kwz.reposition (w_var*n_w_dofs, p_var*n_u_dofs + n_p_dofs+2*n_x_dofs , n_u_dofs, n_z_dofs);
-      #endif
-
-      Kpu.reposition (p_var*n_u_dofs, u_var*n_u_dofs, n_p_dofs, n_u_dofs);
-      Kpv.reposition (p_var*n_u_dofs, v_var*n_u_dofs, n_p_dofs, n_v_dofs);
-      Kpp.reposition (p_var*n_u_dofs, p_var*n_u_dofs, n_p_dofs, n_p_dofs);
-      Kpx.reposition (p_var*n_v_dofs, p_var*n_u_dofs + n_p_dofs , n_p_dofs, n_x_dofs);
-      Kpy.reposition (p_var*n_v_dofs, p_var*n_u_dofs + n_p_dofs+n_x_dofs , n_p_dofs, n_y_dofs);
-      #if THREED
-      Kpw.reposition (p_var*n_u_dofs, w_var*n_u_dofs, n_p_dofs, n_w_dofs);
-      Kpz.reposition (p_var*n_u_dofs, p_var*n_u_dofs + n_p_dofs+2*n_x_dofs , n_p_dofs, n_z_dofs);
-      #endif
-
-      Kxu.reposition (p_var*n_u_dofs + n_p_dofs, u_var*n_u_dofs, n_x_dofs, n_u_dofs);
-      Kxv.reposition (p_var*n_u_dofs + n_p_dofs, v_var*n_u_dofs, n_x_dofs, n_v_dofs);
-      Kxp.reposition (p_var*n_u_dofs + n_p_dofs, p_var*n_u_dofs, n_x_dofs, n_p_dofs);
-      Kxx.reposition (p_var*n_u_dofs + n_p_dofs, p_var*n_u_dofs + n_p_dofs , n_x_dofs, n_x_dofs);
-      Kxy.reposition (p_var*n_u_dofs + n_p_dofs, p_var*n_u_dofs + n_p_dofs+n_x_dofs , n_x_dofs, n_y_dofs);
-      #if THREED
-      Kxw.reposition (p_var*n_u_dofs + n_p_dofs, w_var*n_u_dofs, n_x_dofs, n_w_dofs);
-      Kxz.reposition (p_var*n_u_dofs + n_p_dofs, p_var*n_u_dofs + n_p_dofs+2*n_x_dofs , n_x_dofs, n_z_dofs);
-      #endif
-
-
-      Kyu.reposition (p_var*n_u_dofs + n_p_dofs+n_x_dofs, u_var*n_u_dofs, n_y_dofs, n_u_dofs);
-      Kyv.reposition (p_var*n_u_dofs + n_p_dofs+n_x_dofs, v_var*n_u_dofs, n_y_dofs, n_v_dofs);
-      Kyp.reposition (p_var*n_u_dofs + n_p_dofs+n_x_dofs, p_var*n_u_dofs, n_y_dofs, n_p_dofs);
-      Kyx.reposition (p_var*n_u_dofs + n_p_dofs+n_x_dofs, p_var*n_u_dofs + n_p_dofs , n_y_dofs, n_x_dofs);
-      Kyy.reposition (p_var*n_u_dofs + n_p_dofs+n_x_dofs, p_var*n_u_dofs + n_p_dofs+n_x_dofs , n_y_dofs, n_y_dofs);
-      #if THREED
-      Kyw.reposition (p_var*n_u_dofs + n_p_dofs+n_x_dofs, w_var*n_u_dofs, n_x_dofs, n_w_dofs);
-      Kyz.reposition (p_var*n_u_dofs + n_p_dofs+n_x_dofs, p_var*n_u_dofs + n_p_dofs+2*n_x_dofs , n_x_dofs, n_z_dofs);
-      #endif
-
-      #if THREED
-      Kzu.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, u_var*n_u_dofs, n_y_dofs, n_u_dofs);
-      Kzv.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, v_var*n_u_dofs, n_y_dofs, n_v_dofs);
-      Kzp.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, p_var*n_u_dofs, n_y_dofs, n_p_dofs);
-      Kzx.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, p_var*n_u_dofs + n_p_dofs , n_y_dofs, n_x_dofs);
-      Kzy.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, p_var*n_u_dofs + n_p_dofs+n_x_dofs , n_y_dofs, n_y_dofs);
-      Kzw.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, w_var*n_u_dofs, n_x_dofs, n_w_dofs);
-      Kzz.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, p_var*n_u_dofs + n_p_dofs+2*n_x_dofs , n_x_dofs, n_z_dofs);
-      #endif
-
-      Fu.reposition (u_var*n_u_dofs, n_u_dofs);
-      Fv.reposition (v_var*n_u_dofs, n_v_dofs);
-      Fp.reposition (p_var*n_u_dofs, n_p_dofs);
-      Fx.reposition (p_var*n_u_dofs + n_p_dofs, n_x_dofs);
-      Fy.reposition (p_var*n_u_dofs + n_p_dofs+n_x_dofs, n_y_dofs);
-      #if THREED
-      Fw.reposition (w_var*n_u_dofs, n_w_dofs);
-      Fz.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, n_y_dofs);
-      #endif
-    
-	  
-		
-      // Now we will build the element matrix.
-      for (unsigned int qp=0; qp<qrule.n_points(); qp++)
-        {
-
-		  	//Find the closest distal tree_node to q_point[qp]
-				int closest_j=0;
-				Real dist_j=0;
-				Real closest_dist=99999999999999999;
-				int closest_j_idx=0;
-
-				for (int j=pow(2,N_level-1)+1; j <= pow(2,N_level); j++) {	
-					Real dist_j=pow(q_point[qp](0)-  nodes(j-1)(0),2)+pow(q_point[qp](1)-  nodes(j-1)(1),2)+pow(q_point[qp](2)-  nodes(j-1)(2),2);
-											
-					if(dist_j<closest_dist)
-					{
-						closest_dist=dist_j; 
-						closest_j_idx=j;
-					}
-				}
-				
-				   
-				for (unsigned int l=0; l<n_p_dofs; l++)
-				{	  				   
-						omega_j(closest_j_idx-pow(2,N_level-1) -1 ) += psi[l][qp]*JxW[qp];
-			  }
-		} // end qp
-	}// end of element loop
-  
-
-  return;
 }
-*/
