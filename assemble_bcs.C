@@ -6,7 +6,7 @@ using namespace std;
 void assemble_bcs (EquationSystems& es)
 {
 
-  // Get a constant reference to the mesh object.
+ // Get a constant reference to the mesh object.
   const MeshBase& mesh = es.get_mesh();
   
   TransientLinearImplicitSystem & newton_update =
@@ -16,7 +16,6 @@ void assemble_bcs (EquationSystems& es)
 
   const System & ref_sys = es.get_system("Reference-Configuration"); 
   
-	
 	const Real DELTA_BC    = es.parameters.get<Real>("DELTA_BC");
 
   // Numeric ids corresponding to each variable in the system
@@ -24,7 +23,14 @@ void assemble_bcs (EquationSystems& es)
   const unsigned int v_var = last_non_linear_soln.variable_number ("s_v");
   const unsigned int w_var = last_non_linear_soln.variable_number ("s_w");
   const unsigned int p_var = last_non_linear_soln.variable_number ("s_p");
- 
+ #if CONSTRAINT
+	  const unsigned int c_var = last_non_linear_soln.variable_number ("const");
+#endif
+	  	const unsigned int x_var = last_non_linear_soln.variable_number ("mono_f_vel_u");
+	const unsigned int y_var = last_non_linear_soln.variable_number ("mono_f_vel_v");
+	const unsigned int z_var = last_non_linear_soln.variable_number ("mono_f_vel_w");
+	
+	
   FEType fe_vel_type = last_non_linear_soln.variable_type(u_var);
   FEType fe_vel_type_ref = ref_sys.variable_type(u_var);
 	
@@ -33,13 +39,15 @@ void assemble_bcs (EquationSystems& es)
   FEType fe_pres_type = last_non_linear_soln.variable_type(p_var);
   AutoPtr<FEBase> fe_vel  (FEBase::build(3, fe_vel_type));
   AutoPtr<FEBase> fe_pres (FEBase::build(3, fe_pres_type));
-  QGauss qrule (dim, fe_vel_type.default_quadrature_order());
+ // QGauss qrule (dim, fe_vel_type.default_quadrature_order());
+	
+	  QGauss qrule (dim, EIGHTH);
+
+		
   fe_vel->attach_quadrature_rule (&qrule);
   fe_pres->attach_quadrature_rule (&qrule);
   const std::vector<std::vector<Real> >& psi = fe_pres->get_phi();
   const std::vector<std::vector<RealGradient> >& dphi = fe_vel->get_dphi();
-  
-const std::vector<std::vector<Real> >& phi = fe_vel->get_phi();
 
 	
 	AutoPtr<FEMap> fe_face_map (FEMap::build(fe_vel_type));
@@ -71,6 +79,7 @@ const std::vector<std::vector<Real> >& phi = fe_vel->get_phi();
 
   AutoPtr<FEBase> fe_face_ref (FEBase::build(3, fe_vel_type_ref));          
   AutoPtr<QBase> qface_ref(fe_vel_type_ref.default_quadrature_rule(3-1));
+	
   fe_face_ref->attach_quadrature_rule (qface_ref.get());
  
   const DofMap & dof_map = last_non_linear_soln.get_dof_map();
@@ -92,6 +101,14 @@ const std::vector<std::vector<Real> >& phi = fe_vel->get_phi();
   Fv(Fe),
   Fw(Fe);
   DenseSubVector<Number>    Fp(Fe);
+   
+  #if CONSTRAINT
+	DenseSubMatrix<Number> Kcx(Ke), Kcy(Ke), Kcz(Ke);
+	DenseSubMatrix<Number> Kxc(Ke), Kyc(Ke), Kzc(Ke);
+	DenseSubMatrix<Number> Kcc(Ke);
+	DenseSubVector<Number> Fc(Fe);
+  #endif
+	
   // This vector will hold the degree of freedom indices for
   // the element.  These define where in the global system
   // the element degrees of freedom get mapped.
@@ -100,7 +117,10 @@ const std::vector<std::vector<Real> >& phi = fe_vel->get_phi();
   std::vector<unsigned int> dof_indices_v;
   std::vector<unsigned int> dof_indices_w;
   std::vector<unsigned int> dof_indices_p;
- 
+  #if CONSTRAINT  
+  std::vector<unsigned int> dof_indices_c;
+  #endif
+  
   MeshBase::const_element_iterator       el     = mesh.active_local_elements_begin();
   const MeshBase::const_element_iterator end_el = mesh.active_local_elements_end(); 
 
@@ -113,7 +133,10 @@ const std::vector<std::vector<Real> >& phi = fe_vel->get_phi();
     dof_map.dof_indices (elem, dof_indices_v, v_var);
     dof_map.dof_indices (elem, dof_indices_w, w_var);
     dof_map.dof_indices (elem, dof_indices_p, p_var);
-
+#if CONSTRAINT
+	        dof_map.dof_indices (elem, dof_indices_c,c_var);
+#endif
+			
     const unsigned int n_dofs   = dof_indices.size();
     const unsigned int n_u_dofs = dof_indices_u.size(); 
     const unsigned int n_v_dofs = dof_indices_v.size(); 
@@ -143,14 +166,24 @@ const std::vector<std::vector<Real> >& phi = fe_vel->get_phi();
     Kpw.reposition (p_var*n_u_dofs, w_var*n_u_dofs, n_p_dofs, n_w_dofs);
     Kpp.reposition (p_var*n_u_dofs, p_var*n_u_dofs, n_p_dofs, n_p_dofs);
 
-		Fu.reposition (u_var*n_u_dofs, n_u_dofs);
+	  Fu.reposition (u_var*n_u_dofs, n_u_dofs);
     Fv.reposition (v_var*n_u_dofs, n_v_dofs);
     Fw.reposition (w_var*n_u_dofs, n_w_dofs);
-		Fp.reposition (p_var*n_u_dofs, n_p_dofs);
+	  Fp.reposition (p_var*n_u_dofs, n_p_dofs);
 
-	const unsigned int x_var = last_non_linear_soln.variable_number ("mono_f_vel_u");
-	const unsigned int y_var = last_non_linear_soln.variable_number ("mono_f_vel_v");
-	const unsigned int z_var = last_non_linear_soln.variable_number ("mono_f_vel_w");
+	     #if CONSTRAINT 
+	  Kxc.reposition (3*n_u_dofs + n_p_dofs,  6*n_u_dofs + n_p_dofs , n_u_dofs, n_u_dofs);
+      Kyc.reposition (4*n_u_dofs + n_p_dofs, 6*n_u_dofs + n_p_dofs  , n_u_dofs, n_u_dofs);
+      Kzc.reposition (5*n_u_dofs + n_p_dofs, 6*n_u_dofs + n_p_dofs  , n_u_dofs, n_u_dofs);
+
+	  Kcx.reposition (6*n_u_dofs + n_p_dofs,  3*n_u_dofs + n_p_dofs , n_u_dofs, n_u_dofs);
+      Kcy.reposition (6*n_u_dofs + n_p_dofs, 4*n_u_dofs + n_p_dofs  , n_u_dofs, n_u_dofs);
+      Kcz.reposition (6*n_u_dofs + n_p_dofs, 5*n_u_dofs + n_p_dofs  , n_u_dofs, n_u_dofs);
+	  
+      Kcc.reposition (6*n_u_dofs + n_p_dofs,6*n_u_dofs + n_p_dofs, n_u_dofs, n_u_dofs);
+   #endif
+	  
+
 
 	//PF block
 	DenseSubMatrix<Number>
@@ -235,6 +268,7 @@ const std::vector<std::vector<Real> >& phi = fe_vel->get_phi();
 	Fx.reposition (3*n_u_dofs + n_p_dofs, n_u_dofs);
 	Fy.reposition (4*n_u_dofs + n_p_dofs, n_v_dofs);
 	Fz.reposition (5*n_u_dofs + n_p_dofs, n_w_dofs);
+    Fc.reposition (6*n_u_dofs + n_p_dofs, n_w_dofs);
 
 	dof_map.dof_indices (elem, dof_indices_x, x_var);
 	dof_map.dof_indices (elem, dof_indices_y, y_var);
@@ -262,10 +296,11 @@ const std::vector<std::vector<Real> >& phi = fe_vel->get_phi();
 	if(!es.parameters.get<std::string>("problem").compare("lung")){
 	
 	   #include "boundary_conditions/lobe_affine_bcs.cpp"
-	
+	   #include "boundary_conditions/weak_lagrange_flux_bc.cpp" 
+
 		//	  #include "boundary_conditions/weak_test_bc.cpp"	
 		
-	   #include "boundary_conditions/lobe_fixflux_bcs.cpp"
+	  // #include "boundary_conditions/lobe_fixflux_bcs.cpp"
 		
 	}
 	
@@ -329,6 +364,33 @@ const std::vector<std::vector<Real> >& phi = fe_vel->get_phi();
   newton_update.update(); 
 
   std::cout<<"newton_update.rhs->l1_norm () "<<newton_update.rhs->l1_norm ()<<std::endl;
+
+  #if CONSTRAINT
+	Mesh::const_node_iterator it_node = mesh.nodes_begin();
+	const Mesh::const_node_iterator it_last_node = mesh.nodes_end();
+	for ( ; it_node != it_last_node ; ++it_node)
+    {
+      Node* node = *it_node;		
+			int c_dof = node->dof_number(newton_update.number(), c_var, 0);
+			int x_dof = node->dof_number(newton_update.number(), x_var, 0);
+			int y_dof = node->dof_number(newton_update.number(), y_var, 0);
+			int z_dof = node->dof_number(newton_update.number(), z_var, 0);
+
+			   Real sum_entry=abs(newton_update.matrix->operator()(c_dof,x_dof)) + abs(newton_update.matrix->operator()(c_dof,y_dof)) +abs(newton_update.matrix->operator()(c_dof,z_dof));
+		
+	 	if( sum_entry < 0.000000000001 ){
+		 			newton_update.matrix->set(c_dof,c_dof,1);
+					newton_update.matrix->close();
+
+	 }else{   		
+	   //std::cout<< sum_entry <<std::endl;
+	 }
+		
+		
+   }
+    newton_update.matrix->close();
+    newton_update.rhs->close();
+  #endif
 	
 	return;
 }

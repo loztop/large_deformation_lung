@@ -344,8 +344,9 @@ example_opt-assemble_bcs.o: assemble_bcs.C poro.h \
  /data/lorenz/petsc-3.0.0-p8/include/petscmat.h \
  /data/lorenz/petsc-3.0.0-p8/include/petsctime.h \
  boundary_conditions/lobe_affine_bcs.cpp \
- boundary_conditions/lobe_fixflux_bcs.cpp \
+ boundary_conditions/weak_lagrange_flux_bc.cpp \
  boundary_conditions/sliding_cube_bcs.cpp \
+ boundary_conditions/lobe_fixflux_bcs.cpp \
  boundary_conditions/pull_cylinder_fixall_bcs.cpp \
  assemble_rhs_stabilization.cpp
 
@@ -1133,9 +1134,11 @@ tree.h:
 
 boundary_conditions/lobe_affine_bcs.cpp:
 
-boundary_conditions/lobe_fixflux_bcs.cpp:
+boundary_conditions/weak_lagrange_flux_bc.cpp:
 
 boundary_conditions/sliding_cube_bcs.cpp:
+
+boundary_conditions/lobe_fixflux_bcs.cpp:
 
 boundary_conditions/pull_cylinder_fixall_bcs.cpp:
 

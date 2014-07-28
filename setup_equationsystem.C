@@ -43,6 +43,13 @@ ref_system.add_variable ("y_ref",ORDER_HIGH,ELEMENT_TYPE);
 ref_system.add_variable ("z_ref",ORDER_HIGH,ELEMENT_TYPE);
 
 
+  #if CONSTRAINT
+	last_non_linear_soln_system.add_variable ("const", ORDER_HIGH,ELEMENT_TYPE);
+	ref_system.add_variable ("const", ORDER_HIGH,ELEMENT_TYPE);
+	newton_update_system.add_variable ("const", ORDER_HIGH,ELEMENT_TYPE);
+  #endif
+  
+
   TransientLinearImplicitSystem & postvars =   equation_systems.add_system<TransientLinearImplicitSystem> ("postvars");
   postvars.add_variable ("I1", ORDER_HIGH,ELEMENT_TYPE);
   postvars.add_variable ("I2", ORDER_HIGH,ELEMENT_TYPE);

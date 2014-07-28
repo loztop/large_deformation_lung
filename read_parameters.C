@@ -103,7 +103,7 @@ void read_parameters(EquationSystems& es,  int& argc, char**& argv){
 	 
 ///////////////////////////////////////////////////////////////		
 //Lobe meshes for N048
- //es.parameters.set<std::string> ("mesh_input") = "meshes/lung/whole_lung_246.msh";
+  es.parameters.set<std::string> ("mesh_input") = "meshes/lung/whole_lung_246.msh";
   //  es.parameters.set<std::string> ("mesh_input") = "meshes/lung/whole_lung_751.msh";
  // es.parameters.set<std::string> ("mesh_input") = "meshes/lung/N048r_fine1447.msh";
   //  es.parameters.set<std::string> ("mesh_input") = "meshes/lung/N048r_fine2881.msh";
@@ -111,7 +111,7 @@ void read_parameters(EquationSystems& es,  int& argc, char**& argv){
 
 	 
 	  //Trees for N048
-	// es.parameters.set<std::string> ("tree_input") = "meshes/tree/IM4branch";
+	 es.parameters.set<std::string> ("tree_input") = "meshes/tree/IM4branch";
   // es.parameters.set<std::string> ("tree_input") = "meshes/tree/OTHERminIM";
 	//  es.parameters.set<std::string> ("tree_input") = "meshes/tree/simple_tree";
   // es.parameters.set<std::string> ("tree_input") = "meshes/tree/half_treeP5";
@@ -122,11 +122,11 @@ void read_parameters(EquationSystems& es,  int& argc, char**& argv){
 	/////////////////////////////////////////////////// A65
 	////Lobe meshes for A65
 	  // es.parameters.set<std::string> ("mesh_input") = "meshes/lung/A65rmerge_insp2233.msh";
-		   es.parameters.set<std::string> ("mesh_input") = "meshes/lung/A65rmerge_inspfine3174.msh";
+	 //es.parameters.set<std::string> ("mesh_input") = "meshes/lung/A65rmerge_inspfine3174.msh";
 		 
 		 
 	//Trees for A65
-	  es.parameters.set<std::string> ("tree_input") = "meshes/tree/half_tree_A65P3";
+	 // es.parameters.set<std::string> ("tree_input") = "meshes/tree/half_tree_A65P3";
  }
  
  

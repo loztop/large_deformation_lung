@@ -58,6 +58,7 @@
 
 #define WRITE_TEC 1
 
+#define CONSTRAINT 1
 
 // Bring in everything from the libMesh namespace
 using namespace libMesh;
