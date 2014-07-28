@@ -24,22 +24,19 @@
     es.get_system<TransientLinearImplicitSystem> ("postvars");
 	
   TransientLinearImplicitSystem & Last_non_linear_soln =
-    es.get_system<TransientLinearImplicitSystem> ("Last_non_linear_soln");
+    es.get_system<TransientLinearImplicitSystem> ("Last-non-linear-soln");
 
 	TransientLinearImplicitSystem & reference =
-    es.get_system<TransientLinearImplicitSystem> ("reference");
+    es.get_system<TransientLinearImplicitSystem> ("Reference-Configuration");
 	
   const unsigned int u_var = system.variable_number ("I1");
   const unsigned int v_var = system.variable_number ("I2");
-  #if THREED
-  const unsigned int w_var = system.variable_number ("I3");
-  #endif
-  const unsigned int p_var = system.variable_number ("J");
+   const unsigned int w_var = system.variable_number ("I3");
+   const unsigned int p_var = system.variable_number ("J");
   const unsigned int x_var = system.variable_number ("p1");
   const unsigned int y_var = system.variable_number ("p2");
-   #if THREED
-  const unsigned int z_var = system.variable_number ("p3");
-  #endif
+   const unsigned int z_var = system.variable_number ("p3");
+   
   // Get the Finite Element type for "u".  Note this will be
   // the same as the type for "v".
   FEType fe_disp_type = system.variable_type(u_var);
@@ -112,17 +109,9 @@
 
   DenseMatrix<Number> Kstab;
 
-#if !THREED
-  DenseSubMatrix<Number>
-    Kuu(Ke), Kuv(Ke), Kup(Ke), Kux(Ke), Kuy(Ke),
-    Kvu(Ke), Kvv(Ke), Kvp(Ke), Kvx(Ke), Kvy(Ke),
-    Kpu(Ke), Kpv(Ke), Kpp(Ke), Kpx(Ke), Kpy(Ke),
-    Kxu(Ke), Kxv(Ke), Kxp(Ke), Kxx(Ke), Kxy(Ke),
-    Kyu(Ke), Kyv(Ke), Kyp(Ke), Kyx(Ke), Kyy(Ke);
-#endif
+ 
 
-#if THREED
-  DenseSubMatrix<Number>
+   DenseSubMatrix<Number>
     Kuu(Ke), Kuv(Ke), Kuw(Ke), Kup(Ke), Kux(Ke), Kuy(Ke), Kuz(Ke),
     Kvu(Ke), Kvv(Ke), Kvw(Ke), Kvp(Ke), Kvx(Ke), Kvy(Ke), Kvz(Ke),
     Kwu(Ke), Kwv(Ke), Kww(Ke), Kwp(Ke), Kwx(Ke), Kwy(Ke), Kwz(Ke),
@@ -130,8 +119,7 @@
     Kxu(Ke), Kxv(Ke), Kxw(Ke), Kxp(Ke), Kxx(Ke), Kxy(Ke), Kxz(Ke),
     Kyu(Ke), Kyv(Ke), Kyw(Ke), Kyp(Ke), Kyx(Ke), Kyy(Ke), Kyz(Ke),
     Kzu(Ke), Kzv(Ke), Kzw(Ke), Kzp(Ke), Kzx(Ke), Kzy(Ke), Kzz(Ke);
-#endif
-
+ 
   DenseSubVector<Number>
     Fu(Fe),
     Fv(Fe),
@@ -139,11 +127,10 @@
     Fx(Fe),
     Fy(Fe);
 
-  #if THREED
-  DenseSubVector<Number>
+   DenseSubVector<Number>
     Fw(Fe),
     Fz(Fe);
-  #endif
+   
 
   std::vector<unsigned int> dof_indices;
   std::vector<unsigned int> dof_indices_u;
@@ -151,10 +138,9 @@
   std::vector<unsigned int> dof_indices_p;
   std::vector<unsigned int> dof_indices_x;
   std::vector<unsigned int> dof_indices_y;
-  #if THREED
-  std::vector<unsigned int> dof_indices_w;
+   std::vector<unsigned int> dof_indices_w;
   std::vector<unsigned int> dof_indices_z;
-  #endif
+   
   
  MeshBase::const_element_iterator       el     = mesh.active_local_elements_begin();
   const MeshBase::const_element_iterator end_el = mesh.active_local_elements_end(); 

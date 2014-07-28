@@ -57,7 +57,7 @@ unsigned int N_eles=equation_systems.parameters.get<Real>("N_eles");
 Real time     = 0;
 Real end_time     = equation_systems.parameters.get<Real>("end_time");
 const unsigned int n_nonlinear_steps = 10;
-const Real nonlinear_tolerance       = 1.e-5;
+const Real nonlinear_tolerance       = 1.e-2;
 const Real initial_linear_solver_tol = 1.e-18;
 
 if(!equation_systems.parameters.get<std::string>("problem").compare("cube")){
@@ -281,11 +281,12 @@ for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
 	#include "residual_info.cpp"
 	
 	//Do some post-processing (calculate stress etc)
-	//postvars.update();
-	//postvars.rhs->zero();
-	//assemble_postvars_rhs(equation_systems,"postvars");
-	//postvars.update();
-	//postvars.solve();
+	postvars.assemble_before_solve=false;
+	postvars.matrix->zero();
+	postvars.rhs->zero();
+	assemble_postvars(equation_systems,"postvars");
+	postvars.update();
+	postvars.solve();
 	
 	//end of nonlinear step computation
 	clock_t end_big_nonlin=clock();
@@ -313,5 +314,5 @@ for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
 } // end timestep loop.
 }
 
-//#include "assemble_postvars.cpp"
-//#include "assemble_postvars_rhs.cpp"
+#include "assemble_postvars.cpp"
+#include "assemble_postvars_rhs.cpp"

@@ -62,7 +62,11 @@
 // Bring in everything from the libMesh namespace
 using namespace libMesh;
 
+void assemble_postvars (EquationSystems& es,
+                      const std::string& system_name);
 
+void assemble_postvars_rhs (EquationSystems& es,
+                      const std::string& system_name);
 
 void assemble_solid (EquationSystems& es,
                       const std::string& system_name);

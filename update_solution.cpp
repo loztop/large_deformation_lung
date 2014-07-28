@@ -82,8 +82,8 @@
 			total_volume=total_volume+elem_vol;
 			dof_map.dof_indices (elem, dof_indices_j, J_var);
 			Real elem_vol_ref = reference.current_local_solution->el(dof_indices_j[0]);
-			postvars.current_local_solution->set(dof_indices_j[0], elem_vol/elem_vol_ref);
-			postvars.solution->set(dof_indices_j[0], elem_vol/elem_vol_ref);
+	//		postvars.current_local_solution->set(dof_indices_j[0], elem_vol/elem_vol_ref);
+	//		postvars.solution->set(dof_indices_j[0], elem_vol/elem_vol_ref);
 
       
       

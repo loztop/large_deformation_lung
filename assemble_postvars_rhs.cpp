@@ -6,7 +6,7 @@ void assemble_postvars_rhs (EquationSystems& es,
 
   const Real E    = es.parameters.get<Real>("E");
   const Real NU    = es.parameters.get<Real>("NU");
-  const Real KPERM    = es.parameters.get<Real>("KPERM");
+  //const Real KPERM    = es.parameters.get<Real>("KPERM");
   
 	Real sum_jac_postvars=0;
 	
@@ -169,7 +169,9 @@ void assemble_postvars_rhs (EquationSystems& es,
 		}
 		
 		Point rX;
-		material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid,es);
+//		material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid,es);
+				material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid);
+
 		Real J=material.J;
 		 Real I_1=material.I_1;
 		 Real I_2=material.I_2;
@@ -199,7 +201,7 @@ void assemble_postvars_rhs (EquationSystems& es,
           Fv(i) += I_2*JxW[qp]*phi[i][qp];
           Fw(i) += I_3*JxW[qp]*phi[i][qp];
 
-	        Fx(i) += sigma_sum_sq*JxW[qp]*phi[i][qp];
+	      Fx(i) += sigma_sum_sq*JxW[qp]*phi[i][qp];
           Fy(i) += J*JxW[qp]*phi[i][qp];
           Fz(i) += 0*JxW[qp]*phi[i][qp];
     }

@@ -57,7 +57,7 @@ void read_parameters(EquationSystems& es,  int& argc, char**& argv){
   
    if(!es.parameters.get<std::string>("problem").compare("lung")){
     es.parameters.set<Real> ("end_time") =2;
-	es.parameters.set<Real> ("n_timesteps") =40;
+	es.parameters.set<Real> ("n_timesteps") =100;
 	es.parameters.set<Real> ("N_eles") = 4;	
 	es.parameters.set<Real> ("DELTA") = 0.001;
 	es.parameters.set<Real> ("DELTA_BC") = 10000000000;
@@ -121,8 +121,8 @@ void read_parameters(EquationSystems& es,  int& argc, char**& argv){
 		
 	/////////////////////////////////////////////////// A65
 	////Lobe meshes for A65
-	   es.parameters.set<std::string> ("mesh_input") = "meshes/lung/A65rmerge_insp2233.msh";
-	//	   es.parameters.set<std::string> ("mesh_input") = "meshes/lung/A65rmerge_inspfine3174.msh";
+	  // es.parameters.set<std::string> ("mesh_input") = "meshes/lung/A65rmerge_insp2233.msh";
+		   es.parameters.set<std::string> ("mesh_input") = "meshes/lung/A65rmerge_inspfine3174.msh";
 		 
 		 
 	//Trees for A65

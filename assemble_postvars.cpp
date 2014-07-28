@@ -23,10 +23,9 @@ void assemble_postvars (EquationSystems& es,
       dof_map.dof_indices (elem, dof_indices_p, p_var);
       dof_map.dof_indices (elem, dof_indices_x, x_var);
       dof_map.dof_indices (elem, dof_indices_y, y_var);
-      #if THREED
       dof_map.dof_indices (elem, dof_indices_w, w_var);
       dof_map.dof_indices (elem, dof_indices_z, z_var);
-      #endif
+      
 
       const unsigned int n_dofs   = dof_indices.size();
       const unsigned int n_u_dofs = dof_indices_u.size(); 
@@ -34,10 +33,8 @@ void assemble_postvars (EquationSystems& es,
       const unsigned int n_p_dofs = dof_indices_p.size();
       const unsigned int n_x_dofs = dof_indices_x.size(); 
       const unsigned int n_y_dofs = dof_indices_y.size();
-      #if THREED
       const unsigned int n_w_dofs = dof_indices_w.size();
       const unsigned int n_z_dofs = dof_indices_z.size();
-      #endif
       
       fe_disp->reinit  (elem);
       fe_vel->reinit  (elem);
@@ -51,22 +48,18 @@ void assemble_postvars (EquationSystems& es,
       Kup.reposition (u_var*n_u_dofs, p_var*n_u_dofs, n_u_dofs, n_p_dofs);
       Kux.reposition (u_var*n_u_dofs, p_var*n_u_dofs + n_p_dofs , n_u_dofs, n_x_dofs);
       Kuy.reposition (u_var*n_u_dofs, p_var*n_u_dofs + n_p_dofs+n_x_dofs , n_u_dofs, n_y_dofs);
-      #if THREED
       Kuw.reposition (u_var*n_u_dofs, w_var*n_u_dofs, n_u_dofs, n_w_dofs);
       Kuz.reposition (u_var*n_u_dofs, p_var*n_u_dofs + n_p_dofs+2*n_x_dofs , n_u_dofs, n_z_dofs);
-      #endif
+      
 
       Kvu.reposition (v_var*n_v_dofs, u_var*n_v_dofs, n_v_dofs, n_u_dofs);
       Kvv.reposition (v_var*n_v_dofs, v_var*n_v_dofs, n_v_dofs, n_v_dofs);
       Kvp.reposition (v_var*n_v_dofs, p_var*n_v_dofs, n_v_dofs, n_p_dofs);
       Kvx.reposition (v_var*n_v_dofs, p_var*n_u_dofs + n_p_dofs , n_v_dofs, n_x_dofs);
       Kvy.reposition (v_var*n_v_dofs, p_var*n_u_dofs + n_p_dofs+n_x_dofs , n_v_dofs, n_y_dofs);
-      #if THREED
       Kvw.reposition (v_var*n_u_dofs, w_var*n_u_dofs, n_v_dofs, n_w_dofs);
       Kuz.reposition (v_var*n_u_dofs, p_var*n_u_dofs + n_p_dofs+2*n_x_dofs , n_u_dofs, n_z_dofs);
-      #endif
 
-      #if THREED
       Kwu.reposition (w_var*n_w_dofs, u_var*n_v_dofs, n_v_dofs, n_u_dofs);
       Kwv.reposition (w_var*n_w_dofs, v_var*n_v_dofs, n_v_dofs, n_v_dofs);
       Kwp.reposition (w_var*n_w_dofs, p_var*n_v_dofs, n_v_dofs, n_p_dofs);
@@ -74,27 +67,22 @@ void assemble_postvars (EquationSystems& es,
       Kwy.reposition (w_var*n_w_dofs, p_var*n_u_dofs + n_p_dofs+n_x_dofs , n_v_dofs, n_y_dofs);
       Kww.reposition (w_var*n_w_dofs, w_var*n_u_dofs, n_v_dofs, n_w_dofs);
       Kwz.reposition (w_var*n_w_dofs, p_var*n_u_dofs + n_p_dofs+2*n_x_dofs , n_u_dofs, n_z_dofs);
-      #endif
 
       Kpu.reposition (p_var*n_u_dofs, u_var*n_u_dofs, n_p_dofs, n_u_dofs);
       Kpv.reposition (p_var*n_u_dofs, v_var*n_u_dofs, n_p_dofs, n_v_dofs);
       Kpp.reposition (p_var*n_u_dofs, p_var*n_u_dofs, n_p_dofs, n_p_dofs);
       Kpx.reposition (p_var*n_v_dofs, p_var*n_u_dofs + n_p_dofs , n_p_dofs, n_x_dofs);
       Kpy.reposition (p_var*n_v_dofs, p_var*n_u_dofs + n_p_dofs+n_x_dofs , n_p_dofs, n_y_dofs);
-      #if THREED
       Kpw.reposition (p_var*n_u_dofs, w_var*n_u_dofs, n_p_dofs, n_w_dofs);
       Kpz.reposition (p_var*n_u_dofs, p_var*n_u_dofs + n_p_dofs+2*n_x_dofs , n_p_dofs, n_z_dofs);
-      #endif
 
       Kxu.reposition (p_var*n_u_dofs + n_p_dofs, u_var*n_u_dofs, n_x_dofs, n_u_dofs);
       Kxv.reposition (p_var*n_u_dofs + n_p_dofs, v_var*n_u_dofs, n_x_dofs, n_v_dofs);
       Kxp.reposition (p_var*n_u_dofs + n_p_dofs, p_var*n_u_dofs, n_x_dofs, n_p_dofs);
       Kxx.reposition (p_var*n_u_dofs + n_p_dofs, p_var*n_u_dofs + n_p_dofs , n_x_dofs, n_x_dofs);
       Kxy.reposition (p_var*n_u_dofs + n_p_dofs, p_var*n_u_dofs + n_p_dofs+n_x_dofs , n_x_dofs, n_y_dofs);
-      #if THREED
       Kxw.reposition (p_var*n_u_dofs + n_p_dofs, w_var*n_u_dofs, n_x_dofs, n_w_dofs);
       Kxz.reposition (p_var*n_u_dofs + n_p_dofs, p_var*n_u_dofs + n_p_dofs+2*n_x_dofs , n_x_dofs, n_z_dofs);
-      #endif
 
 
       Kyu.reposition (p_var*n_u_dofs + n_p_dofs+n_x_dofs, u_var*n_u_dofs, n_y_dofs, n_u_dofs);
@@ -102,12 +90,9 @@ void assemble_postvars (EquationSystems& es,
       Kyp.reposition (p_var*n_u_dofs + n_p_dofs+n_x_dofs, p_var*n_u_dofs, n_y_dofs, n_p_dofs);
       Kyx.reposition (p_var*n_u_dofs + n_p_dofs+n_x_dofs, p_var*n_u_dofs + n_p_dofs , n_y_dofs, n_x_dofs);
       Kyy.reposition (p_var*n_u_dofs + n_p_dofs+n_x_dofs, p_var*n_u_dofs + n_p_dofs+n_x_dofs , n_y_dofs, n_y_dofs);
-      #if THREED
       Kyw.reposition (p_var*n_u_dofs + n_p_dofs+n_x_dofs, w_var*n_u_dofs, n_x_dofs, n_w_dofs);
       Kyz.reposition (p_var*n_u_dofs + n_p_dofs+n_x_dofs, p_var*n_u_dofs + n_p_dofs+2*n_x_dofs , n_x_dofs, n_z_dofs);
-      #endif
 
-      #if THREED
       Kzu.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, u_var*n_u_dofs, n_y_dofs, n_u_dofs);
       Kzv.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, v_var*n_u_dofs, n_y_dofs, n_v_dofs);
       Kzp.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, p_var*n_u_dofs, n_y_dofs, n_p_dofs);
@@ -115,7 +100,6 @@ void assemble_postvars (EquationSystems& es,
       Kzy.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, p_var*n_u_dofs + n_p_dofs+n_x_dofs , n_y_dofs, n_y_dofs);
       Kzw.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, w_var*n_u_dofs, n_x_dofs, n_w_dofs);
       Kzz.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, p_var*n_u_dofs + n_p_dofs+2*n_x_dofs , n_x_dofs, n_z_dofs);
-      #endif
 
 
 
@@ -124,10 +108,8 @@ void assemble_postvars (EquationSystems& es,
       Fp.reposition (p_var*n_u_dofs, n_p_dofs);
       Fx.reposition (p_var*n_u_dofs + n_p_dofs, n_x_dofs);
       Fy.reposition (p_var*n_u_dofs + n_p_dofs+n_x_dofs, n_y_dofs);
-      #if THREED
       Fw.reposition (w_var*n_u_dofs, n_w_dofs);
       Fz.reposition (p_var*n_u_dofs + n_p_dofs+2*n_x_dofs, n_y_dofs);
-      #endif
     
 	  std::vector<unsigned int> undefo_index;
 	  PoroelasticConfig material(dphi,psi);
@@ -172,8 +154,9 @@ void assemble_postvars (EquationSystems& es,
 		}
 		
 		Point rX;
-		material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid,es);
-		
+		//material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid,es);
+		material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid);
+
 		Real J=material.J;
 		Real I_1=material.I_1;
 		Real I_2=material.I_2;
@@ -191,32 +174,29 @@ void assemble_postvars (EquationSystems& es,
 		 sum_jac_postvars=sum_jac_postvars+JxW[qp];
 					
  
-
-		
-		for (unsigned int i=0; i<n_u_dofs; i++){
+		 for (unsigned int i=0; i<n_u_dofs; i++){
           Fu(i) += I_1*JxW[qp]*phi[i][qp];
           Fv(i) += I_2*JxW[qp]*phi[i][qp];
           Fw(i) += I_3*JxW[qp]*phi[i][qp];
 
-	        Fx(i) += 3*JxW[qp]*phi[i][qp];
-          Fy(i) += 11*JxW[qp]*phi[i][qp];
+	      Fx(i) += sigma_sum_sq*JxW[qp]*phi[i][qp];
+          Fy(i) += J*JxW[qp]*phi[i][qp];
           Fz(i) += 0*JxW[qp]*phi[i][qp];
-    }
+	  }
     
     
  
 		for (unsigned int i=0; i<n_p_dofs; i++){
-            Fp(i) += 9*JxW[qp]*psi[i][qp];
+            Fp(i) += J*JxW[qp]*psi[i][qp];
 		}
     
           
-
           
      
            //Mass Matrix assembly
           for (unsigned int i=0; i<n_x_dofs; i++){
             for (unsigned int j=0; j<n_x_dofs; j++){
-            Kxx(i,j) += JxW[qp]*(phi[i][qp]*phi[j][qp]);
+			  Kxx(i,j) += JxW[qp]*(phi[i][qp]*phi[j][qp]);
   			  Kyy(i,j) +=JxW[qp]*(phi[i][qp]*f_phi[j][qp]);
 			  Kzz(i,j) += JxW[qp]*(phi[i][qp]*phi[j][qp]);
 			  Kuu(i,j) += JxW[qp]*(phi[i][qp]*phi[j][qp]);

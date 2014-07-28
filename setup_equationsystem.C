@@ -50,9 +50,7 @@ ref_system.add_variable ("z_ref",ORDER_HIGH,ELEMENT_TYPE);
   postvars.add_variable ("J", ORDER_LOW,ELEMENT_TYPE_PRESS);
   postvars.add_variable ("p1", ORDER_HIGH,ELEMENT_TYPE);
   postvars.add_variable ("p2", ORDER_HIGH,ELEMENT_TYPE);
-  #if THREED
   postvars.add_variable ("p3", ORDER_HIGH,ELEMENT_TYPE);
-  #endif 
 
  
  

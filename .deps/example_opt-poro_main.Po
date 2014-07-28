@@ -347,7 +347,9 @@ example_opt-poro_main.o: poro_main.C \
  create_include_part1.cpp add_coupling_fast.cpp \
  create_include_add_coupling.cpp create_include_part2.cpp \
  update_solution.cpp residual_info.cpp \
- write_variable_results_and_mesh.cpp
+ write_variable_results_and_mesh.cpp assemble_postvars.cpp \
+ poro_elastic_cc.h general_material_cc.h assemble_preamble_postvars.cpp \
+ assemble_postvars_rhs.cpp
 
 /usr/lib/gcc/x86_64-redhat-linux/4.4.6/../../../../include/c++/4.4.6/iostream:
 
@@ -1148,3 +1150,13 @@ update_solution.cpp:
 residual_info.cpp:
 
 write_variable_results_and_mesh.cpp:
+
+assemble_postvars.cpp:
+
+poro_elastic_cc.h:
+
+general_material_cc.h:
+
+assemble_preamble_postvars.cpp:
+
+assemble_postvars_rhs.cpp:
