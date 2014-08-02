@@ -157,7 +157,7 @@ void PoroelasticConfig::calculate_permeability(Point & rX) {
   //Calculate for specific co-ordiante so we can paramterise in space
   
   //Isotropic "Boring law"
-  	  Kperm=KPERM;
+  	//  Kperm=KPERM;
 
 	/*
   if(rX(2)<0.5){
@@ -168,7 +168,7 @@ void PoroelasticConfig::calculate_permeability(Point & rX) {
   */
   
   //Isotropic "Lung law"
- // Kperm=KPERM*pow((1-((1-J)/porosity)),2.0/3.0);
+  Kperm=KPERM*pow((1-((1-J)/porosity)),2.0/3.0);
   
 }
 

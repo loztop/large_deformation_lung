@@ -1,4 +1,4 @@
-		
+	std::cout<<"Update newton " <<std::endl;
 	for (int i=0; i<size_mat; i++) {
 		newton_update.solution->set(i,big_xp(i));
 		newton_update.current_local_solution->set(i,big_xp(i));
@@ -11,8 +11,8 @@
 	
 	//Copy solution back to tree
 	//Update the distal pressures
-	
- 
+
+	std::cout<<"Update distal pressures " <<std::endl;
 
 	for (int i=0; i < tree.number_nodes; i++) {
 		tree.nodes_pressure(i)=tree.nodes_pressure(i) -big_xp(size_mat+i);	
@@ -21,6 +21,7 @@
 	}
 	
 	//Update the flowrates
+	std::cout<<"Update flow rates " <<std::endl;
 	for (int i=0; i < tree.number_edges; i++) {
 		tree.edges_flowrate(i)=tree.edges_flowrate(i)-big_xp(size_mat+tree.number_nodes+i);
 	
@@ -31,6 +32,7 @@
 	 
 	
 		clock_t end_reinit=clock();
+		std::cout<<"Reinit " <<std::endl;
 
 		equation_systems.reinit();
 

@@ -6,7 +6,7 @@ POINTS 4 float
 3 0.5 1
 2 0.5 1
 0.5001 0.5 1.5
-0.5 0.5 0.84
+0.5 0.5 0.5
 LINES 3 9
 2 0 1
 2 1 2
@@ -21,4 +21,4 @@ LOOKUP_TABLE default
 POINT_DATA 4
 scalars Pressure float
 LOOKUP_TABLE default
-0 -7.87881e-05 -7.87881e-05 -0.000104063 
+0 -8.31171e-05 -8.31171e-05 -0.00010978 

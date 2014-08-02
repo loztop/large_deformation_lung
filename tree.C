@@ -58,7 +58,7 @@ void Tree::read_tree(EquationSystems& es) {
 			edges_type.resize(number_edges);
 			edges_resistance.resize(number_edges);
 			edges_child1.resize(number_edges);
-      edges_child2.resize(number_edges);
+			edges_child2.resize(number_edges);
 			
 		}
 		

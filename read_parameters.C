@@ -15,7 +15,9 @@ void read_parameters(EquationSystems& es,  int& argc, char**& argv){
 		es.parameters.set<Real> ("N_eles") = 4;	
 		es.parameters.set<Real> ("DELTA") = 0.001;
 		es.parameters.set<Real> ("DELTA_BC") = 1000000000;
-
+es.parameters.set<Real> ("E") =8000;
+    es.parameters.set<Real> ("NU") = 0.3;
+    es.parameters.set<Real> ("KPERM") =1.e-5;
 		es.parameters.set<std::string> ("output_file_name") = "data/test_2D.mat";
 	
 		es.parameters.set<std::string> ("result_file_name") = "data/cubeX";
@@ -57,7 +59,7 @@ void read_parameters(EquationSystems& es,  int& argc, char**& argv){
   
    if(!es.parameters.get<std::string>("problem").compare("lung")){
     es.parameters.set<Real> ("end_time") =2;
-	es.parameters.set<Real> ("n_timesteps") =100;
+	es.parameters.set<Real> ("n_timesteps") =40;
 	es.parameters.set<Real> ("N_eles") = 4;	
 	es.parameters.set<Real> ("DELTA") = 0.001;
 	es.parameters.set<Real> ("DELTA_BC") = 10000000000;
@@ -73,21 +75,21 @@ void read_parameters(EquationSystems& es,  int& argc, char**& argv){
     es.parameters.set<Real> ("KPERM") =1.e-5;
   
 	es.parameters.set<std::string> ("output_file_name") = "data/test_2D.mat";
-	es.parameters.set<std::string> ("result_file_name") = "data/A65";
-	es.parameters.set<std::string> ("tree_file_name") = "data/A65";
+	es.parameters.set<std::string> ("result_file_name") = "data/A65half";
+	es.parameters.set<std::string> ("tree_file_name") = "data/A65half";
 	
 	
     //Old patient //Whole tree pruned down to imaging data	
 
-	//	es.parameters.set<std::string> ("mesh_input") = "meshes/lung/whole_lung_246.msh";
+		es.parameters.set<std::string> ("mesh_input") = "meshes/lung/whole_lung_246.msh";
 	//	es.parameters.set<std::string> ("mesh_input") = "meshes/lung/whole_lung_751.msh";
-	//	es.parameters.set<std::string> ("tree_input") = "meshes/tree/single_tree";
+	//es.parameters.set<std::string> ("tree_input") = "meshes/tree/single_tree";
 	//	es.parameters.set<std::string> ("mesh_input") = "meshes/lung/N048r_fine1447.msh";
 
 		
 	// es.parameters.set<std::string> ("tree_input") = "meshes/tree/simple_tree";
 	//	es.parameters.set<std::string> ("tree_input") = "meshes/tree/IM4branch";
-	// es.parameters.set<std::string> ("tree_input") = "meshes/tree/OTHERminIM";
+	 es.parameters.set<std::string> ("tree_input") = "meshes/tree/OTHERminIM";
 	
 
 	 
@@ -103,30 +105,34 @@ void read_parameters(EquationSystems& es,  int& argc, char**& argv){
 	 
 ///////////////////////////////////////////////////////////////		
 //Lobe meshes for N048
-  es.parameters.set<std::string> ("mesh_input") = "meshes/lung/whole_lung_246.msh";
-  //  es.parameters.set<std::string> ("mesh_input") = "meshes/lung/whole_lung_751.msh";
+ //  es.parameters.set<std::string> ("mesh_input") = "meshes/lung/whole_lung_246.msh";
+   // es.parameters.set<std::string> ("mesh_input") = "meshes/lung/whole_lung_751.msh";
  // es.parameters.set<std::string> ("mesh_input") = "meshes/lung/N048r_fine1447.msh";
   //  es.parameters.set<std::string> ("mesh_input") = "meshes/lung/N048r_fine2881.msh";
  //  es.parameters.set<std::string> ("mesh_input") = "meshes/lung/N048_node6598.msh";
 
 	 
 	  //Trees for N048
-	 es.parameters.set<std::string> ("tree_input") = "meshes/tree/IM4branch";
-  // es.parameters.set<std::string> ("tree_input") = "meshes/tree/OTHERminIM";
-	//  es.parameters.set<std::string> ("tree_input") = "meshes/tree/simple_tree";
+  	///////	es.parameters.set<std::string> ("tree_input") = "meshes/tree/single_tree";
+
+//	 es.parameters.set<std::string> ("tree_input") = "meshes/tree/IM4branch";
+//  es.parameters.set<std::string> ("tree_input") = "meshes/tree/OTHERminIM";
+// es.parameters.set<std::string> ("tree_input") = "meshes/tree/simple_tree";
   // es.parameters.set<std::string> ("tree_input") = "meshes/tree/half_treeP5";
-  //es.parameters.set<std::string> ("tree_input") = "meshes/tree/half_treeP3";
-	//   es.parameters.set<std::string> ("tree_input") = "meshes/tree/half_tree";
+//  es.parameters.set<std::string> ("tree_input") = "meshes/tree/half_treeP3";
+	 //  es.parameters.set<std::string> ("tree_input") = "meshes/tree/half_tree";
 
 		
 	/////////////////////////////////////////////////// A65
 	////Lobe meshes for A65
-	  // es.parameters.set<std::string> ("mesh_input") = "meshes/lung/A65rmerge_insp2233.msh";
-	 //es.parameters.set<std::string> ("mesh_input") = "meshes/lung/A65rmerge_inspfine3174.msh";
+	//es.parameters.set<std::string> ("mesh_input") = "meshes/lung/A65rmerge_insp2233.msh";
+	//	 es.parameters.set<std::string> ("mesh_input") = "meshes/lung/A65rmerge_inspfine3174.msh";
 		 
 		 
 	//Trees for A65
-	 // es.parameters.set<std::string> ("tree_input") = "meshes/tree/half_tree_A65P3";
+	//es.parameters.set<std::string> ("tree_input") = "meshes/tree/half_tree_A65P3";
+	
+	
  }
  
  

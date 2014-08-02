@@ -46,11 +46,11 @@
 #include "tree.h"
 
 
-#define KPERM 0.1
+#define KPERM 1.e-5
 
-#define E_mod 1000
+#define E_mod 8000
 
-#define NU_mod 0.2
+#define NU_mod 0.3
 
 #define PHI_ZERO 0.9
 
@@ -59,6 +59,12 @@
 #define WRITE_TEC 1
 
 #define CONSTRAINT 1
+
+
+#define fvec 1
+
+#define mats 1
+
 
 // Bring in everything from the libMesh namespace
 using namespace libMesh;

@@ -343,8 +343,8 @@ example_opt-poro_main.o: poro_main.C \
  ../../../include/libmesh/transient_system.h \
  ../../../include/libmesh/petsc_vector.h \
  ../../../include/libmesh/fe_macro.h tree.h \
- /data/lorenz/petsc-3.0.0-p8/include/petsctime.h update_big_matrix.cpp \
- create_include_part1.cpp add_coupling_fast.cpp \
+ /data/lorenz/petsc-3.0.0-p8/include/petsctime.h create_arrays_mats.cpp \
+ update_big_matrix.cpp create_include_part1.cpp add_coupling_fast.cpp \
  create_include_add_coupling.cpp create_include_part2.cpp \
  update_solution.cpp residual_info.cpp \
  write_variable_results_and_mesh.cpp assemble_postvars.cpp \
@@ -1134,6 +1134,8 @@ poro.h:
 tree.h:
 
 /data/lorenz/petsc-3.0.0-p8/include/petsctime.h:
+
+create_arrays_mats.cpp:
 
 update_big_matrix.cpp:
 

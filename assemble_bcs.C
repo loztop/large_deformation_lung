@@ -6,6 +6,8 @@ using namespace std;
 void assemble_bcs (EquationSystems& es)
 {
 
+  
+  
  // Get a constant reference to the mesh object.
   const MeshBase& mesh = es.get_mesh();
   
@@ -18,6 +20,8 @@ void assemble_bcs (EquationSystems& es)
   
 	const Real DELTA_BC    = es.parameters.get<Real>("DELTA_BC");
 
+
+  
   // Numeric ids corresponding to each variable in the system
   const unsigned int u_var = last_non_linear_soln.variable_number ("s_u");
   const unsigned int v_var = last_non_linear_soln.variable_number ("s_v");
@@ -268,8 +272,9 @@ void assemble_bcs (EquationSystems& es)
 	Fx.reposition (3*n_u_dofs + n_p_dofs, n_u_dofs);
 	Fy.reposition (4*n_u_dofs + n_p_dofs, n_v_dofs);
 	Fz.reposition (5*n_u_dofs + n_p_dofs, n_w_dofs);
+	#if  CONSTRAINT
     Fc.reposition (6*n_u_dofs + n_p_dofs, n_w_dofs);
-
+#endif
 	dof_map.dof_indices (elem, dof_indices_x, x_var);
 	dof_map.dof_indices (elem, dof_indices_y, y_var);
 	dof_map.dof_indices (elem, dof_indices_z, z_var);
@@ -296,8 +301,10 @@ void assemble_bcs (EquationSystems& es)
 	if(!es.parameters.get<std::string>("problem").compare("lung")){
 	
 	   #include "boundary_conditions/lobe_affine_bcs.cpp"
+	  
+#if  CONSTRAINT
 	   #include "boundary_conditions/weak_lagrange_flux_bc.cpp" 
-
+#endif
 		//	  #include "boundary_conditions/weak_test_bc.cpp"	
 		
 	  // #include "boundary_conditions/lobe_fixflux_bcs.cpp"
@@ -378,7 +385,7 @@ void assemble_bcs (EquationSystems& es)
 
 			   Real sum_entry=abs(newton_update.matrix->operator()(c_dof,x_dof)) + abs(newton_update.matrix->operator()(c_dof,y_dof)) +abs(newton_update.matrix->operator()(c_dof,z_dof));
 		
-	 	if( sum_entry < 0.000000000001 ){
+	 	if( sum_entry < 0.100000000000000000000000000001 ){
 		 			newton_update.matrix->set(c_dof,c_dof,1);
 					newton_update.matrix->close();
 
