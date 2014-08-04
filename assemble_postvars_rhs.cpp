@@ -170,7 +170,7 @@ void assemble_postvars_rhs (EquationSystems& es,
 		
 		Point rX;
 //		material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid,es);
-				material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid);
+				material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid,es);
 
 		Real J=material.J;
 		 Real I_1=material.I_1;

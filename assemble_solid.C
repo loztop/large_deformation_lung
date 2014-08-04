@@ -4,9 +4,6 @@
 void assemble_solid (EquationSystems& es,
                       const std::string& system_name)
 {
-
-	const Real DELTA_BC    = es.parameters.get<Real>("DELTA_BC");
-
 	
 libmesh_assert (system_name == "Newton-update");
   

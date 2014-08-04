@@ -59,7 +59,7 @@ unsigned int N_eles=equation_systems.parameters.get<Real>("N_eles");
 Real time = 0;
 Real end_time = equation_systems.parameters.get<Real>("end_time");
 const unsigned int n_nonlinear_steps = 10;
-const Real nonlinear_tolerance = 1.e-3;
+const Real nonlinear_tolerance = 1.e-2;
 const Real initial_linear_solver_tol = 1.e-18;
 
 if(!equation_systems.parameters.get<std::string>("problem").compare("cube")){
@@ -187,7 +187,6 @@ const unsigned int p_var = reference.variable_number ("vol_ref");
 Real total_volume_ref=0;
 
 int el_counter=0;
-
 for ( ; el_jac != end_el_jac; ++el_jac)
 {
 const Elem* elem = *el_jac;
@@ -219,31 +218,15 @@ int size_tree=tree.number_nodes+tree.number_edges;
 std::cout<<"FEM dofs "<< size_fem <<std::endl;
 std::cout<<"Tree dofs "<< size_tree <<std::endl;
 
-//Create the big matrix to hold both systems
-/*
-Mat big_A;
-MatCreate(PETSC_COMM_WORLD,&big_A);
-MatSetSizes(big_A,PETSC_DECIDE,PETSC_DECIDE,size_fem+size_tree,size_fem+size_tree);
-MatSetFromOptions(big_A);
-MatSetUp(big_A);	
-MatAssemblyBegin(big_A,MAT_FINAL_ASSEMBLY);
-MatAssemblyEnd(big_A,MAT_FINAL_ASSEMBLY);
-*/
-
 //Integrate the total outflow
 Real total_outflow=0;
 
 #if mats
-  #include "create_arrays_mats.cpp"
-
-  equation_systems.update();
+#include "create_arrays_mats.cpp"
+equation_systems.update();
 equation_systems.allgather();
 equation_systems.reinit();
-  
 #endif
-
-
-
 
 for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
 {
@@ -256,150 +239,70 @@ for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
 
   *last_non_linear_soln.old_local_solution = *last_non_linear_soln.current_local_solution;
 
-
-
   // Now we begin the nonlinear loop
   for (unsigned int l=0; l<n_nonlinear_steps; ++l)
   {	
-clock_t begin_big_nonlin=clock();
-
-
+	clock_t begin_big_nonlin=clock();
     equation_systems.parameters.set<Real> ("non_lin_step") = l;
     std::cout<<"\nNon-linear iteration " << l << std::endl;
-
     change_in_newton_update->zero();
     change_in_newton_update->add(*newton_update.solution);
-
     //Prepare the newton update system for it's linear solve
-    *newton_update.old_local_solution = *newton_update.current_local_solution;
-    
+    *newton_update.old_local_solution = *newton_update.current_local_solution; 
     newton_update.current_local_solution->zero();
     newton_update.solution->zero();
     newton_update.update();
  
     clock_t begin_big_assemble=clock();
-#include "update_big_matrix.cpp"
-clock_t end_big_assemble=clock();
+	#include "update_big_matrix.cpp"
+	clock_t end_big_assemble=clock();
 
-std::cout<<"Assembly,"<< " total: " << double(diffclock(end_big_assemble,begin_big_assemble)) << " fem: " << double(diffclock(end_assemble_fem,begin_assemble_fem)) << " tree: " << double(diffclock(end_assemble_tree,begin_assemble_tree)) << " ms"<< " coupling: " << double(diffclock(end_assemble_coupling_fast,begin_assemble_coupling_fast)) << " ms"<<std::endl;
+	std::cout<<"Assembly,"<< " total: " << double(diffclock(end_big_assemble,begin_big_assemble)) << " fem: " << double(diffclock(end_assemble_fem,begin_assemble_fem)) << " tree: " << double(diffclock(end_assemble_tree,begin_assemble_tree)) << " ms"<< " coupling: " << double(diffclock(end_assemble_coupling_fast,begin_assemble_coupling_fast)) << " ms"<<std::endl;
 
+	//Finally solve the poroelastic system
+	clock_t begin_solid_solve=clock();	
+	//std::cout<< "Solving system "<<std::endl;
+	PetscLinearSolver<Number>* petsc_linear_solver =dynamic_cast<PetscLinearSolver<Number>*>(newton_update.get_linear_solver());
+	//petsc_linear_solver->solve(big_AP, big_xp , big_rp, tolerance, m_its);
+	petsc_linear_solver->solve( big_AP, big_xp , big_rp, 1.e-15,4);
+	clock_t end_solid_solve=clock();
 
-//Finally solve the poroelastic system
-clock_t begin_solid_solve=clock();	
-//std::cout<< "Solving system "<<std::endl;
-PetscLinearSolver<Number>* petsc_linear_solver =dynamic_cast<PetscLinearSolver<Number>*>(newton_update.get_linear_solver());
-//petsc_linear_solver->solve(big_AP, big_xp , big_rp, tolerance, m_its);
-petsc_linear_solver->solve( big_AP, big_xp , big_rp, 1.e-15,4);
-clock_t end_solid_solve=clock();
+	//Copy FEM solution back to system solution vector, update mesh and tree positions
+	clock_t begin_big_update=clock();
+	#include "update_solution.cpp"
+	clock_t end_big_update=clock();
 
-//Copy FEM solution back to system solution vector, update mesh and tree positions
-clock_t begin_big_update=clock();
-#include "update_solution.cpp"
-clock_t end_big_update=clock();
+	//std::cout<< "-------- Residual and convergence info ----------"<<std::endl;
+	#include "residual_info.cpp"
 
-//std::cout<< "-------- Residual and convergence info ----------"<<std::endl;
-#include "residual_info.cpp"
+	//Do some post-processing (calculate stress etc)
+	postvars.assemble_before_solve=false;
+	postvars.matrix->zero();
+	postvars.rhs->zero();
+	assemble_postvars(equation_systems,"postvars");
+	postvars.update();
+	postvars.solve();
 
-//Do some post-processing (calculate stress etc)
-postvars.assemble_before_solve=false;
-postvars.matrix->zero();
-postvars.rhs->zero();
-assemble_postvars(equation_systems,"postvars");
-postvars.update();
-postvars.solve();
+	//end of nonlinear step computation
+	clock_t end_big_nonlin=clock();
 
-//end of nonlinear step computation
-clock_t end_big_nonlin=clock();
-
- //free memory
-//these are create everytime could as change this to initialise a start once
-#if mats
-  PetscFree(b_array); 
-  PetscFree(big_cols_t); 
+	//free memory
+	#if mats
+	PetscFree(b_array); 
+	PetscFree(big_cols_t); 
 	PetscFree(vals_new); 
 	PetscFree(cols_new); 
-	 big_AP.clear();
-  big_rp.clear();
-#endif
+	big_AP.clear();
+	big_rp.clear();
+	#endif
  
- 
-  /*
-#if !mats
- //in reverse order
-   big_xp.clear();
-  VecDestroy(big_x);
-  
-   
-  big_AP.clear();
-  big_rp.clear();
-  
-	PetscFree(vals_new); 
-	PetscFree(cols_new); 
-	PetscFree(rows_new); 
-	PetscFree(idx_insert); 
-	PetscFree(vals_coupling_test_cpy); 
-    PetscFree(cols_coupling_test_cpy); 
-    PetscFree(sort_idx); 
+	std::cout<<"Total: " << double(diffclock(end_big_nonlin,begin_big_nonlin)) << " assembly: " << double(diffclock(end_big_assemble,begin_big_assemble)) << " update: " << double(diffclock(end_big_update,begin_big_update)) << " solve: " << double(diffclock(end_solid_solve,begin_solid_solve)) << " ms"<<std::endl;
 
-	 PetscFree(rhs_new); 
-    PetscFree(vals_coupling_f); 
-#if !fvec
-    PetscFree(cols_coupling_f); 
-#endif
-    PetscFree(rows_coupling_f); 
-    PetscFree(already_set_f); 
-    PetscFree(found_end_j_f); 
-    PetscFree(end_j_zero_f); 
-	PetscFree(omega_end_j_f); 
-	PetscFree(end_j_f); 
-	
-	  PetscFree(b_array); 
-  PetscFree(big_cols_t); 
- PetscFree(big_rows_t); 
-
- 
-	  PetscFree(big_rows_a); 
-    PetscFree(t_array); 
-		// PetscFree(t_cols); //on stack
-		//  PetscFree(t_rows); //on stack
-
- 
- 
-		//  PetscFree(a_array); //stack - need to do this properly using malloc
-		//  PetscFree(a_cols); //stack
-		//  PetscFree(a_rows); //stack
-		//	PetscFree(a_nrow); //stack
-	
-	  VecDestroy(big_r);
-	  rp.clear(); 
-	  VecDestroy(r);
-	  xp.clear();
-	  VecDestroy(x);
-	  
-	   ATP.clear();
-	  MatDestroy(T); //stack ??
-		
-		
-		  VecDestroy(cols_coupling_fvec);
-	  cols_coupling_fvecp.clear();
-#endif
-		 */
-	  // AP.clear();
-	   
-	   
-	   
-	   
-	  // MatDestroy(A);  //stack ?? - dosent exist anymore
- 
- 
- 
-std::cout<<"Total: " << double(diffclock(end_big_nonlin,begin_big_nonlin)) << " assembly: " << double(diffclock(end_big_assemble,begin_big_assemble)) << " update: " << double(diffclock(end_big_update,begin_big_update)) << " solve: " << double(diffclock(end_solid_solve,begin_solid_solve)) << " ms"<<std::endl;
-
-   if ((norm_delta/l2_soln < nonlinear_tolerance)&&(solid_residual/l2_soln < nonlinear_tolerance) ){
-std::cout << "Nonlinear solver converged after "<< l+1 <<" steps."<<std::endl;
-break;
-  }
- } // end nonlinear loop
+	if ((norm_delta/l2_soln < nonlinear_tolerance)&&(solid_residual/l2_soln < nonlinear_tolerance) ){
+	  std::cout << "Nonlinear solver converged after "<< l+1 <<" steps."<<std::endl;
+	  break;
+	}
+  } // end nonlinear loop
 
  last_non_linear_soln.update();
  newton_update.update();
@@ -408,15 +311,10 @@ break;
 
  total_outflow=total_outflow+tree.edges_flowrate(0)*dt;
  std::cout<<"total_outflow "<< total_outflow << std::endl;
-#include "write_variable_results_and_mesh.cpp"
- 
- 
- 
-
- 
+ #include "write_variable_results_and_mesh.cpp"
  
 } // end timestep loop.
-}
+} // end main function.
 
 #include "assemble_postvars.cpp"
 #include "assemble_postvars_rhs.cpp"

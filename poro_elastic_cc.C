@@ -26,15 +26,23 @@ void PoroelasticConfig::calculate_stress_poro() {
   sigma = 1.0/detF * tau;
 }
 
-void PoroelasticConfig::init_for_qp(Point & rX,VectorValue<Gradient> & grad_u, Number & p_current, unsigned int qp, Real m, Real p_fluid) {
+void PoroelasticConfig::init_for_qp(Point & rX,VectorValue<Gradient> & grad_u, Number & p_current, unsigned int qp, Real m, Real p_fluid, EquationSystems& es) {
   
   this->current_qp = qp;
   this->p_solid = p_current;
-  this->E = E_mod;
-  this->nu = NU_mod;
   this->Phi_zero = PHI_ZERO;
   this->Rho_s = RHO_S;
 
+	this->E = es.parameters.get<Real>("E");
+  this->nu = es.parameters.get<Real>("NU");
+
+  //Add some emphysema
+    if(abs(rX(1))>160){
+	//	   this->E =    es.parameters.get<Real>("E")*4;
+     //this->nu    =  es.parameters.get<Real>("NU");
+		}
+		  
+		  
   F.zero();
   S.zero();
 
@@ -56,7 +64,7 @@ void PoroelasticConfig::init_for_qp(Point & rX,VectorValue<Gradient> & grad_u, N
     this->Ft = F.transpose();
     this->C = Ft*F;
     this->c_update(C);
-	this->calculate_permeability(rX);
+	  this->calculate_permeability(rX,es);
 	
     if (this->calculate_linearized_stiffness) {
       this->calculate_tangent();
@@ -151,14 +159,11 @@ void PoroelasticConfig::calculate_tangent() {
   */
 }
 
-void PoroelasticConfig::calculate_permeability(Point & rX) {
+void PoroelasticConfig::calculate_permeability(Point & rX, EquationSystems& es) {
   
   
   //Calculate for specific co-ordiante so we can paramterise in space
   
-  //Isotropic "Boring law"
-  	//  Kperm=KPERM;
-
 	/*
   if(rX(2)<0.5){
 	  Kperm=KPERM;
@@ -168,7 +173,7 @@ void PoroelasticConfig::calculate_permeability(Point & rX) {
   */
   
   //Isotropic "Lung law"
-  Kperm=KPERM*pow((1-((1-J)/porosity)),2.0/3.0);
+  Kperm=es.parameters.get<Real>("KPERM")*pow((1-((1-J)/porosity)),2.0/3.0);
   
 }
 

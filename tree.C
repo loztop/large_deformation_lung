@@ -175,7 +175,7 @@ void Tree::read_tree(EquationSystems& es) {
 			
 			//Deal with disease here 
 
-		 /*
+		 
  			if(	  abs(nodes(i+1)(1))> 160    ){
 
 			  edges_diseased(i)=1;
@@ -185,7 +185,7 @@ void Tree::read_tree(EquationSystems& es) {
 				edges_radius(i)=edges_radius(i)/2;
 
 			}
-		 */
+		 
 			
 			 
 			

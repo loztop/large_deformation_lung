@@ -6,8 +6,6 @@ using namespace std;
 void assemble_bcs (EquationSystems& es)
 {
 
-  
-  
  // Get a constant reference to the mesh object.
   const MeshBase& mesh = es.get_mesh();
   
@@ -17,11 +15,7 @@ void assemble_bcs (EquationSystems& es)
   es.get_system<TransientLinearImplicitSystem> ("Last-non-linear-soln");
 
   const System & ref_sys = es.get_system("Reference-Configuration"); 
-  
-	const Real DELTA_BC    = es.parameters.get<Real>("DELTA_BC");
-
-
-  
+    
   // Numeric ids corresponding to each variable in the system
   const unsigned int u_var = last_non_linear_soln.variable_number ("s_u");
   const unsigned int v_var = last_non_linear_soln.variable_number ("s_v");

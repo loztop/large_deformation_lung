@@ -129,22 +129,12 @@ void assemble_postvars (EquationSystems& es,
 			std::vector<Number> u_undefo_ref;
 
 			//Fills the vector di with the global degree of freedom indices for the element. :dof_indicies
-			
-			
-
-			
 			Last_non_linear_soln.get_dof_map().dof_indices(elem, undefo_index,d);
 			Last_non_linear_soln.current_local_solution->get(undefo_index, u_undefo);
 			reference.current_local_solution->get(undefo_index, u_undefo_ref);
 
 			for (unsigned int l = 0; l != n_u_dofs; l++){
 			   grad_u_mat(d).add_scaled(dphi[l][qp], u_undefo[l]+u_undefo_ref[l]); 
-					
-				// grad_u_mat(d).add_scaled(dphi[l][qp],u_undefo_ref[l]); 
-
-			//	 std::cout<<" u_undefo[l] " << u_undefo[l] <<std::endl;
-			//	 std::cout<<" u_undefo_ref[l] " << u_undefo_ref[l] <<std::endl;
-
 			}
 		  }
           
@@ -154,8 +144,7 @@ void assemble_postvars (EquationSystems& es,
 		}
 		
 		Point rX;
-		//material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid,es);
-		material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid);
+		material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid,es);
 
 		Real J=material.J;
 		Real I_1=material.I_1;
@@ -165,11 +154,8 @@ void assemble_postvars (EquationSystems& es,
 		//std::cout<<" I_3 " << I_3 <<std::endl;
 
 		RealTensor sigma=material.sigma;
-		//std::cout<<" sigma " << sigma <<std::endl;
 		
 		 Real sigma_sum_sq=pow(sigma(0,0)*sigma(0,0)+sigma(0,1)*sigma(0,1)+sigma(0,2)*sigma(0,2)+sigma(1,0)*sigma(1,0)+sigma(1,1)*sigma(1,1)+sigma(1,2)*sigma(1,2)+sigma(2,0)*sigma(2,0)+sigma(2,1)*sigma(2,1)+sigma(2,2)*sigma(2,2),0.5);
-		 //std::cout<<" sigma_sum_sq " << sigma_sum_sq <<std::endl;
-
 
 		 sum_jac_postvars=sum_jac_postvars+JxW[qp];
 					
@@ -211,9 +197,7 @@ void assemble_postvars (EquationSystems& es,
 			}
 		  }
 		 
- 
-		 
-          
+
 } // end qp
 
 

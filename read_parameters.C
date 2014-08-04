@@ -15,7 +15,7 @@ void read_parameters(EquationSystems& es,  int& argc, char**& argv){
 		es.parameters.set<Real> ("N_eles") = 4;	
 		es.parameters.set<Real> ("DELTA") = 0.001;
 		es.parameters.set<Real> ("DELTA_BC") = 1000000000;
-es.parameters.set<Real> ("E") =8000;
+		es.parameters.set<Real> ("E") =8000;
     es.parameters.set<Real> ("NU") = 0.3;
     es.parameters.set<Real> ("KPERM") =1.e-5;
 		es.parameters.set<std::string> ("output_file_name") = "data/test_2D.mat";
@@ -58,11 +58,10 @@ es.parameters.set<Real> ("E") =8000;
 	
   
    if(!es.parameters.get<std::string>("problem").compare("lung")){
-    es.parameters.set<Real> ("end_time") =2;
-	es.parameters.set<Real> ("n_timesteps") =40;
+    es.parameters.set<Real> ("end_time") =1;
+	es.parameters.set<Real> ("n_timesteps") =10;
 	es.parameters.set<Real> ("N_eles") = 4;	
 	es.parameters.set<Real> ("DELTA") = 0.001;
-	es.parameters.set<Real> ("DELTA_BC") = 10000000000;
 
 	//Add the registration information N048 exp -> insp
 	Point A( 0.1559, 0.0393, 0.2603);
@@ -75,8 +74,8 @@ es.parameters.set<Real> ("E") =8000;
     es.parameters.set<Real> ("KPERM") =1.e-5;
   
 	es.parameters.set<std::string> ("output_file_name") = "data/test_2D.mat";
-	es.parameters.set<std::string> ("result_file_name") = "data/A65half";
-	es.parameters.set<std::string> ("tree_file_name") = "data/A65half";
+	es.parameters.set<std::string> ("result_file_name") = "data/A65halfDW";
+	es.parameters.set<std::string> ("tree_file_name") = "data/A65halfDW";
 	
 	
     //Old patient //Whole tree pruned down to imaging data	

@@ -45,13 +45,6 @@
 #include <time.h>
 #include "tree.h"
 
-
-#define KPERM 1.e-5
-
-#define E_mod 8000
-
-#define NU_mod 0.3
-
 #define PHI_ZERO 0.9
 
 #define RHO_S 1

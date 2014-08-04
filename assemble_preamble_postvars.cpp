@@ -2,7 +2,6 @@
   const Real time    = es.parameters.get<Real>("time");
   const Real progress    = es.parameters.get<Real>("progress");
   const Real DELTA    = es.parameters.get<Real>("DELTA");
-  const Real DELTA_BC    = es.parameters.get<Real>("DELTA_BC");
 
 	Real mu = E/(2*(1+NU));
 	Real lambda = (E*NU)/((1+NU)*(1-2*NU));

@@ -27,12 +27,13 @@ for (unsigned int qp=0; qp<qrule.n_points(); qp++)
     p_solid += psi[l][qp]*last_non_linear_soln.current_local_solution->el(dof_indices_p[l]);
   }
     
-  material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid);
+  material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid,es);
 
   Real Kperm=material.Kperm;
   Real J=material.J;
   Real phi_zero=material.Phi_zero;
   Real rho_s=material.Rho_s;
+  Real grav=0*9.8*rho_s;
   Real PHI=1-((1-phi_zero)/J);
 // 
   Point fluid_vel;
@@ -78,7 +79,6 @@ for (unsigned int qp=0; qp<qrule.n_points(); qp++)
     Fv(i) += res(1) ; 
     Fw(i) += res(2);  
  
-    Real grav=9.8*rho_s;
  
  		 
     // Matrix contributions for the uu and vv couplings.
@@ -97,9 +97,8 @@ for (unsigned int qp=0; qp<qrule.n_points(); qp++)
       Kwv(i,j)+=  stiff(w_var, v_var);
       Kww(i,j)+=  stiff(w_var, w_var); 
 
-      #if GRAVITY
-      Kuu(i,j)+= 1*JxW[qp]*phi[i][qp]*phi[j][qp];
-      #endif
+    
+	  
     }
   }
 
@@ -165,6 +164,8 @@ for (unsigned int qp=0; qp<qrule.n_points(); qp++)
     Fz(i) += factor_z*JxW[qp]*phi[i][qp]*fluid_vel(2);
     Fz(i) += -JxW[qp]*factor*p_solid*dphi[i][qp](2);
 			
+	//add gravity !!!!
+	 Fz(i) += grav*JxW[qp]*phi[i][qp];
 
     }
 
