@@ -86,7 +86,7 @@ clock_t begin_assemble_coupling_fast=clock();
   VecSetSizes(x,PETSC_DECIDE,size_fem);
   VecSetFromOptions(x);
   PetscVector<Number> xp(x) ;
-  #endif
+#endif
 
   
 xp.zero();
@@ -118,29 +118,26 @@ VecSetValue(big_r, i , rp(i) ,INSERT_VALUES);
 }
 
 #include "create_include_part1.cpp"
+
+#if !fvec2
 #include "add_coupling_fast.cpp"
 #include "create_include_add_coupling.cpp"
+#endif
+
+#if fvec2
+#include "add_coupling_fast_fvec.cpp"
+#include "create_include_add_coupling_fvec.cpp"
+#endif
+
 #include "create_include_part2.cpp"
+
 clock_t end_assemble_coupling_fast=clock();
-
-/*
-std::cout<< "Adding coupling terms "<<std::endl;
-clock_t begin_assemble_coupling=clock();
-//#include "add_couplingv5.cpp"
-clock_t end_assemble_coupling=clock();
-
-std::cout<<"Print big_A "<<std::endl;
-MatSetFromOptions(big_A);
-MatSetUp(big_A);
-MatAssemblyBegin(big_A,MAT_FINAL_ASSEMBLY);
-MatAssemblyEnd(big_A,MAT_FINAL_ASSEMBLY);
-MatView(big_A,viewer);
-*/
 
 PetscMatrix<Number> big_AP(big_A) ;
 big_AP.close();
 
 PetscVector<Number> big_rp(big_r) ;
+big_rp.close();
 
 #if !mats
 Vec big_x;
@@ -154,7 +151,9 @@ PetscVector<Number> big_xp(big_x) ;
 
 
 
-
+#if fvec2 
+#include "create_destroyfvec.cpp"
+#endif
 
 
 

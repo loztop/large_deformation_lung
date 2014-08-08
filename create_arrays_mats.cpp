@@ -1,4 +1,51 @@
 //Create the big matrix to hold both systems
+
+Real Num_vals_t,Num_vals_a,Size_coup;
+
+//mesh_246, IM4branch
+Num_vals_t=7981;
+Num_vals_a=141826;
+Size_coup=1978;
+
+
+
+std::string mesh_input=equation_systems.parameters.get<std::string>("mesh_input");
+std::string tree_input=equation_systems.parameters.get<std::string>("tree_input");
+
+//A65rmerge_inspfine3174, htP3
+	if(!mesh_input.compare("meshes/lung/A65rmerge_inspfine3174.msh")){
+ Num_vals_t=65464;
+ Num_vals_a=2638084;
+ Size_coup=35477;
+	 }
+	 
+				
+//A65rmerge_inspfine1339, htP3
+	if(!mesh_input.compare("meshes/lung/A65rmerge_insp_1339.msh")){
+ Num_vals_t=65464;
+ Num_vals_a=982588;
+ Size_coup=15061;
+	 }
+
+//A65rmerge_inspfine1339, htP3
+	if(!mesh_input.compare("meshes/lung/A65rmerge_insp_356.msh")){
+		Num_vals_t=65464;
+		Num_vals_a=168973;
+		Size_coup=4371;
+	 }
+
+	 
+	 
+//whole_lung_751, htP3  //edit !!!
+	if(!mesh_input.compare("meshes/lung/whole_lung_751.msh")){
+		Num_vals_t=65464;
+		Num_vals_a=168973;
+		Size_coup=4371;
+	 }
+	 
+	 
+	 
+	 
 Mat big_A;            
 MatCreate(PETSC_COMM_WORLD,&big_A);
 MatSetSizes(big_A,PETSC_DECIDE,PETSC_DECIDE,size_fem+size_tree,size_fem+size_tree);
@@ -152,16 +199,16 @@ rhs_new=(PetscReal *)malloc((a_nrow+t_nrow)*sizeof(PetscReal));
 //////#include "create_include_add_coupling.cpp"
 
 PetscInt *sort_idx;
-sort_idx=(PetscInt *)malloc((el_counter*4)*sizeof(PetscInt));
+sort_idx=(PetscInt *)malloc((Size_coup)*sizeof(PetscInt));
 
 PetscInt *cols_coupling_test_cpy;
-cols_coupling_test_cpy=(PetscInt *)malloc((el_counter*4)*sizeof(PetscInt));
+cols_coupling_test_cpy=(PetscInt *)malloc((Size_coup)*sizeof(PetscInt));
 
 PetscReal *vals_coupling_test_cpy;
-vals_coupling_test_cpy=(PetscReal *)malloc((el_counter*4)*sizeof(PetscReal));
+vals_coupling_test_cpy=(PetscReal *)malloc((Size_coup)*sizeof(PetscReal));
 
 PetscInt *idx_insert;
-idx_insert=(PetscInt *)malloc((el_counter*4)*sizeof(PetscInt));
+idx_insert=(PetscInt *)malloc((Size_coup)*sizeof(PetscInt));
 
 PetscInt *rows_new;
 rows_new=(PetscInt *)malloc((a_nrow+t_nrow+1)*sizeof(PetscInt));
@@ -175,4 +222,19 @@ VecSetSizes(big_x,PETSC_DECIDE,size_fem+size_tree);
 VecSetFromOptions(big_x);
 PetscVector<Number> big_xp(big_x) ;
 
+
+
+
+///New bits
+  PetscInt *big_cols_t;
+  big_cols_t=(PetscInt *)malloc((Num_vals_t+Num_vals_a)*sizeof(PetscInt));
+  
+    PetscScalar *b_array;
+  b_array=(PetscScalar *)malloc((Num_vals_t+Num_vals_a)*sizeof(PetscScalar));
+  
+ PetscInt *cols_new;
+cols_new=(PetscInt *)malloc((Num_vals_t+Num_vals_a+Size_coup)*sizeof(PetscInt));
+
+ PetscReal *vals_new;
+vals_new=(PetscReal *)malloc((Num_vals_t+Num_vals_a+Size_coup)*sizeof(PetscReal));
 

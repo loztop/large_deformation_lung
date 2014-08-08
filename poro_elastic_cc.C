@@ -37,10 +37,18 @@ void PoroelasticConfig::init_for_qp(Point & rX,VectorValue<Gradient> & grad_u, N
   this->nu = es.parameters.get<Real>("NU");
 
   //Add some emphysema
-    if(abs(rX(1))>160){
-	//	   this->E =    es.parameters.get<Real>("E")*4;
-     //this->nu    =  es.parameters.get<Real>("NU");
+	if( es.parameters.get<Real>("tissue_disease")>0){
+   
+		Point center_dis=es.parameters.get<Point>("disease_cent");
+		Real rad_dis=es.parameters.get<Real>("rad_dis");
+		
+		Real dist_to_dis=pow( pow(rX(0)-center_dis(0),2)+pow(rX(1)-center_dis(1),2)+pow(rX(2)-center_dis(2),2) , 0.5);
+		
+		if(dist_to_dis<rad_dis){
+		   this->E =    es.parameters.get<Real>("E")*es.parameters.get<Real>("tissue_disease");
+       this->nu    =  es.parameters.get<Real>("NU");
 		}
+	}
 		  
 		  
   F.zero();
@@ -93,6 +101,7 @@ void PoroelasticConfig::c_update(RealTensor C) {
   this->I_2 = 0.5*(pow(I_1,2) - (Csqd(0,0)+Csqd(1,1)+Csqd(2,2))) ;
   this->J=pow(I_3,(1.0/2.0));
   
+
   this->porosity=1-((1-Phi_zero)/J);
 }
 

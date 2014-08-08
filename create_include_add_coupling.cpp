@@ -29,15 +29,21 @@ PetscSortIntWithArray(size_coup,rows_coupling_f,sort_idx);
 // cols_coupling_test_cpy=cols_coupling_f;
 
 #if fvec
-
 PetscVector<Number> cols_coupling_fvecp(cols_coupling_fvec) ;
 //cols_coupling_fvecp.add(1,rhs_in);
 #endif
 
 
+#if fvec2
+PetscVector<Number> vals_coupling_fvecp(vals_coupling_fvec) ;
+#endif
+
 for ( int i = 0; i < size_coup; i++ )
 {
   vals_coupling_test_cpy[i]=vals_coupling_f[i];
+
+
+
 	
 #if !fvec
     cols_coupling_test_cpy[i]=cols_coupling_f[i];
@@ -76,18 +82,21 @@ for ( int i = 0; i < a_nrow+t_nrow; i++ )
   rows_new[i]=0;
 }
 
+#if !mats
  PetscInt *cols_new;
 cols_new=(PetscInt *)malloc((num_vals_t+num_vals_a+size_coup)*sizeof(PetscInt));
- 
+#endif
+std::cout<< " num_vals_t " << num_vals_t << " num_vals_a " << num_vals_a << " size_coup " << size_coup <<std::endl;
 
 for ( int i = 0; i < num_vals_t+num_vals_a+size_coup; i++ )
 {
   cols_new[i]=0;
 }
 
+#if !mats
  PetscReal *vals_new;
 vals_new=(PetscReal *)malloc((num_vals_t+num_vals_a+size_coup)*sizeof(PetscReal));
- 
+#endif
 
 for ( int i = 0; i < num_vals_t+num_vals_a+size_coup; i++ )
 {

@@ -54,8 +54,9 @@ class Tree{
 public:
 
 	void  read_tree( EquationSystems& es);
-	
-	
+	void  add_constriction( EquationSystems& es);
+	void  fix_tree( EquationSystems& es);
+
 	void  write_tree(EquationSystems& es);
 
 	void calculate_omega_j (EquationSystems& es);

@@ -32,7 +32,6 @@
 #include "libmesh/petsc_matrix.h"
 #include "poro.h"
 #include "tree.h"
-
 #define SOLVER_NAME "mumps"
 //#define SOLVER_NAME "superlu"
 #define PC_TYPE PCLU
@@ -58,8 +57,8 @@ unsigned int N_eles=equation_systems.parameters.get<Real>("N_eles");
  
 Real time = 0;
 Real end_time = equation_systems.parameters.get<Real>("end_time");
-const unsigned int n_nonlinear_steps = 10;
-const Real nonlinear_tolerance = 1.e-2;
+const unsigned int n_nonlinear_steps = 6;
+const Real nonlinear_tolerance = 1.e-3;
 const Real initial_linear_solver_tol = 1.e-18;
 
 if(!equation_systems.parameters.get<std::string>("problem").compare("cube")){
@@ -92,14 +91,19 @@ if(!equation_systems.parameters.get<std::string>("problem").compare("lung")){
     const Point Aexp = equation_systems.parameters.get<Point>("A");
 const Point bexp = equation_systems.parameters.get<Point>("b");
 
+Real facexp=1.2;
 //Update the position of the airway tree
 std::cout<<"Moving tree to expiratory " <<std::endl;
     for (double j=0; j <tree.number_nodes ; j++) {
-for (unsigned int d = 0; d < 3; ++d) {
-tree.nodes(j)(d)=tree.nodes(j)(d)-( tree.nodes(j)(d)*Aexp(d)+bexp(d) );
-tree.nodes_deformed(j)(d)=tree.nodes(j)(d);
-}
+			for (unsigned int d = 0; d < 3; ++d) {
+				tree.nodes(j)(d)=tree.nodes(j)(d)-facexp*( tree.nodes(j)(d)*Aexp(d)+bexp(d) );
+				tree.nodes_deformed(j)(d)=tree.nodes(j)(d);
+			}
      }
+
+tree.fix_tree(equation_systems);
+tree.add_constriction(equation_systems);
+
        
     //Update the mesh position
 std::cout<<"Moving mesh to expiratory " <<std::endl;
@@ -109,7 +113,7 @@ for ( ; it_node != it_last_node ; ++it_node)
     {
       Node* node = *it_node;
       for (unsigned int d = 0; d < 3; ++d) {
-           (*node)(d)= (*node)(d) - ((*node)(d)*Aexp(d)+bexp(d)) ;
+           (*node)(d)= (*node)(d) - facexp*((*node)(d)*Aexp(d)+bexp(d)) ;
       }
    }
 }
@@ -228,6 +232,8 @@ equation_systems.allgather();
 equation_systems.reinit();
 #endif
 
+PetscLinearSolver<Number>* petsc_linear_solver =dynamic_cast<PetscLinearSolver<Number>*>(newton_update.get_linear_solver());
+
 for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
 {
   time += dt;
@@ -262,7 +268,7 @@ for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
 	//Finally solve the poroelastic system
 	clock_t begin_solid_solve=clock();	
 	//std::cout<< "Solving system "<<std::endl;
-	PetscLinearSolver<Number>* petsc_linear_solver =dynamic_cast<PetscLinearSolver<Number>*>(newton_update.get_linear_solver());
+	
 	//petsc_linear_solver->solve(big_AP, big_xp , big_rp, tolerance, m_its);
 	petsc_linear_solver->solve( big_AP, big_xp , big_rp, 1.e-15,4);
 	clock_t end_solid_solve=clock();
@@ -275,25 +281,21 @@ for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
 	//std::cout<< "-------- Residual and convergence info ----------"<<std::endl;
 	#include "residual_info.cpp"
 
-	//Do some post-processing (calculate stress etc)
-	postvars.assemble_before_solve=false;
-	postvars.matrix->zero();
-	postvars.rhs->zero();
-	assemble_postvars(equation_systems,"postvars");
-	postvars.update();
-	postvars.solve();
+	
 
 	//end of nonlinear step computation
 	clock_t end_big_nonlin=clock();
 
 	//free memory
 	#if mats
-	PetscFree(b_array); 
-	PetscFree(big_cols_t); 
-	PetscFree(vals_new); 
-	PetscFree(cols_new); 
+	//PetscFree(b_array); 
+	//PetscFree(big_cols_t); 
+	//PetscFree(vals_new); 
+	//PetscFree(cols_new); 
 	big_AP.clear();
 	big_rp.clear();
+
+	
 	#endif
  
 	std::cout<<"Total: " << double(diffclock(end_big_nonlin,begin_big_nonlin)) << " assembly: " << double(diffclock(end_big_assemble,begin_big_assemble)) << " update: " << double(diffclock(end_big_update,begin_big_update)) << " solve: " << double(diffclock(end_solid_solve,begin_solid_solve)) << " ms"<<std::endl;
@@ -311,11 +313,26 @@ for (unsigned int t_step=1; t_step<=n_timesteps; ++t_step)
 
  total_outflow=total_outflow+tree.edges_flowrate(0)*dt;
  std::cout<<"total_outflow "<< total_outflow << std::endl;
+ 
+ //update tree position
+  clock_t begin_pos_update=clock();
+    tree.update_positions(equation_systems);    
+    clock_t end_pos_update=clock();
+	std::cout<<"tree position_update: " << double(diffclock(end_pos_update,begin_pos_update)) <<  " ms"<<std::endl;
+	
+	//Do some post-processing (calculate stress etc)
+	postvars.assemble_before_solve=false;
+	postvars.matrix->zero();
+	postvars.rhs->zero();
+	assemble_postvars(equation_systems,"postvars");
+	postvars.update();
+	postvars.solve();
+	
  #include "write_variable_results_and_mesh.cpp"
  
 } // end timestep loop.
 } // end main function.
 
 #include "assemble_postvars.cpp"
-#include "assemble_postvars_rhs.cpp"
+
 

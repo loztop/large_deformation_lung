@@ -26,7 +26,7 @@ for (unsigned int qp=0; qp<qrule.n_points(); qp++)
   {
     p_solid += psi[l][qp]*last_non_linear_soln.current_local_solution->el(dof_indices_p[l]);
   }
-    
+      
   material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid,es);
 
   Real Kperm=material.Kperm;

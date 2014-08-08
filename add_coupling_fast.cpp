@@ -16,7 +16,7 @@ c_f=c_f+1;
 }
 
  
-   Real res_sum_f=0;
+Real res_sum_f=0;
 
  #if !mats
    PetscReal *omega_end_j_f;
@@ -56,7 +56,7 @@ int closest_end_node=0;
 
 
 for (int j=0; j < c_f; j++) {	
-Real dist_j=pow(elem_pos(0)- tree.nodes_deformed(end_j_f[j])(0),2)+pow(elem_pos(1)- tree.nodes_deformed(end_j_f[j])(1),2)+pow(elem_pos(2)- tree.nodes_deformed(end_j_f[j])(2),2);
+Real dist_j=pow(elem_pos(0)- tree.nodes(end_j_f[j])(0),2)+pow(elem_pos(1)- tree.nodes(end_j_f[j])(1),2)+pow(elem_pos(2)- tree.nodes(end_j_f[j])(2),2);
 
 if(dist_j<closest_dist)
 {
@@ -120,28 +120,29 @@ PetscMalloc((3*a_nrow+t_nrow)*sizeof(PetscInt),&cols_coupling_f);
 #endif
 
 #if fvec
-Vec cols_coupling_fvec;
-VecCreate(PETSC_COMM_WORLD,&cols_coupling_fvec);
+	Vec cols_coupling_fvec;
+	VecCreate(PETSC_COMM_WORLD,&cols_coupling_fvec);
   PetscObjectSetName((PetscObject) cols_coupling_fvec, "Solution");
   VecSetSizes(cols_coupling_fvec,PETSC_DECIDE,3*a_nrow+t_nrow);
   VecSetFromOptions(cols_coupling_fvec);
   VecSetFromOptions(cols_coupling_fvec);
-
-	  VecAssemblyBegin(cols_coupling_fvec);
+  VecAssemblyBegin(cols_coupling_fvec);
   VecAssemblyEnd(cols_coupling_fvec);
-
-  		//VecSetValue(big_r, dof_indices_p[0], - constant*tree.edges_flowrate(closest_end_edge_j),ADD_VALUES); 
 #endif
   		
    
 
 #if !mats
+
 PetscReal *vals_coupling_f;
 vals_coupling_f=(PetscReal *)malloc((3*a_nrow+t_nrow)*sizeof(PetscReal));
 
+
 PetscReal *rhs_new;
 rhs_new=(PetscReal *)malloc((a_nrow+t_nrow)*sizeof(PetscReal));
+
 #endif
+
 
  
 for ( int i = 0; i < a_nrow+t_nrow; i++ )
@@ -154,7 +155,7 @@ for ( int i = 0; i < 3*a_nrow+t_nrow; i++ )
   {
 vals_coupling_f[i]=0;
   }
-   
+  
  #if !fvec
    for ( int i = 0; i < 3*a_nrow+t_nrow; i++ )
   {

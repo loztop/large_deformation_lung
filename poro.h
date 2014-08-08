@@ -45,6 +45,9 @@
 #include <time.h>
 #include "tree.h"
 
+#define PI 3.14159265
+
+
 #define PHI_ZERO 0.9
 
 #define RHO_S 1
@@ -54,7 +57,11 @@
 #define CONSTRAINT 1
 
 
-#define fvec 1
+#define fvec 0
+
+
+#define fvec2 0
+
 
 #define mats 1
 

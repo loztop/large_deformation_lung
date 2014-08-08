@@ -51,8 +51,10 @@ big_rows_t[ i ] = t_rows[i-a_nrow]+big_rows_t[ a_nrow ];
   PetscInt num_vals_a=a_rows[a_nrow];
   PetscInt num_vals_t=t_rows[t_nrow];
   
+#if !mats
   PetscInt *big_cols_t;
   big_cols_t=(PetscInt *)malloc((num_vals_t+num_vals_a)*sizeof(PetscInt));
+#endif
   
   for (int i = 0; i < num_vals_a; i++ )
   {
@@ -63,9 +65,11 @@ big_rows_t[ i ] = t_rows[i-a_nrow]+big_rows_t[ a_nrow ];
   {
       big_cols_t[ i ] = t_cols[ i -num_vals_a] + a_nrow;
   }
-   
+ 
+#if !mats
   PetscScalar *b_array;
   b_array=(PetscScalar *)malloc((num_vals_t+num_vals_a)*sizeof(PetscScalar));
+#endif
   
    for ( int i = 0; i < num_vals_a; i++ )
    {

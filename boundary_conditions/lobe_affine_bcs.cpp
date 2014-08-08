@@ -13,16 +13,15 @@
             const Real xf = (*node)(0);
             Real yf = (*node)(1);
             Real zf = (*node)(2);
-	const Point A    = es.parameters.get<Point>("A");
-  const Point b    = es.parameters.get<Point>("b");
-	        Real pi=3.14159;
-            Real fac=0.35*(1+sin(1*pi*(time/2)+(3.0/2.0)*pi));
-			//Real fac=progress;	
-			es.parameters.set<Real> ("fac") =fac;
+						const Point A    = es.parameters.get<Point>("A");
+						const Point b    = es.parameters.get<Point>("b");
+						Real pi=3.14159;
+            Real fac=0.2*(1+sin(1*pi*(time/2)+(3.0/2.0)*pi));
 
 			Point diagAt(fac*A(0),fac*A(1),fac*A(2));						
-			Point bt(fac*b(0),fac*b(0),fac*b(0));
+			Point bt(-fac*b(0),-fac*b(1),-fac*b(2));
 			
+	//		std::cout<<bt<<std::endl;
 						
 			Point p;
 			for (unsigned int d = 0; d < 3; ++d) {

@@ -59,16 +59,20 @@ data=TEMP(1:params.Nodes,:);
 t=size(data,1);
 
 %The reference positions
-x=data(:,18);
-y=data(:,19);
-z=data(:,20);
+x=data(:,20);
+y=data(:,21);
+z=data(:,22);
 
 %The displacements
 s_u=data(:,4);
 s_v=data(:,5);
 s_w=data(:,6);
 
+%Disease centre is at 75,110,160
+
 %Find index of nodes where x=1, y=1, z=1
+    idx_x_75=find(abs(x(:,i)-75)<30)
+
 idx_x_1=find(x==1);
 idx_y_1=find(y==1);
 idx_z_1=find(z==1);
