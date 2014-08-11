@@ -85,8 +85,10 @@ for ( int i = 0; i < a_nrow+t_nrow; i++ )
 #if !mats
  PetscInt *cols_new;
 cols_new=(PetscInt *)malloc((num_vals_t+num_vals_a+size_coup)*sizeof(PetscInt));
-#endif
+
 std::cout<< " num_vals_t " << num_vals_t << " num_vals_a " << num_vals_a << " size_coup " << size_coup <<std::endl;
+
+#endif
 
 for ( int i = 0; i < num_vals_t+num_vals_a+size_coup; i++ )
 {

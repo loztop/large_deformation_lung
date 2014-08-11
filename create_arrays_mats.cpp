@@ -36,13 +36,42 @@ std::string tree_input=equation_systems.parameters.get<std::string>("tree_input"
 
 	 
 	 
-//whole_lung_751, htP3  //edit !!!
-	if(!mesh_input.compare("meshes/lung/whole_lung_751.msh")){
-		Num_vals_t=65464;
-		Num_vals_a=168973;
-		Size_coup=4371;
+//whole_lung_751, OTHERminIM !!!
+	if(!mesh_input.compare("meshes/lung/whole_lung_751.msh") && !tree_input.compare("meshes/tree/OTHERminIM")){
+		Num_vals_t=61966;
+		Num_vals_a=495310;
+		Size_coup=6700;
 	 }
 	 
+	 
+//whole_lung_751, half_treeP3 !!!
+	if(!mesh_input.compare("meshes/lung/whole_lung_751.msh") && !tree_input.compare("meshes/tree/half_treeP3")){
+		Num_vals_t=92123;
+		Num_vals_a=495310;
+		Size_coup=8778;
+	 }
+	 
+//N048r_fine1447, half_treeP3 !!!
+	if(!mesh_input.compare("meshes/lung/N048r_fine1447.msh") && !tree_input.compare("meshes/tree/half_treeP3")){
+		Num_vals_t=92123;
+		Num_vals_a=852946;
+		Size_coup=13670;
+	 }	 	 
+	 
+	 
+	 
+	 	if(!mesh_input.compare("meshes/lung/N048r_fine2881.msh") && !tree_input.compare("meshes/tree/half_treeP3")){
+		Num_vals_t=92123;
+		Num_vals_a=1780555;
+		Size_coup=25964;
+	 }	 
+	 
+	 	 
+	 	if(!mesh_input.compare("meshes/lung/N048_node6598.msh") && !tree_input.compare("meshes/tree/half_treeP3")){
+		Num_vals_t=92123;
+		Num_vals_a=6239983;
+		Size_coup=78890;
+	 }	 
 	 
 	 
 	 

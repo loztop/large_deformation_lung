@@ -46,7 +46,7 @@ void PoroelasticConfig::init_for_qp(Point & rX,VectorValue<Gradient> & grad_u, N
 		
 		if(dist_to_dis<rad_dis){
 		   this->E =    es.parameters.get<Real>("E")*es.parameters.get<Real>("tissue_disease");
-       this->nu    =  es.parameters.get<Real>("NU");
+		   this->nu    =  es.parameters.get<Real>("NU");
 		}
 	}
 		  

@@ -29,6 +29,7 @@ NT=1;
 %Load time step data    
 fnameC=strcat(base,'Health80NT4T_20',tec);
 fnameC=strcat(base,'Const1339_0_6NT2T_6',tec);
+fnameC=strcat(base,'N48_2881_0.01E_fix_8T_80NT_10',tec);
 
 importfile(fnameC);
 

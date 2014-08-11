@@ -346,7 +346,7 @@ void Tree::add_constriction(EquationSystems& es) {
 		if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/whole_lung_246.msh")){
 			edge_rad_max=10;			
  		}else{
-				edge_rad_max=0.35;					
+				edge_rad_max=0.4;					
 		}
 		
 		if( (edges_radius(i)<edge_rad_max) && (es.parameters.get<Real>("airway_disease")>0)){
@@ -372,9 +372,24 @@ void Tree::add_constriction(EquationSystems& es) {
 
 }
 
+void Tree::shrink_rad(EquationSystems& es) {
+	
+	for (int i=0; i < number_edges; i++) {
+	
+		  edges_radius(i) =edges_radius(i)*0.8;	 
+ 	
+		edges_resistance(i)=1*(8.0*MU_F*(edges_length(i)))/(PIE*pow(1*edges_radius(i),4));
+	}
+	
+
+}
 
 void Tree::fix_tree(EquationSystems& es) {
 
+  
+  
+	
+	
 	for (int i=0; i < number_edges; i++) {
 		//Add some constriction (only to the small airways)
 		
@@ -382,21 +397,68 @@ void Tree::fix_tree(EquationSystems& es) {
 		Point u_node=nodes(edges_upper_node(i));
 		Point l_node=nodes(edges_lower_node(i));
 		
-		if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/whole_lung_246.msh")){
-			edge_rad_max=10;			
- 		}else{
-				edge_rad_max=0.35;					
-		}
+	
 		
-		if( (edges_radius(i)<0.2)){
-		   edges_radius(i) =0.2;	 
+		if( (edges_radius(i)<0.55)){
+		  edges_radius(i) =edges_radius(i)*1;	 
  		}
 		
+	
+		
+		
+		//	if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/whole_lung_751.msh"))
+			{
+	   Point center_fix(-136,-143,-157);
+		Real rad_dis=70;
+		Real dist_to_dis=pow( pow(l_node(0)-center_fix(0),2)+pow(l_node(1)-center_fix(1),2)+pow(l_node(2)-center_fix(2),2) , 0.5);
+					 
+		if(dist_to_dis<rad_dis&& edges_radius(i)<0.65 ){
+		   edges_radius(i) = 2.3*edges_radius(i) ;
+			if( (edges_radius(i)<0.32)){
+			  edges_radius(i) =0.32;	 
+			}
+			 if( (edges_radius(i)>0.65)){
+			  edges_radius(i) =0.65;	 
+			}
+			
+ 		}
+ 		
+ 		
+ 		
+ 		 Point center_fix2(-81,-100,-134);
+		Real rad_dis2=22;
+		Real dist_to_dis2=pow( pow(l_node(0)-center_fix2(0),2)+pow(l_node(1)-center_fix2(1),2)+pow(l_node(2)-center_fix2(2),2) , 0.5);
+					 
+		if(dist_to_dis2<rad_dis2 && edges_radius(i)<0.6 ){
+		   edges_radius(i) = 1.8*edges_radius(i) ;
+			if( (edges_radius(i)<0.3)){
+			  edges_radius(i) =0.3;	 
+			}
+			 if( (edges_radius(i)>0.6)){
+			  edges_radius(i) =0.6;	 
+			}
+ 		
+		}
+		
+		if( (edges_radius(i)<0.3)){
+		  edges_radius(i) =0.3;	 
+ 		}
 		
 		edges_resistance(i)=1*(8.0*MU_F*(edges_length(i)))/(PIE*pow(1*edges_radius(i),4));
 		
 		
 		//edges_resistance(ed_count)=1;
+	}
+	}
+	
+
+}
+
+
+void Tree::flip_tree(EquationSystems& es) {
+
+	for (int i=0; i < number_nodes; i++) {
+	 nodes(i)=-nodes(i);
 	}
 	
 
@@ -556,6 +618,11 @@ void Tree::update_resistances (EquationSystems& es)
 void Tree::update_positions (EquationSystems& es)
 {
 
+  
+  	const Point A    = es.parameters.get<Point>("A");
+	const Point b    = es.parameters.get<Point>("b");
+  	const Real fac    = es.parameters.get<Real>("fac");
+	
 	TransientLinearImplicitSystem&  last_non_linear_soln = es.get_system<TransientLinearImplicitSystem>("Last-non-linear-soln");
 	const MeshBase& mesh = es.get_mesh();
 	const unsigned int u_var = last_non_linear_soln.variable_number ("s_u");
@@ -585,7 +652,7 @@ void Tree::update_positions (EquationSystems& es)
 		
 		
 			for (double j=0; j <number_nodes ; j++) {
-		for (unsigned int d = 0; d < 3; ++d) {
+		  for (unsigned int d = 0; d < 3; ++d) {
 			Real def_value = 0;
 			try
 			{
@@ -594,11 +661,21 @@ void Tree::update_positions (EquationSystems& es)
 				throw 20;
 			}catch (int e){ }
 				
-			if(def_value>0)
-			{
-			 nodes_deformed(j)(d)=def_value;
-			//std::cout<< nodes_deformed(j)(d) << std::endl;
-			}	 
+		
+				
+				if(def_value==0)
+				{	
+				  if(!es.parameters.get<std::string>("problem").compare("lung")){
+				  //If point is outside then apply the known registration !
+				  Point diagAt(fac*A(0),fac*A(1),fac*A(2));						
+				  Point bt(fac*b(0),fac*b(0),fac*b(0));
+				   nodes_deformed(j)(d)=nodes(j)(d)+ nodes(j)(d)*diagAt(d)+bt(d) ;
+				}
+				
+				}else{	
+				  nodes_deformed(j)(d)=def_value;
+				}
+				
 		}
     }
 		

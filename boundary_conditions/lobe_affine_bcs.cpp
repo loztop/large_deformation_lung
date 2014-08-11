@@ -17,6 +17,7 @@
 						const Point b    = es.parameters.get<Point>("b");
 						Real pi=3.14159;
             Real fac=0.2*(1+sin(1*pi*(time/2)+(3.0/2.0)*pi));
+			es.parameters.set<Real> ("fac") =fac;
 
 			Point diagAt(fac*A(0),fac*A(1),fac*A(2));						
 			Point bt(-fac*b(0),-fac*b(1),-fac*b(2));

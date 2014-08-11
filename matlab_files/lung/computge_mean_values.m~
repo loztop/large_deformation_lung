@@ -1,4 +1,6 @@
 clear all;
+close all;
+
 tec='.tec';
 
 base='/auto/users/lorenzb/mount_point/data/';
@@ -26,9 +28,12 @@ NT=1;
 
 %Load time step data    
 fnameC=strcat(base,'Health80NT4T_20',tec);
+fnameC=strcat(base,'Const1339_0_6NT2T_6',tec);
+fnameC=strcat(base,'N48_2881_H_fix_8T_80NT_20',tec);
+
 importfile(fnameC);
 
-fnameC
+
 
 header_info=textdata{3};
 TEMP=data;

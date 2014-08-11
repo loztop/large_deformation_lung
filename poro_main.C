@@ -99,10 +99,28 @@ std::cout<<"Moving tree to expiratory " <<std::endl;
 				tree.nodes(j)(d)=tree.nodes(j)(d)-facexp*( tree.nodes(j)(d)*Aexp(d)+bexp(d) );
 				tree.nodes_deformed(j)(d)=tree.nodes(j)(d);
 			}
+			
+			
+			
+     	//Move mesh a bit more to ecncompass tree on;y do this for N48
+					if(!equation_systems.parameters.get<std::string>("mesh_input").compare("meshes/lung/N048r_fine2881.msh")){
+						tree.nodes(j)(0)= tree.nodes(j)(0)*0.975+2;
+						tree.nodes(j)(1)= tree.nodes(j)(1)*0.975+3;
+						tree.nodes(j)(2)= tree.nodes(j)(2)*0.975+4;
+					
+						tree.nodes_deformed(j)(0)=tree.nodes(j)(0);
+						tree.nodes_deformed(j)(1)=tree.nodes(j)(1);
+						tree.nodes_deformed(j)(2)=tree.nodes(j)(2);		
+					}	
+					
      }
 
+
 tree.fix_tree(equation_systems);
+
+     
 tree.add_constriction(equation_systems);
+tree.shrink_rad(equation_systems);
 
        
     //Update the mesh position

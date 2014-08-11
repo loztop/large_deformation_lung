@@ -56,6 +56,8 @@ public:
 	void  read_tree( EquationSystems& es);
 	void  add_constriction( EquationSystems& es);
 	void  fix_tree( EquationSystems& es);
+	void  flip_tree( EquationSystems& es);
+	void  shrink_rad( EquationSystems& es);
 
 	void  write_tree(EquationSystems& es);
 
