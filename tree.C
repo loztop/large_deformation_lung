@@ -82,6 +82,9 @@ void Tree::read_tree(EquationSystems& es) {
 			//	nodes(node_count) = -point ;
 				}
 				
+				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/N48rmerge_290.msh")){
+				nodes(node_count) = -point ;
+				}
 				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/N048r_fine1447.msh")){
 				nodes(node_count) = -point ;
 				}
@@ -89,7 +92,8 @@ void Tree::read_tree(EquationSystems& es) {
 				nodes(node_count) = -point ;
 				}			
 				
-				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/N048_node6598.msh")){
+				
+				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/N048_node5036.msh")){
 				nodes(node_count) = -point ;
 				}
 				
@@ -343,7 +347,7 @@ void Tree::add_constriction(EquationSystems& es) {
 		Point u_node=nodes(edges_upper_node(i));
 		Point l_node=nodes(edges_lower_node(i));
 		
-		if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/whole_lung_246.msh")){
+		if(!es.parameters.get<std::string>("tree_input").compare("meshes/tree/OTHERminIM")){
 			edge_rad_max=10;			
  		}else{
 				edge_rad_max=0.4;					

@@ -73,7 +73,20 @@ std::string tree_input=equation_systems.parameters.get<std::string>("tree_input"
 		Size_coup=78890;
 	 }	 
 	 
+	 if(!mesh_input.compare("meshes/lung/N048_node5036.msh") && !tree_input.compare("meshes/tree/half_treeP3")){
+		Num_vals_t=92123;
+		Num_vals_a=4256254;
+		Size_coup=54244;
+	 }	 
 	 
+	 	 
+	 if(!mesh_input.compare("meshes/lung/N48rmerge_290.msh") && !tree_input.compare("meshes/tree/OTHERminIM")){
+		Num_vals_t=61966;
+		Num_vals_a=133543;
+		Size_coup=1826;
+	 }	 
+	 
+ 
 	 
 Mat big_A;            
 MatCreate(PETSC_COMM_WORLD,&big_A);

@@ -103,7 +103,8 @@ std::cout<<"Moving tree to expiratory " <<std::endl;
 			
 			
      	//Move mesh a bit more to ecncompass tree on;y do this for N48
-					if(!equation_systems.parameters.get<std::string>("mesh_input").compare("meshes/lung/N048r_fine2881.msh")){
+				//	if((!equation_systems.parameters.get<std::string>("mesh_input").compare("meshes/lung/N048r_fine2881.msh")) || (!equation_systems.parameters.get<std::string>("mesh_input").compare("meshes/lung/N048_node5036.msh"))){
+					  	if( (!equation_systems.parameters.get<std::string>("mesh_input").compare("meshes/lung/N048_node5036.msh"))){
 						tree.nodes(j)(0)= tree.nodes(j)(0)*0.975+2;
 						tree.nodes(j)(1)= tree.nodes(j)(1)*0.975+3;
 						tree.nodes(j)(2)= tree.nodes(j)(2)*0.975+4;

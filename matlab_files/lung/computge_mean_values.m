@@ -3,11 +3,11 @@ close all;
 
 tec='.tec';
 
-base='/auto/users/lorenzb/mount_point/data/';
+base='/auto/users/lorenzb/mount_point/plot_data/';
 
 
 
-Nodes=246 %for 246 mesh
+Nodes=5036 %for 246 mesh
 
 %Tracking points
 P1=[75,110,160];
@@ -23,13 +23,12 @@ NP=size(P,1);
 AD=[0,0.5,0.25,0.01];
 TD=[0,0,0,0];
 
-NT=1;
-
 
 %Load time step data    
 fnameC=strcat(base,'Health80NT4T_20',tec);
 fnameC=strcat(base,'Const1339_0_6NT2T_6',tec);
 fnameC=strcat(base,'N48_2881_0.01E_fix_8T_80NT_10',tec);
+fnameC=strcat(base,'5036_C_1_0__5',tec);
 
 importfile(fnameC);
 

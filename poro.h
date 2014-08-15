@@ -91,6 +91,9 @@ void calculate_numeric_jacobian(EquationSystems& es, SparseMatrix< Number >& num
 
 double diffclock(clock_t clock1,clock_t clock2);
 
+double average_stress(RealTensor A);
+
+
 void  update_big_matrix(Mat& big_A, EquationSystems& es, Tree& tree);
 
 
