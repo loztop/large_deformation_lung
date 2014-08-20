@@ -111,9 +111,9 @@ J_b2(i,:)=data(b2_idx,31)';
 J_b3(i,:)=data(b3_idx,31)';
 
 %%Stress
-sig_b1(i,:)=data(b1_idx,32)';
-sig_b2(i,:)=data(b2_idx,32)';
-sig_b3(i,:)=data(b3_idx,32)';
+sig_b1(i,:)=data(b1_idx,33)';
+sig_b2(i,:)=data(b2_idx,33)';
+sig_b3(i,:)=data(b3_idx,33)';
 
 clear b1_idx
 clear b2_idx
@@ -271,8 +271,8 @@ ylim([ymins ymaxs])
  set(gcf, 'PaperPosition', [0 0 24 20]); %Position plot at left hand corner with width 5 and height 5.
  set(gcf, 'PaperSize', [24 20]);
 
-output_plot_filename='5036'
-print(hFig,strcat(out_base,output_plot_filename),'-dpdf','-r0')
+%output_plot_filename='5036'
+%print(hFig,strcat(out_base,output_plot_filename),'-dpdf','-r0')
  
 
 

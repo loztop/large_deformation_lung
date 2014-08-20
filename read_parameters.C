@@ -73,9 +73,9 @@ void read_parameters(EquationSystems& es,  int& argc, char**& argv){
 	   
 	   es.parameters.set<Real> ("airway_disease") = 0;
 		es.parameters.set<Real> ("tissue_disease") = 0;
-		es.parameters.set<std::string> ("output_file_name") = "data/effective_test.mat";
-	es.parameters.set<std::string> ("result_file_name") = "data/effective_test";
-	es.parameters.set<std::string> ("tree_file_name") = "data/effective_test";
+		es.parameters.set<std::string> ("output_file_name") = "data/effective_testC.mat";
+	es.parameters.set<std::string> ("result_file_name") = "data/effective_testC";
+	es.parameters.set<std::string> ("tree_file_name") = "data/effective_testC";
 	
 	   }
 	
@@ -114,21 +114,21 @@ void read_parameters(EquationSystems& es,  int& argc, char**& argv){
 //Lobe meshes for N048
  //  es.parameters.set<std::string> ("mesh_input") = "meshes/lung/whole_lung_246.msh";
 //    es.parameters.set<std::string> ("mesh_input") = "meshes/lung/whole_lung_751.msh";
- es.parameters.set<std::string> ("mesh_input") = "meshes/lung/N48rmerge_290.msh";
+ //es.parameters.set<std::string> ("mesh_input") = "meshes/lung/N48rmerge_290.msh";
 
  // es.parameters.set<std::string> ("mesh_input") = "meshes/lung/N048r_fine1447.msh";
   //  es.parameters.set<std::string> ("mesh_input") = "meshes/lung/N048r_fine2881.msh";
-  // es.parameters.set<std::string> ("mesh_input") = "meshes/lung/N048_node5036.msh";
+   es.parameters.set<std::string> ("mesh_input") = "meshes/lung/N048_node5036.msh";
 
 	 
 	  //Trees for N048
   	///////	es.parameters.set<std::string> ("tree_input") = "meshes/tree/single_tree";
 //	 es.parameters.set<std::string> ("tree_input") = "meshes/tree/IM4branch";
-  es.parameters.set<std::string> ("tree_input") = "meshes/tree/OTHERminIM";
+ // es.parameters.set<std::string> ("tree_input") = "meshes/tree/OTHERminIM";
 // es.parameters.set<std::string> ("tree_input") = "meshes/tree/simple_tree";
   // es.parameters.set<std::string> ("tree_input") = "meshes/tree/half_treeP5";
- // es.parameters.set<std::string> ("tree_input") = "meshes/tree/half_treeP3";
-	 //  es.parameters.set<std::string> ("tree_input") = "meshes/tree/half_tree";
+  es.parameters.set<std::string> ("tree_input") = "meshes/tree/half_treeP3";
+	//   es.parameters.set<std::string> ("tree_input") = "meshes/tree/half_tree";
 
 	 
  }

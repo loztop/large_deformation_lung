@@ -50,7 +50,7 @@ public:
 	DenseMatrix<Real> C_mat;
 
   Real I_1, I_2, I_3, J;
-  RealTensor F, S, tau, sigma, C, invC, b, Ft, Identity;
+  RealTensor F, S, tau, sigma, C, invC, b, Ft, Identity, sigma_e, S_e;
   DenseMatrix<Real> B_L;
   DenseMatrix<Real> B_K;
 };

@@ -19,11 +19,20 @@ void PoroelasticConfig::calculate_stress_poro() {
 
   //Whitely et al Neo-Hookean law (I think)
   S = 0.5 * lambda * (detF * detF - 1) * invC + mu * (identity - invC);
+  
+  S_e=S;
+  
   S += - p_solid*J*invC;
 
   //convert to current configuration using a push forward operation
   tau = (F * S) * Ft;
   sigma = 1.0/detF * tau;
+  
+  //elastic/effective stress tensor
+  sigma_e=1.0/detF * (F * S_e) * Ft;
+  
+  
+  
 }
 
 void PoroelasticConfig::init_for_qp(Point & rX,VectorValue<Gradient> & grad_u, Number & p_current, unsigned int qp, Real m, Real p_fluid, EquationSystems& es) {

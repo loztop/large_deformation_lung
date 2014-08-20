@@ -3,7 +3,7 @@ close all;
 
 tec='.tec';
 
-prefix='5036_C_';
+prefix='5036_Ce_';
 
 %x_axis_str='Percentage of original Young''s modulus';
 x_axis_str='Percentage of original airway constriction';
@@ -12,11 +12,11 @@ x_axis_str='Percentage of original airway constriction';
 
 %work
 base='/auto/users/lorenzb/mount_point/plot_data/';
-out_base='/users/lorenzb/Dphil/poroelasticity_papers/coupling_paper/figures/lung_sims/Craf_';
+out_base='/users/lorenzb/Dphil/poroelasticity_papers/coupling_paper/figures/lung_sims/Crafe_';
 
 %home
 base='/home/loztop/mount_point/mount_point/plot_data/';
-out_base='/home/loztop/Dropbox/Dphil/poroelasticity_papers/coupling_paper/figures/lung_sims/Craf_';
+out_base='/home/loztop/Dropbox/Dphil/poroelasticity_papers/coupling_paper/figures/lung_sims/Crafe_';
 
 Nodes=5036 %for 246 mesh
 
@@ -111,9 +111,14 @@ J_b2(i,:)=data(b2_idx,31)';
 J_b3(i,:)=data(b3_idx,31)';
 
 %%Stress
-sig_b1(i,:)=data(b1_idx,32)';
-sig_b2(i,:)=data(b2_idx,32)';
-sig_b3(i,:)=data(b3_idx,32)';
+sig_b1(i,:)=data(b1_idx,33)';
+sig_b2(i,:)=data(b2_idx,33)';
+sig_b3(i,:)=data(b3_idx,33)';
+
+%%Elastic Stress
+sige_b1(i,:)=data(b1_idx,32)';
+sige_b2(i,:)=data(b2_idx,32)';
+sige_b3(i,:)=data(b3_idx,32)';
 
 clear b1_idx
 clear b2_idx
@@ -145,21 +150,24 @@ ymaxj=1.26;
 ymins=600;
 ymaxs=5400;
 
+yminse=100;
+ymaxse=3300;
+
 ymin=-2500;
 ymax=700;
 xtix = {'100%','50%','25%','10%','1%'};   % Your labels
 xtixloc = [1 2 3 4 5];      % Your label locations
 
-tight_subplot(3,3)
+tight_subplot(4,3)
 set(hFig, 'Position', [100 100 1000 1990])
 
 
 set([gca]             , ...
     'FontSize'   , fontF           );
 
-tight_subplot(3,3)
+tight_subplot(4,3)
 %%%plot Jacobian
-h2=subplot(3,3,2)
+h2=subplot(4,3,2)
 boxplot(J_b2')
 hold all
  title('0-0.2cm from diseased area','interpreter','latex','FontSize',headF);
@@ -171,7 +179,7 @@ ax2=get(h2,'Position');
 ylim([yminj ymaxj])
 
  
-subplot(3,3,3)
+subplot(4,3,3)
 boxplot(J_b3')
 hold all
  title('0.5-1cm from diseased area','interpreter','latex','FontSize',headF);
@@ -183,7 +191,7 @@ set(gca,'XTickMode','auto','XTickLabel',xtix,'XTick',xtixloc);
 ylim([yminj ymaxj])
 
 
-h1=subplot(3,3,1)
+h1=subplot(4,3,1)
 boxplot(J_b1')
 hold all
  title('Inside diseased area','interpreter','latex','FontSize',headF);
@@ -199,7 +207,7 @@ ylim([yminj ymaxj])
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
-h5=subplot(3,3,5)
+h5=subplot(4,3,5)
 boxplot(s_p_b2')
 hold all
 % title('0-0.2cm from diseased area','interpreter','latex','FontSize',14);
@@ -211,7 +219,7 @@ ax5=get(h5,'Position');
 ylim([ymin ymax])
 
  
-subplot(3,3,6)
+subplot(4,3,6)
 boxplot(s_p_b3')
 hold all
 % title('0.5-1cm from diseased area','interpreter','latex','FontSize',14);
@@ -223,7 +231,7 @@ set(gca,'XTickMode','auto','XTickLabel',xtix,'XTick',xtixloc);
 ylim([ymin ymax])
 
 
-h4=subplot(3,3,4)
+h4=subplot(4,3,4)
 boxplot(s_p_b1')
 hold all
 % title('Inside diseased area','interpreter','latex','FontSize',14);
@@ -238,7 +246,7 @@ ylim([ymin ymax])
 
 
 %%%%%%%%%%%%%%%%%%%%%%%% STRESS
-h8=subplot(3,3,8)
+h8=subplot(4,3,8)
 boxplot(sig_b2')
 hold all
 % title('0-0.2cm from diseased area','interpreter','latex','FontSize',14);
@@ -250,7 +258,7 @@ ax8=get(h8,'Position');
 ylim([ymins ymaxs])
 
  
-subplot(3,3,9)
+subplot(4,3,9)
 boxplot(sig_b3')
 hold all
 % title('0.5-1cm from diseased area','interpreter','latex','FontSize',14);
@@ -262,170 +270,63 @@ set(gca,'XTickMode','auto','XTickLabel',xtix,'XTick',xtixloc);
 ylim([ymins ymaxs])
 
 
-h7=subplot(3,3,7)
+h7=subplot(4,3,7)
 boxplot(sig_b1')
 hold all
 % title('Inside diseased area','interpreter','latex','FontSize',14);
 set([gca]             , ...
     'FontSize'   , fontF           );
-  ylabel('Stress (Pa)','interpreter','latex','FontSize',yaxisF)
+  ylabel('Total stress (Pa)','interpreter','latex','FontSize',yaxisF)
 
 set(gca,'XTickMode','auto','XTickLabel',xtix,'XTick',xtixloc);
 ax7=get(h7,'Position');
  set(h7,'Position',[ax7(1)-0.055 ax7(2) ax8(3) ax8(4)]);
 ylim([ymins ymaxs])
  
- set(gcf, 'PaperPosition', [0 0 24 20]); %Position plot at left hand corner with width 5 and height 5.
- set(gcf, 'PaperSize', [24 20]);
 
+%%%%%%%%%%%%%%%%%%%%%%%% ELASTIC STRESS
+h8=subplot(4,3,11)
+boxplot(sige_b2')
+hold all
+% title('0-0.2cm from diseased area','interpreter','latex','FontSize',14);
+set([gca]             , ...
+    'FontSize'   , fontF           );
+
+set(gca,'XTickMode','auto','XTickLabel',xtix,'XTick',xtixloc);
+ax8=get(h8,'Position');
+ylim([yminse ymaxse])
+
+ 
+subplot(4,3,12)
+boxplot(sige_b3')
+hold all
+% title('0.5-1cm from diseased area','interpreter','latex','FontSize',14);
+set([gca]             , ...
+    'FontSize'   , fontF           );
+
+
+set(gca,'XTickMode','auto','XTickLabel',xtix,'XTick',xtixloc);
+ylim([yminse ymaxse])
+
+
+h7=subplot(4,3,10)
+boxplot(sige_b1')
+hold all
+% title('Inside diseased area','interpreter','latex','FontSize',14);
+set([gca]             , ...
+    'FontSize'   , fontF           );
+  ylabel('Elastic stress (Pa)','interpreter','latex','FontSize',yaxisF)
+
+set(gca,'XTickMode','auto','XTickLabel',xtix,'XTick',xtixloc);
+ax7=get(h7,'Position');
+ set(h7,'Position',[ax7(1)-0.055 ax7(2) ax8(3) ax8(4)]);
+ylim([yminse ymaxse])
+
+ set(gcf, 'PaperPosition', [-1 -2.2 22 27]); %Position plot at left hand corner with width 5 and height 5.
+ set(gcf, 'PaperSize', [20 24]);
+
+ 
 output_plot_filename='5036'
 print(hFig,strcat(out_base,output_plot_filename),'-dpdf','-r0')
  
 
-
-%set(hFig, 'Position', [100 100 1000 1400])
-
- % hold all
-  
-  
- %  xlabel('Percentage of original airway radius','interpreter','latex','FontSize',19)
-
-  
-%axis([AD(1) AD(4) -1600 50]);
-
-% subplot(1,3,2)
-% set(hFig, 'Position', [100 100 550 430])
-% set([gca]             , ...
-%     'FontSize'   , 12           );
-% boxplot(s_p_b2')
-% axis([AD(1) AD(4) -1600 50]);
-% 
-% subplot(1,3,3)
-%  set(hFig, 'Position', [100 100 550 430])
-% set([gca]             , ...
-%     'FontSize'   , 12           );
-% boxplot(s_p_b3')
-% axis([AD(1) AD(4) -1600 50]);
-% 
-% 
-% %%%%%%%%%%%%%%
-% hFig=figure;
-% set(hFig, 'Position', [100 100 550 430])
-% set([gca]             , ...
-%     'FontSize'   , 12           );
-% boxplot(J_b1')
-% 
-% hFig=figure;
-% set(hFig, 'Position', [100 100 550 430])
-% set([gca]             , ...
-%     'FontSize'   , 12           );
-% boxplot(J_b2')
-% 
-% hFig=figure;
-% set(hFig, 'Position', [100 100 550 430])
-% set([gca]             , ...
-%     'FontSize'   , 12           );
-% boxplot(J_b3')
-% 
-% %%%%%%%%%%%%%%%
-% 
-% p1_hand=plot(xaxis,(s_p(:,1)),'k-s','LineWidth',2,'MarkerSize',8);
-% hold all;
-% p2_hand=plot(xaxis,s_p(:,2),'b-o','LineWidth',2,'MarkerSize',8);
-% hold all;
-% p3_hand=plot(xaxis,s_p(:,3),'-.');
-% hold all;
-% p4_hand=plot(xaxis,s_p(:,4),'g-x','LineWidth',2,'MarkerSize',8);
-% hold all;
-% set(gca,'XDir','reverse') 
-% %Add the legend and labels
-% title('Alveolar pressure','interpreter','latex','FontSize',19);
-% xlabel('Percentage of original airway radius','interpreter','latex','FontSize',19)
-% ylabel('Pressure (Pa)','interpreter','latex','FontSize',19)
-% 
-% hLegend = legend( ...
-%    [p1_hand,p2_hand,p4_hand], ...
-%   'Black ball (center disease)','Blue ball (inerface)','Green ball (healthy)',...
-%   'location', 'SouthWest','interpreter','latex' );
-% set(hLegend,'interpreter','latex')
-% set(hLegend,'FontSize',13)
-% 
-% set(gcf, 'PaperPosition', [0 0 18 18]); %Position plot at left hand corner with width 5 and height 5.
-% set(gcf, 'PaperSize', [18 18]);
-% 
-% axis([0 105 -1600 50]);
-% 
-% output_plot_filename='pressure';
-% print(hFig,strcat(out_base,output_plot_filename),'-dpdf','-r0')
-
-% 
-% 
-% 
-% hFig=figure;
-% set(hFig, 'Position', [100 100 550 430])
-% set([gca]             , ...
-%     'FontSize'   , 12           );
-% 
-% p1_hand=plot(xaxis,(J(:,1)),'k-s','LineWidth',2,'MarkerSize',8);
-% hold all;
-% p2_hand=plot(xaxis,J(:,2),'b-o','LineWidth',2,'MarkerSize',8);
-% hold all;
-% p3_hand=plot(xaxis,J(:,3),'-.');
-% hold all;
-% p4_hand=plot(xaxis,J(:,4),'g-x','LineWidth',2,'MarkerSize',8);
-% hold all;
-% set(gca,'XDir','reverse') 
-% %Add the legend and labels
-% title('Jacobian','interpreter','latex','FontSize',19);
-% xlabel('Percentage of original airway radius','interpreter','latex','FontSize',19)
-% ylabel('J','interpreter','latex','FontSize',19)
-% 
-% hLegend = legend( ...
-%    [p1_hand,p2_hand,p4_hand], ...
-%   'Black ball (center disease)','Blue ball (inerface)','Green ball (healthy)',...
-%   'location', 'SouthWest','interpreter','latex' );
-% set(hLegend,'interpreter','latex')
-% set(hLegend,'FontSize',13)
-% set(gcf, 'PaperPosition', [0 0 18 18]); %Position plot at left hand corner with width 5 and height 5.
-% set(gcf, 'PaperSize', [18 18]);
-% axis([0 105 1.1 1.25]);
-% 
-% output_plot_filename='jacobian';
-% print(hFig,strcat(out_base,output_plot_filename),'-dpdf','-r0')
-% 
-% 
-% 
-% 
-% 
-% 
-% hFig=figure;
-% set(hFig, 'Position', [100 100 550 430])
-% set([gca]             , ...
-%     'FontSize'   , 12           );
-% 
-% p1_hand=plot(xaxis,(sig(:,1)),'k-s','LineWidth',2,'MarkerSize',8);
-% hold all;
-% p2_hand=plot(xaxis,sig(:,2),'b-o','LineWidth',2,'MarkerSize',8);
-% hold all;
-% p3_hand=plot(xaxis,sig(:,3),'-.');
-% hold all;
-% p4_hand=plot(xaxis,sig(:,4),'g-x','LineWidth',2,'MarkerSize',8);
-% hold all;
-% set(gca,'XDir','reverse') 
-% %Add the legend and labels
-% title('Stress','interpreter','latex','FontSize',19);
-% xlabel(x_axis_str,'interpreter','latex','FontSize',19)
-% ylabel('Stress (Pa)','interpreter','latex','FontSize',19)
-% 
-% hLegend = legend( ...
-%    [p1_hand,p2_hand,p4_hand], ...
-%   'Black ball (center disease)','Blue ball (inerface)','Green ball (healthy)',...
-%   'location', 'NorthWest','interpreter','latex' );
-% set(hLegend,'interpreter','latex')
-% set(hLegend,'FontSize',13)
-% set(gcf, 'PaperPosition', [0 0 18 18]); %Position plot at left hand corner with width 5 and height 5.
-% set(gcf, 'PaperSize', [18 18]);
-% axis([0 105 2000 5000]);
-% 
-% output_plot_filename='stress';
-% print(hFig,strcat(out_base,output_plot_filename),'-dpdf','-r0')

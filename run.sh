@@ -23,68 +23,55 @@ data_dir="plot_data/"
 
 #####################
 
-#fname="5036_W"
-#AD=0
-#TD=0.5
-#loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
-#run_example "$example_name" "$loz_opt" "$options"
-
-#AD=0
-#TD=0.25
-#loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
-#run_example "$example_name" "$loz_opt" "$options"
-
-
-#fname="5036_C"
+#fname="5036_Ce"
 #AD=1
 #TD=0
 #loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
 #run_example "$example_name" "$loz_opt" "$options"
 
+AD=0.5
+TD=0
+loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
+run_example "$example_name" "$loz_opt" "$options"
 
-#AD=0.5
-#TD=0
-#loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
-#run_example "$example_name" "$loz_opt" "$options"
+AD=0.25
+TD=0
+loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
+run_example "$example_name" "$loz_opt" "$options"
 
-#AD=0.25
-#TD=0
-#loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
-#run_example "$example_name" "$loz_opt" "$options"
-#
-#AD=0.1
-#TD=0
-#loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
-#run_example "$example_name" "$loz_opt" "$options"
-#
-#AD=0.01
-#TD=0
-#loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
-#run_example "$example_name" "$loz_opt" "$options"
-#
-#
-#fname="5036_W"
-#AD=0
-#TD=1
-#loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
-#run_example "$example_name" "$loz_opt" "$options"
+AD=0.1
+TD=0
+loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
+run_example "$example_name" "$loz_opt" "$options"
 
-#AD=0
-#TD=0.5
-#loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
-#run_example "$example_name" "$loz_opt" "$options"
+AD=0.01
+TD=0
+loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
+run_example "$example_name" "$loz_opt" "$options"
 
-#AD=0
-#TD=0.25
-#loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
-#run_example "$example_name" "$loz_opt" "$options"
 
-#AD=0
-#TD=0.1
-#loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
-#run_example "$example_name" "$loz_opt" "$options"
+fname="5036_We"
+AD=0
+TD=1
+loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
+run_example "$example_name" "$loz_opt" "$options"
 
-#AD=0
-#TD=0.01
-#loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
-#run_example "$example_name" "$loz_opt" "$options"
+AD=0
+TD=0.5
+loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
+run_example "$example_name" "$loz_opt" "$options"
+
+AD=0
+TD=0.25
+loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
+run_example "$example_name" "$loz_opt" "$options"
+
+AD=0
+TD=0.1
+loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
+run_example "$example_name" "$loz_opt" "$options"
+
+AD=0
+TD=0.01
+loz_opt="$AD $TD $data_dir$fname"_"$AD"_"$TD"_""
+run_example "$example_name" "$loz_opt" "$options"

@@ -151,13 +151,15 @@ void assemble_postvars (EquationSystems& es,
 		
 
 		RealTensor sigma=material.sigma;
-		
-		 Real sigma_sum_sq=pow(sigma(0,0)*sigma(0,0)+sigma(0,1)*sigma(0,1)+sigma(0,2)*sigma(0,2)+sigma(1,0)*sigma(1,0)+sigma(1,1)*sigma(1,1)+sigma(1,2)*sigma(1,2)+sigma(2,0)*sigma(2,0)+sigma(2,1)*sigma(2,1)+sigma(2,2)*sigma(2,2),0.5);
+		RealTensor sigma_e=material.sigma_e;
 
-		 sum_jac_postvars=sum_jac_postvars+JxW[qp];
+		Real sigma_sum_sq=pow(sigma(0,0)*sigma(0,0)+sigma(0,1)*sigma(0,1)+sigma(0,2)*sigma(0,2)+sigma(1,0)*sigma(1,0)+sigma(1,1)*sigma(1,1)+sigma(1,2)*sigma(1,2)+sigma(2,0)*sigma(2,0)+sigma(2,1)*sigma(2,1)+sigma(2,2)*sigma(2,2),0.5);
+
+		sum_jac_postvars=sum_jac_postvars+JxW[qp];
 		
-		  Real av_stress = average_stress(sigma);
-  
+		Real av_stress = average_stress(sigma);
+  		Real eff_stress = average_stress(sigma_e);
+
 
 
 
@@ -166,7 +168,7 @@ void assemble_postvars (EquationSystems& es,
           Fv(i) += I_2*JxW[qp]*phi[i][qp];
           Fw(i) += I_3*JxW[qp]*phi[i][qp];
 
-	      Fx(i) += sigma_sum_sq*JxW[qp]*phi[i][qp];
+	      Fx(i) += eff_stress*JxW[qp]*phi[i][qp];
           Fy(i) += av_stress*JxW[qp]*phi[i][qp];
           Fz(i) += J*JxW[qp]*phi[i][qp];
 	  }
