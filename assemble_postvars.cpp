@@ -2,7 +2,7 @@
 #include "poro_elastic_cc.h"
 
 void assemble_postvars (EquationSystems& es,
-                      const std::string& system_name)
+                      const std::string& system_name, Tree& tree)
 {
 
    Real E    = es.parameters.get<Real>("E");
@@ -142,8 +142,18 @@ void assemble_postvars (EquationSystems& es,
 		
 		Point rX;
 				
+			for (unsigned int l=0; l<n_u_dofs; l++)
+  {
+    rX(0) += phi[l][qp]*reference.current_local_solution->el(dof_indices_u[l]);
+    rX(1) += phi[l][qp]*reference.current_local_solution->el(dof_indices_v[l]);
+    rX(2) += phi[l][qp]*reference.current_local_solution->el(dof_indices_w[l]);
+  }
+
+ 
+	
 		material.init_for_qp(rX,grad_u_mat, p_solid, qp,0, p_solid,es);
 
+ 
 		Real J=material.J;
 		Real I_1=material.I_1;
 		Real I_2=material.I_2;
@@ -160,15 +170,38 @@ void assemble_postvars (EquationSystems& es,
 		Real av_stress = average_stress(sigma);
   		Real eff_stress = average_stress(sigma_e);
 
+//calculate closest airway resistance to qp point.
 
+Real dist=99999;
+Real closest_e=0;
 
+  for (unsigned int i=0; i<tree.number_edges; i++){
 
+		Point dist_e=tree.nodes(tree.edges_lower_node(i));
+		
+		if(tree.edges_type(i)==0){
+			
+			Real dist_new=pow(dist_e(0)- q_point_p[0](0),2)+pow(dist_e(1)- q_point_p[0](1),2)+pow(dist_e(2)- q_point_p[0](2),2);
+			
+			if(dist_new<dist){
+				dist=dist_new;
+				closest_e=i;
+			}
+		}	
+		
+	}
+
+	Real ares=tree.edges_total_resistance(closest_e);
+
+	//std::cout<<"ares "<< ares <<"  q_point "<< q_point[qp] <<" qp "<< qp <<std::endl ;
+	
+	
   for (unsigned int i=0; i<n_u_dofs; i++){
           Fu(i) += I_1*JxW[qp]*phi[i][qp];
           Fv(i) += I_2*JxW[qp]*phi[i][qp];
-          Fw(i) += I_3*JxW[qp]*phi[i][qp];
+          Fw(i) += ares*JxW[qp]*phi[i][qp];
 
-	      Fx(i) += eff_stress*JxW[qp]*phi[i][qp];
+	        Fx(i) += eff_stress*JxW[qp]*phi[i][qp];
           Fy(i) += av_stress*JxW[qp]*phi[i][qp];
           Fz(i) += J*JxW[qp]*phi[i][qp];
 	  }

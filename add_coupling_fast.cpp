@@ -179,7 +179,7 @@ for ( ; el_coup_f != end_el_coup_f; ++el_coup_f)
 const Elem* elem = *el_coup_f;
 
 
-//Put mesh back to reference
+//Put mesh back to reference (FRC NOW)
 for (unsigned int n=0; n<elem->n_nodes(); n++){
         Node *node = elem->get_node(n);
           for (unsigned int d = 0; d < 3; ++d) {

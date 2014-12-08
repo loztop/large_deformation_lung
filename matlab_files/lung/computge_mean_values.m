@@ -7,7 +7,7 @@ base='/auto/users/lorenzb/mount_point/plot_data/';
 
 
 
-Nodes=5036 %for 246 mesh
+Nodes=5036 %for 246 mesh %1447
 
 %Tracking points
 P1=[75,110,160];

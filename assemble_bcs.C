@@ -56,7 +56,13 @@ void assemble_bcs (EquationSystems& es)
   std::vector< Real > pressure_rows_values;
 
 
-  const Real dt    = es.parameters.get<Real>("dt");
+  Real dt    = es.parameters.get<Real>("dt");
+  
+   if(es.parameters.get<Real>("ref_state")>0){
+	  dt=REFDT;
+	}
+
+	
   const Real progress    = es.parameters.get<Real>("progress");
   const Real time    = es.parameters.get<Real>("time");
 
@@ -293,7 +299,20 @@ void assemble_bcs (EquationSystems& es)
 	
 	if(!es.parameters.get<std::string>("problem").compare("lung")){
 	
-	   #include "boundary_conditions/lobe_affine_bcs.cpp"
+	  
+	  	if(es.parameters.get<Real>("ref_state")>0){
+
+		//  std::cout<<"Applying ref state bcs"<<std::endl;
+			#include "boundary_conditions/lobe_affine_ref_bcs.cpp"
+		  
+		}else{
+		  
+		 //		  std::cout<<"Applying breathing bcs"<<std::endl;
+
+		  	   #include "boundary_conditions/lobe_affine_bcs.cpp"
+
+		}
+	  
 	  
 #if  CONSTRAINT
 	   #include "boundary_conditions/weak_lagrange_flux_bc.cpp" 

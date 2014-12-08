@@ -3,7 +3,7 @@ close all;
 
 tec='.tec';
 
-prefix='5036_Ce_';
+prefix='5036_Cr_';
 
 %x_axis_str='Percentage of original Young''s modulus';
 x_axis_str='Percentage of original airway constriction';
@@ -31,15 +31,15 @@ P=[-60,-170,-90;
     -60,-137,-90;
     -60,-125,-100];
 
-C=[-60,-170,-90];
+C=[-57,-144,-90];
 
 NP=size(P,1);
 
-AD=[1,0.5,0.25,0.1,0.01];
-TD=[0,0,0,0,0];
+AD=[1,0.5,0.25,0.1];
+TD=[0,0,0,0];
 
 
-NT=9;
+NT=4;
 
 for i=1:length(AD)
 i
@@ -130,6 +130,11 @@ clear b3_idx
 %sig(i,:)=data(near_P_idx(i,:),32)';
 i
 end
+
+JF=1.3718;
+J_b1=((J_b1-JF)./JF)+1;
+J_b2=((J_b2-JF)./JF)+1;
+J_b3=((J_b3-JF)./JF)+1;
 
 AD(1)=1;
 AD=AD.*100;

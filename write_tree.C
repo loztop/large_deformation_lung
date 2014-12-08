@@ -59,7 +59,13 @@ void Tree::write_tree(EquationSystems& es) {
   }
   outFile <<"\n"; 
   
-
+  outFile << "scalars Airway_resistance float"  <<"\n"; 
+  outFile << "LOOKUP_TABLE default"  <<"\n"; 
+  for (int i=0; i < number_edges; i++) {
+	  outFile <<edges_total_resistance(i)<< " ";
+  }
+  outFile <<"\n"; 
+	
   outFile << "POINT_DATA " << number_nodes  <<"\n"; 
   outFile << "scalars Pressure float"  <<"\n"; 
   outFile << "LOOKUP_TABLE default"  <<"\n"; 

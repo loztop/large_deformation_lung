@@ -47,6 +47,12 @@
 
 #define PI 3.14159265
 
+#define REFDT 1000
+#define REFNT 2  - paper
+#define REFSCALE 0.1  - paper
+
+//#define REFNT 0
+//#define REFSCALE 0
 
 #define PHI_ZERO 0.9
 
@@ -70,7 +76,7 @@
 using namespace libMesh;
 
 void assemble_postvars (EquationSystems& es,
-                      const std::string& system_name);
+                      const std::string& system_name, Tree& tree);
 
 void assemble_postvars_rhs (EquationSystems& es,
                       const std::string& system_name);

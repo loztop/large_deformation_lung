@@ -20,6 +20,8 @@ clock_t end_assemble_fem=clock();
 
 clock_t begin_assemble_coupling_fast=clock();	
 
+
+
 #if !mats
   TransientLinearImplicitSystem& system = equation_systems.get_system<TransientLinearImplicitSystem>("Newton-update");
   system.update();
@@ -118,10 +120,15 @@ VecSetValue(big_r, i , rp(i) ,INSERT_VALUES);
 }
 
 #include "create_include_part1.cpp"
+//std::cout<<"finished p1"<<std::endl;
 
 #if !fvec2
 #include "add_coupling_fast.cpp"
+//std::cout<<"finished cf"<<std::endl;
+
 #include "create_include_add_coupling.cpp"
+//std::cout<<"finished ac"<<std::endl;
+
 #endif
 
 #if fvec2
@@ -130,6 +137,8 @@ VecSetValue(big_r, i , rp(i) ,INSERT_VALUES);
 #endif
 
 #include "create_include_part2.cpp"
+
+//std::cout<<"finished p2"<<std::endl;
 
 clock_t end_assemble_coupling_fast=clock();
 

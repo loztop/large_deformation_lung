@@ -1,7 +1,7 @@
-  const Real dt    = es.parameters.get<Real>("dt");
-  const Real time    = es.parameters.get<Real>("time");
-  const Real progress    = es.parameters.get<Real>("progress");
-  const Real DELTA    = es.parameters.get<Real>("DELTA");
+ // const Real dt    = es.parameters.get<Real>("dt");
+ // const Real time    = es.parameters.get<Real>("time");
+ // const Real progress    = es.parameters.get<Real>("progress");
+ // const Real DELTA    = es.parameters.get<Real>("DELTA");
 
 	Real mu = E/(2*(1+NU));
 	Real lambda = (E*NU)/((1+NU)*(1-2*NU));
@@ -81,6 +81,7 @@
   // evaluated at the quadrature points.
   const std::vector<std::vector<Real> >& psi = fe_pres->get_phi();
   const std::vector<std::vector<RealGradient> >& dpsi = fe_pres->get_dphi();
+  const std::vector<Point>& q_point_p = fe_pres->get_xyz();
 
 
 #if NITSCHE

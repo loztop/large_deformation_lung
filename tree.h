@@ -55,6 +55,7 @@ public:
 
 	void  read_tree( EquationSystems& es);
 	void  add_constriction( EquationSystems& es);
+  void  calculate_total_resistance( EquationSystems& es);
 	void  fix_tree( EquationSystems& es);
 	void  flip_tree( EquationSystems& es);
 	void  shrink_rad( EquationSystems& es);
@@ -70,6 +71,8 @@ public:
 	
  	void  update_positions(EquationSystems& es);
 
+ 	void  resistance_recursion(int e);
+
 	
 	Number number_nodes;
 	Number number_edges;
@@ -78,6 +81,8 @@ public:
 
 	DenseVector<Point> nodes;
 	DenseVector<Point> nodes_deformed;
+		DenseVector<Point> nodes_frc;
+
 	DenseVector<Real> nodes_pressure;
 	DenseVector<Real> nodes_type;
 	DenseVector<Real> nodes_parent_node;
@@ -95,7 +100,8 @@ public:
 	DenseVector<Real> distal_resistance;
 	DenseVector<Real> edges_radius;
 	DenseVector<Real> omega_j;
-	
+	DenseVector<Real> edges_total_resistance;
+
 	
 		DenseVector<Real> edges_diseased;
 	DenseVector<Real> edges_length;

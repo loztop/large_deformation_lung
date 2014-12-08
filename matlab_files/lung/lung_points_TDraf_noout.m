@@ -3,7 +3,7 @@ close all;
 
 tec='.tec';
 
-prefix='5036_We_';
+prefix='5036_Wr_';
 
 x_axis_str='Percentage of original Young''s modulus';
 %x_axis_str='Percentage of original airway constriction';
@@ -11,12 +11,12 @@ x_axis_str='Percentage of original Young''s modulus';
 %numerical solution
 
 %work
-base='/auto/users/lorenzb/mount_point/plot_data/';
+base='/users/lorenzb/mount_point/plot_data/';
 out_base='/users/lorenzb/Dphil/poroelasticity_papers/coupling_paper/figures/lung_sims/Wrafeo_';
 
 %home
-base='/home/loztop/mount_point/mount_point/plot_data/';
-out_base='/home/loztop/Dropbox/Dphil/poroelasticity_papers/coupling_paper/figures/lung_sims/Wrafeo_';
+%base='/home/loztop/mount_point/mount_point/plot_data/';
+%out_base='/home/loztop/Dropbox/Dphil/poroelasticity_papers/coupling_paper/figures/lung_sims/Wrafeo_';
 
 Nodes=5036 %for 246 mesh
 
@@ -31,15 +31,15 @@ P=[-60,-170,-90;
     -60,-137,-90;
     -60,-125,-100];
 
-C=[-60,-170,-90];
+C=[-57,-144,-90];
 
 NP=size(P,1);
 
-TD=[1,0.5,0.25,0.1,0.01];
-AD=[0,0,0,0,0];
+TD=[1,0.5,0.25,0.1];
+AD=[0,0,0,0];
 
 
-NT=9;
+NT=4;
 
 for i=1:length(AD)
 i
@@ -82,17 +82,17 @@ b3_c=0;
 
 for j=1:Nodes
  
-        if(dist_C(j)<22)
+        if(dist_C(j)<18)
            b1_c=b1_c+1;
            b1_idx(b1_c)=j;
         end
   
-        if(dist_C(j)>25 && dist_C(j)<27)
+        if(dist_C(j)>20 && dist_C(j)<22)
            b2_c=b2_c+1;
            b2_idx(b2_c)=j;
         end
         
-        if(dist_C(j)>30 && dist_C(j)<40 )
+        if(dist_C(j)>22 && dist_C(j)<27 )
            b3_c=b3_c+1;
            b3_idx(b3_c)=j;
         end
@@ -120,6 +120,7 @@ sige_b1(i,:)=data(b1_idx,32)';
 sige_b2(i,:)=data(b2_idx,32)';
 sige_b3(i,:)=data(b3_idx,32)';
 
+
 clear b1_idx
 clear b2_idx
 clear b3_idx
@@ -130,6 +131,29 @@ clear b3_idx
 %sig(i,:)=data(near_P_idx(i,:),32)';
 i
 end
+
+JF=1.3718;
+J_b1=((J_b1-JF)./JF)+1;
+J_b2=((J_b2-JF)./JF)+1;
+J_b3=((J_b3-JF)./JF)+1;
+
+
+mean_J1=mean(J_b1');
+std_J1=std(J_b1');
+mean_J2=mean(J_b2');
+std_J2=std(J_b2');
+mean_J3=mean(J_b3');
+std_J3=std(J_b3');
+
+mean_s_p1=mean(s_p1');
+std_s_p1=std(s_p1');
+mean_s_p2=mean(s_p2');
+std_s_p2=std(s_p2');
+mean_s_p3=mean(s_p3');
+std_s_p3=std(s_p3');
+
+mean_sig=mean(sig');
+std_sig=std(sig');
 
 AD(1)=1;
 AD=AD.*100;
@@ -144,14 +168,14 @@ headF=13;
 yaxisF=13;
 fontF=11;
 
-yminj=1.13;
-ymaxj=1.9;
+yminj=1.2;
+ymaxj=3;
 
-ymins=1000;
-ymaxs=8400;
+ymins=400;
+ymaxs=2800;
 
-yminse=1000;
-ymaxse=8050;
+yminse=400;
+ymaxse=2800;
 
 ymin=-200;
 ymax=100;

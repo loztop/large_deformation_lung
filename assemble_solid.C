@@ -5,6 +5,8 @@ void assemble_solid (EquationSystems& es,
                       const std::string& system_name)
 {
 	
+
+		
 libmesh_assert (system_name == "Newton-update");
   
 // Get a constant reference to the mesh object.
@@ -92,8 +94,13 @@ DenseMatrix<Real> stiff;
 DenseVector<Real> res;
 VectorValue<Gradient> grad_u_mat;
 VectorValue<Gradient> grad_w_mat;
-const Real dt    = es.parameters.get<Real>("dt");
+ Real dt    = es.parameters.get<Real>("dt");
 const Real progress    = es.parameters.get<Real>("progress");
+
+
+  if(es.parameters.get<Real>("ref_state")>0){
+	  dt=REFDT;
+	}
 
 DenseVector<Real> p_stiff;
 DenseVector<Real> p_res;

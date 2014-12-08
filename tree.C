@@ -57,6 +57,7 @@ void Tree::read_tree(EquationSystems& es) {
 			edges_lower_node.resize(number_edges);
 			edges_type.resize(number_edges);
 			edges_resistance.resize(number_edges);
+			edges_total_resistance.resize(number_edges);
 			edges_child1.resize(number_edges);
 			edges_child2.resize(number_edges);
 			
@@ -71,7 +72,7 @@ void Tree::read_tree(EquationSystems& es) {
 				
 				Point point(x, y, z);
 				nodes(node_count) = point ;
-
+				/*
 				//Change sign because tree has been previosuly flipped
 				//Only do this for particular meshes as outlined below...
 				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/whole_lung_246.msh")){
@@ -81,7 +82,7 @@ void Tree::read_tree(EquationSystems& es) {
 				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/whole_lung_751.msh")){
 			//	nodes(node_count) = -point ;
 				}
-				
+				*/
 				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/N48rmerge_290.msh")){
 				nodes(node_count) = -point ;
 				}
@@ -96,7 +97,7 @@ void Tree::read_tree(EquationSystems& es) {
 				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/N048_node5036.msh")){
 				nodes(node_count) = -point ;
 				}
-				
+				/*
 				if(!es.parameters.get<std::string>("mesh_input").compare("meshes/lung/N051_node870.msh")){
 				nodes(node_count) = -point ;
 				}
@@ -127,6 +128,7 @@ void Tree::read_tree(EquationSystems& es) {
 				nodes(node_count) = -point ;
 				}
 				
+				*/
 				nodes_type(node_count) = type ;
 
 				//coount distal edges
@@ -258,6 +260,11 @@ void Tree::read_tree(EquationSystems& es) {
 		nodes_deformed(i) = nodes(i);
 	}
 
+	  //Initialise deformed node position
+	nodes_frc.resize(number_nodes);
+	for (int i=0; i < number_nodes; i++) {
+		nodes_frc(i) = nodes(i);
+	}
 
 	//Find the upper node for each node
 	for (int i=0; i < number_nodes; i++) {
@@ -338,8 +345,38 @@ void Tree::read_tree(EquationSystems& es) {
 }
 
 
+void Tree::calculate_total_resistance(EquationSystems& es) {
+
+  std::cout<<"Calculating total airway tree resistance"<<std::endl;
+  
+	
+	//Start at the inlet
+	edges_total_resistance(0)=edges_resistance(0);
+	
+	//Start the recursion
+	resistance_recursion(0);
+
+}
+
+
+void  Tree::resistance_recursion(int e){
+	//std::cout<<"Doing recusion on "<<e<<std::endl;
+	
+			if(edges_child1(e)>0){		edges_total_resistance(edges_child1(e))=edges_total_resistance(e)+edges_resistance(edges_child1(e));
+				resistance_recursion(edges_child1(e));
+			}
+			if(edges_child2(e)>0){
+					edges_total_resistance(edges_child2(e))=edges_total_resistance(e)+edges_resistance(edges_child2(e));
+					resistance_recursion(edges_child2(e));
+ 			}
+	
+}
+
+	
 void Tree::add_constriction(EquationSystems& es) {
 
+  std::cout<<"Constricting the tree"<<std::endl;
+  
 	for (int i=0; i < number_edges; i++) {
 		//Add some constriction (only to the small airways)
 		
@@ -353,7 +390,7 @@ void Tree::add_constriction(EquationSystems& es) {
 				edge_rad_max=0.4;					
 		}
 		
-		if( (edges_radius(i)<edge_rad_max) && (es.parameters.get<Real>("airway_disease")>0)){
+		if( (edges_radius(i)<edge_rad_max) && (es.parameters.get<Real>("airway_disease")>0) && (es.parameters.get<Real>("ref_state") ==0)){
    
 		
 		Point center_dis=es.parameters.get<Point>("disease_cent");
@@ -362,14 +399,12 @@ void Tree::add_constriction(EquationSystems& es) {
 					 
 		if(dist_to_dis<rad_dis){
 		   edges_radius(i) =edges_radius(i)*es.parameters.get<Real>("airway_disease");
-			 
  		}
 	}
 		
 		
 		edges_resistance(i)=1*(8.0*MU_F*(edges_length(i)))/(PIE*pow(1*edges_radius(i),4));
-		
-		
+	 
 		//edges_resistance(ed_count)=1;
 	}
 	
@@ -623,10 +658,10 @@ void Tree::update_positions (EquationSystems& es)
 {
 
   
-  	const Point A    = es.parameters.get<Point>("A");
+  const Point A    = es.parameters.get<Point>("A");
 	const Point b    = es.parameters.get<Point>("b");
-  	const Real fac    = es.parameters.get<Real>("fac");
-	
+  const Real fac    = es.parameters.get<Real>("fac");
+
 	TransientLinearImplicitSystem&  last_non_linear_soln = es.get_system<TransientLinearImplicitSystem>("Last-non-linear-soln");
 	const MeshBase& mesh = es.get_mesh();
 	const unsigned int u_var = last_non_linear_soln.variable_number ("s_u");
@@ -635,28 +670,28 @@ void Tree::update_positions (EquationSystems& es)
 	const System & ref_sys = es.get_system("Reference-Configuration"); 
 
 	//First put the solution back to the reference mesh
-		MeshBase::const_element_iterator       el_r     = mesh.local_elements_begin();
-		const MeshBase::const_element_iterator end_el_r = mesh.local_elements_end(); 
-		Real total_volume=0;
-    for ( ; el_r != end_el_r; ++el_r)
-    {    
-      // Store a pointer to the element we are currently
-      // working on.  This allows for nicer syntax later.
-      const Elem* elem = *el_r;
-      for (unsigned int n=0; n<elem->n_nodes(); n++){
-        Node *node = elem->get_node(n);
-          for (unsigned int d = 0; d < 3; ++d) {
-            unsigned int source_dof = node->dof_number(1, d, 0);
-            Real value = ref_sys.current_local_solution->el(source_dof);
-            (*node)(d)=value;
-						//std::cout<<"value "<< value <<std::endl;
-          }
+	MeshBase::const_element_iterator       el_r     = mesh.local_elements_begin();
+	const MeshBase::const_element_iterator end_el_r = mesh.local_elements_end(); 
+	Real total_volume=0;
+  for ( ; el_r != end_el_r; ++el_r)
+  {    
+     // Store a pointer to the element we are currently
+     // working on.  This allows for nicer syntax later.
+     const Elem* elem = *el_r;
+     for (unsigned int n=0; n<elem->n_nodes(); n++){
+       Node *node = elem->get_node(n);
+         for (unsigned int d = 0; d < 3; ++d) {
+           unsigned int source_dof = node->dof_number(1, d, 0);  
+           Real value = ref_sys.current_local_solution->el(source_dof);
+           (*node)(d)=value;
+					//std::cout<<"value "<< value <<std::endl;
+         }
       }
-		}
+	}
 		
-		
-			for (double j=0; j <number_nodes ; j++) {
-		  for (unsigned int d = 0; d < 3; ++d) {
+	//if(fac>0){ //Don't move tree if we're from the reference state to FRC, only start moving at FRC
+	for (double j=0; j <number_nodes ; j++) {
+	  for (unsigned int d = 0; d < 3; ++d) {
 			Real def_value = 0;
 			try
 			{
@@ -664,25 +699,32 @@ void Tree::update_positions (EquationSystems& es)
 				//std::cout<< "def_value " << def_value << std::endl;
 				throw 20;
 			}catch (int e){ }
-				
-		
-				
+							
 				if(def_value==0)
 				{	
 				  if(!es.parameters.get<std::string>("problem").compare("lung")){
 				  //If point is outside then apply the known registration !
-				  Point diagAt(fac*A(0),fac*A(1),fac*A(2));						
-				  Point bt(fac*b(0),fac*b(0),fac*b(0));
-				   nodes_deformed(j)(d)=nodes(j)(d)+ nodes(j)(d)*diagAt(d)+bt(d) ;
+				 
+					//Point diagAt(fac*A(0)+0.2,fac*A(1)+0.2,fac*A(2)+0.2);			
+					
+					Point diagAt(fac*A(0),fac*A(1),fac*A(2));						
+
+			    Point bt(fac*b(0),fac*b(0),fac*b(0));
+				  nodes_deformed(j)(d)=nodes(j)(d)+ nodes_frc(j)(d)*diagAt(d)+bt(d) ;
 				}
 				
 				}else{	
 				  nodes_deformed(j)(d)=def_value;
+				   
+				 //Point diagAt(fac*A(0)+0.2,fac*A(1)+0.2,fac*A(2)+0.2);		
+				  Point diagAt(fac*A(0),fac*A(1),fac*A(2));						
+
+			    Point bt(fac*b(0),fac*b(0),fac*b(0));
+				  nodes_deformed(j)(d)=nodes(j)(d)+ nodes_frc(j)(d)*diagAt(d)+bt(d) ; 
 				}
-				
 		}
     }
-		
+	//	}	
 		//Put the mesh back (doesn't quite seem to work!!)    
     MeshBase::const_element_iterator       el_b     = mesh.local_elements_begin();
     const MeshBase::const_element_iterator end_el_b = mesh.local_elements_end(); 

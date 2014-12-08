@@ -1,4 +1,4 @@
-	std::cout<<"Update newton " <<std::endl;
+	//std::cout<<"Update newton " <<std::endl;
 	for (int i=0; i<size_mat; i++) {
 		newton_update.solution->set(i,big_xp(i));
 		newton_update.current_local_solution->set(i,big_xp(i));
@@ -16,14 +16,14 @@
 	//Copy solution back to tree
 	//Update the distal pressures
 
-	std::cout<<"Update distal pressures " <<std::endl;
+	//std::cout<<"Update distal pressures " <<std::endl;
 
 	for (int i=0; i < tree.number_nodes; i++) {
 		tree.nodes_pressure(i)=tree.nodes_pressure(i) -big_xp(size_mat+i);	
 		}
 	
 	//Update the flowrates
-	std::cout<<"Update flow rates " <<std::endl;
+	//std::cout<<"Update flow rates " <<std::endl;
 	for (int i=0; i < tree.number_edges; i++) {
 		tree.edges_flowrate(i)=tree.edges_flowrate(i)-big_xp(size_mat+tree.number_nodes+i);
 	}
@@ -88,10 +88,16 @@
       
     }
     
-    std::cout<<"total_volume_change "<< total_volume -total_volume_ref<< std::endl;
+    std::cout<<"total_volume_change ref "<< total_volume -total_volume_ref<< std::endl;
+		
+		std::cout<<"total_volume_change frc "<< total_volume -total_volume_frc<< std::endl;
+		
     Real global_J=total_volume / total_volume_ref;
-	  std::cout<<"total_outflow  "<< total_outflow+tree.edges_flowrate(0)*dt << std::endl;
- 		
+		
+		if(!(ref_state>0)){
+	  std::cout<<"total_outflow frc "<< total_outflow+tree.edges_flowrate(0)*dt << std::endl;
+		}
+		
     equation_systems.update();
     equation_systems.allgather();
 	 

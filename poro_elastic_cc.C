@@ -7,6 +7,8 @@
 
 void PoroelasticConfig::calculate_stress_poro() {
 
+	 
+	
   double mu = E / (2.0 * (1.0 + nu));
   double lambda = E * nu / ((1 + nu) * (1 - 2 * nu));
   Real detF = F.det();
@@ -46,7 +48,7 @@ void PoroelasticConfig::init_for_qp(Point & rX,VectorValue<Gradient> & grad_u, N
   this->nu = es.parameters.get<Real>("NU");
 
   //Add some emphysema
-	if( es.parameters.get<Real>("tissue_disease")>0){
+	if( es.parameters.get<Real>("tissue_disease")>0 && es.parameters.get<Real>("ref_state") ==0){
    
 		Point center_dis=es.parameters.get<Point>("disease_cent");
 		Real rad_dis=es.parameters.get<Real>("rad_dis");
@@ -59,7 +61,7 @@ void PoroelasticConfig::init_for_qp(Point & rX,VectorValue<Gradient> & grad_u, N
 		}
 	}
 		  
-		  
+		   
   F.zero();
   S.zero();
 

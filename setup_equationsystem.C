@@ -59,8 +59,24 @@ ref_system.add_variable ("z_ref",ORDER_HIGH,ELEMENT_TYPE);
   postvars.add_variable ("p2", ORDER_HIGH,ELEMENT_TYPE);
   postvars.add_variable ("p3", ORDER_HIGH,ELEMENT_TYPE);
 
- 
- 
+	/*
+  TransientLinearImplicitSystem & lungref_system =   equation_systems.add_system<TransientLinearImplicitSystem> ("lungref");
+  
+	lungref_system.add_variable ("u_tlcref", ORDER_HIGH,ELEMENT_TYPE);
+	lungref_system.add_variable ("v_tlcref", ORDER_HIGH,ELEMENT_TYPE);
+	lungref_system.add_variable ("w_tlcref", ORDER_HIGH,ELEMENT_TYPE);
+	lungref_system.add_variable ("vol_tlcref",ORDER_LOW,ELEMENT_TYPE_PRESS);
+  lungref_system.add_variable ("u_frcref",ORDER_HIGH,ELEMENT_TYPE);
+	lungref_system.add_variable ("v_frcref",ORDER_HIGH,ELEMENT_TYPE);
+	lungref_system.add_variable ("w_frcref",ORDER_HIGH,ELEMENT_TYPE);
 
+	 #if CONSTRAINT
+	lungref_system.add_variable ("const", ORDER_HIGH,ELEMENT_TYPE);
+  #endif
+	*/
+	
+	
+
+	
 }
 
